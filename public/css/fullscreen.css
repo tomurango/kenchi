@@ -1,0 +1,72 @@
+﻿#dialog_div{
+    margin-top: 60px;
+    bottom: 0px;
+    height:calc(100% - 56px);
+}@media (min-width: 599px){
+    #dialog_div{
+        height: calc(100% - 64px);
+    }
+}
+
+.dialog_input{
+    font-family: 'Noto Sans JP', sans-serif;
+}
+/* Chrome */
+.dialog_input::-webkit-input-placeholder {
+    color: #cccccc;
+}
+
+/* Firefox */
+.dialog_input::-moz-placeholder {
+    color: #cccccc;
+}
+
+/* IE */
+.dialog_input:-ms-input-placeholder {
+    color: #cccccc;
+}
+#u_don_haf_to{
+    color: #595959;
+    position: relative;
+    top: 80px;
+    left: 20vw;
+    font-size: 0.7em;
+}
+
+#dialog_up_button{
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1.2em;
+}
+
+#rogo{
+    fill: #eeeeee;
+    height: 20vh;
+    width: 20vh;
+    margin: 30vh calc(50vw - 10vh);
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 1, 1) 0s ;
+}#rogo.small{
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+/*
+#rogo.small.end{
+    transform: scale(15);
+}
+*/
+@media (min-width: 599px){
+    #rogo.small.end{
+        transform: scale(30);
+    }
+}@media (max-width: 599px){
+    #rogo.small.end{
+        transform: scale(20);
+    }
+}
+
+
+#rogo_screen{
+    transition: opacity 0.25s cubic-bezier(0.4, 0.0, 1, 1) 0.3s ;
+}#rogo_screen.end{
+    opacity: 0;
+}
+

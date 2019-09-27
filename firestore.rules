@@ -1,0 +1,73 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Make sure the uid of the requesting user matches name of the user
+    // document. The wildcard expression {userId} makes the userId variable
+    // available in rules.
+    match /users/{userId} {
+      allow read, update, delete: if request.auth.uid == userId;
+      allow create: if request.auth.uid != null;
+
+      match /jobs/{jobId} {
+        allow read, write: if request.auth.uid == userId;
+      
+        match /works/{workId} {
+          allow read, create: if request.auth.uid == userId;
+          //こっちは管理者だけ（俺）が実行できるようにすればレベリングに関するセキュリティも扱えるはず
+          allow update, delete: if request.auth.token.admin == true;
+        }
+
+        match /levinfo/{infoId} {
+          //とりあえず、読み込みだけ許可する
+          allow read: if true;
+          //クリエイトもクライアントサイドで完結したほうが、グラフの反映とか早くていいかも
+          //が、始めの能力値が高いチートを生むことになってしまうので、結局サーバ側で作成処理をします
+          //allow create: if request.auth.uid == userId;
+        }
+      }
+
+      match /logindate/{loginId} {
+        allow write: if request.auth.uid == userId;
+      }
+    }
+
+    match /communities/{communityId} {
+      allow read: if true;
+      allow update, delete: if false;
+      allow create: if request.auth.uid != null;
+
+      match /auther/{authId} {
+        allow read: if true;  
+        allow update, delete: if request.auth.uid == authId || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+        allow create: if !exists(/databases/$(database)/documents/communities/$(communityId)/auther/someone) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+      }
+
+      match /modeler/{modelId} {
+        allow read: if true;
+        allow update, delete: if request.auth.uid == modelId || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+        allow create: if exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+      }
+
+      match /joiner/{joinId} {
+        allow read: if true;
+        allow update, delete: if request.auth.uid == joinId || exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+        allow create: if exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+      }
+
+      match /permissions/{permissionId} {
+        allow read, delete: if request.auth.uid == permissionId || exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+        allow update: if exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+        allow create: if request.auth.uid == permissionId;
+      }
+
+      match /nagare/{nagareId} {
+        allow read: if true;
+        allow update, delete: if false;
+        allow create: if exists(/databases/$(database)/documents/communities/$(communityId)/joiner/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+      }
+    }
+
+    match /admin_users/{docID} {
+      allow read, write: if false;
+    }
+  }
+}

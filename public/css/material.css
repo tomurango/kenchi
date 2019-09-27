@@ -1,0 +1,117 @@
+﻿:root{
+    --mdc-theme-primary: #ff9900;
+    --mdc-theme-secondary: #0066ff;
+    --mdc-theme-on-primary: #000000;
+}
+
+/* fab */
+.mdc-fab{
+    z-index: 4;
+    position: fixed;
+    /*bottom: 70px;*/
+    right: calc(50vw - 56.875px);
+    bottom: 70px;
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    /*
+    transition: height 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    transition: border-radius 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    transition: bottom 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    transition: right 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    */
+}
+/*@media (min-width: 599px){
+    .mdc-fab{
+        bottom: calc(18vh - 59px + 1vh);
+    }
+}@media (max-width: 599px){
+    .mdc-fab{
+        bottom: calc(18vh - 51px + 1vh);
+    }
+}*/
+#start_fab.home.open{
+    transform: scale(0);
+    box-shadow: none;
+}#start_fab.home{
+    background-color: #0066ff;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#start_fab.nagare{
+    background-color: #ff9900;
+    color: #000000;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#start_fab.small{
+    background-color: #eeeeee;
+    opacity: 0.5;
+    transform: scale(0.7);
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+
+/* card */
+.mdc-card{
+    padding: 3vw;
+    overflow: hidden;
+}.card_subtitle{
+    font-size: 0.7em;
+    font-weight: 400;
+    margin: 0px;
+    color: #595959;
+}.card_contents{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 3vh 0px 0px 0px;
+    font-size: 1.2em;
+    bottom: 0px;
+}
+
+/* topappbar font */
+.mdc-top-app-bar__title{
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #000000;
+}
+/*
+#user_image{
+    display: inline-block;
+    letter-spacing: 0em;
+    background-color: #ff9900;
+    width: 8vh;
+    height: 8vh;
+}#user_name{
+    display: inline-block;
+    letter-spacing: 0em;
+    background-color: #0066ff;
+    width: 8vh;
+    height: 8vh;
+}
+*/
+/* dialog */
+#timer_delete_alert_dialog{
+    z-index: 10;
+}
+
+/* snackbar
+#send_snack{
+        
+}
+*/
+
+/* nagareのheader */
+#community_bar{
+    display: none;
+}
+
+/* menu */
+#community_detail_verb_menus{
+    top: 120px !important;
+    right: 50px !important;
+    left: auto !important;
+    transform-origin: right top !important;
+}
+
+/* header */
+#the_header{
+    box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+}

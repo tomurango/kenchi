@@ -1,0 +1,17 @@
+﻿#dash_display_user{
+    width: calc(100% - 3vw);
+    margin: 2vw 1vw 0px 2vw;
+}#dash_display_com{
+    width: calc(100% - 3vw);
+    margin: 2vw 1vw 0px 2vw;
+}
+#dash_display_job{
+    width: calc(100% - 3vw);
+    margin: 2vw 2vw 0px 1vw;
+}
+
+.dash_column{
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}

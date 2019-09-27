@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>経験値.com</title>
+        <!-- スマホ用アイコン -->
+        <link rel="apple-touch-icon" sizes="180x180" href="img/rogo_190811_2.jpg">
+        <!-- ファビコン -->
+        <link rel="icon" href="img/favicon_png.ico">
+        <!--すまほで表示を整える-->
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <!--material cdn-->
+        <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        <!--material icons-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <!--roboto font-->
+        <!--<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">-->
+        <!--noto font 安定-->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+        <!--css-->
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/footer.css">
+        <link rel="stylesheet" href="css/material.css">
+        <link rel="stylesheet" href="css/fullscreen.css">
+        <link rel="stylesheet" href="css/timerscreen.css">
+        <link rel="stylesheet" href="css/nagare.css">
+        <link rel="stylesheet" href="css/dis_card.css">
+        <link rel="stylesheet" href="css/discard_renew.css">
+        
+
+        <!--jquery-->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    </head>
+    <body id="my_body">
+        <div id="rogo_screen" style="position: fixed; width:100vw; height: 100%; background-color:#ff9900; z-index: 10;">
+            <!--ロゴのsvg-->
+            <svg id="rogo" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 221.35 210.66"><title>rogo_190811</title><path d="M150,72.08,120.73,42.8l-54,54a23.6,23.6,0,0,0,0,33.37l12.59,12.59L150,213.5l70.71-70.71L233.3,130.2a23.6,23.6,0,0,0,0-33.37l-54-54Z" transform="translate(-39.33 -42.8)"/><path d="M73.9,157.2h8.78a23.6,23.6,0,0,1,23.6,23.6v52.8a23.6,23.6,0,0,1-23.6,23.6H73.9a9,9,0,0,1-9-9v-82a9,9,0,0,1,9-9Z" transform="translate(-160.78 78.4) rotate(-45)"/><path d="M202.74,157.2h8.78a23.6,23.6,0,0,1,23.6,23.6v52.8a23.6,23.6,0,0,1-23.6,23.6h-8.78a9,9,0,0,1-9-9v-82a9,9,0,0,1,9-9Z" transform="translate(180.19 462.53) rotate(-135)"/></svg>
+        </div>
+
+        <div id="dialog_div" hidden style="position: fixed; width:100vw; background-color:#fdfdfd; z-index: 5;">
+            <!--アイコンの登録が実装できるときにhiddenとダイアログ内の高さを調整する-->
+            <div hidden id="icon_upload" style="height: 20vh; width: 60vw; margin: 10vh 20vw 0px 20vw;">
+                <p style="color: #595959;">アイコン</p>
+            </div>
+            <div id="name_upload" style="position: relative; height: 15vh; width: 60vw; margin: 10vh 20vw 0px 20vw; ">
+                <p style="color: #595959; margin-bottom: 0px;">名前</p>
+                <input id="new_name" class="dialog_input" type="text" placeholder="名前を入力" style="height: 50%; width: 100%; position:absolute; bottom:0px; border:none; font-size: 1.5em">
+            </div>
+            <div id="job_upload" style="position: relative; height: 15vh; width: 60vw; margin: 10vh 20vw 0px 20vw;">
+                <p style="color: #595959; margin-bottom: 0px;">取り組むこと・好きなこと</p>
+                <input id="new_job" class="dialog_input" type="text" placeholder="職業名を入力" style="height: 50%; width: 100%; position:absolute; bottom:0px; border:none; font-size: 1.5em">
+            </div>
+            <!--<div id="community_chips" class="mdc-chip-set" style="margin-left: 20vw">
+            </div>-->
+            <p id="u_don_haf_to">※全て、変更可。</p>
+            <button class="mdc-button" onclick="fullscreen_dialog_close()" style="position: absolute; right:60px; bottom:40px; height: 40px; width: 60px;">
+                <span class="mdc-button__label">提出</span>
+            </button>
+            <!--
+            <button id="dialog_up_button" onclick="fullscreen_dialog_close()" style="position: absolute; right:20px; bottom:20px; border:none; height: 40px; width: 60px;">提出</button>-->
+        </div>
+
+        <div id="timer_div" hidden>
+            <button id="back_timer_screen" class="mdc-icon-button material-icons" onclick="the_dialog_open()">clear</button>
+            <!--<button onclick="finish_pushed()">おわり</button>-->
+            <p id="count_number">00:00</p>
+            <button id="timer_button" onclick="send_work()" class="mdc-button mdc-button--unelevated" style="background-color: #ffffff; color: #0066ff; position:absolute; width:40vw; height:10vh; bottom:25vh; left:30vw;">
+                <span class="mdc-button__label">おわり</span>
+            </button>
+        </div>
+
+        <header id="the_header" class="mdc-top-app-bar">
+            <div class="mdc-top-app-bar__row">
+                <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                    <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.4.8</span>
+                </section>
+                <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+                    <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="google_login()">account_circle</button>
+                </section>
+            </div>
+            <div id="community_bar" class="mdc-top-app-bar__row">
+                <div class="mdc-tab-bar" role="tablist">
+                    <div class="mdc-tab-scroller">
+                        <div class="mdc-tab-scroller__scroll-area">
+                            <div id="nagares_navi" class="mdc-tab-scroller__scroll-content">
+                                <button class="mdc-tab" role="tab" aria-selected="false" tabindex="-1">
+                                    <span class="mdc-tab__content">
+                                        <span class="mdc-tab__text-label nagare_part">トレンド</span>
+                                    </span>
+                                    <span class="mdc-tab__ripple nagare_part"></span>
+                                    <span class="mdc-tab-indicator">
+                                        <span
+                                            class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="the_main">
+            <div id="page_contain_dash" class="active_page" style="width: 100%; padding-top: 56px; padding-bottom: 50px">
+                <div id="dash_left" class="dash_column">
+                    <div id="dash_display_user" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_user()">
+                        <p class="card_subtitle">なまえ</p>
+                        <p id="user_name_display_renew" class="card_contents">ゲストユーザ</p>
+                    </div>
+                    <div id="dash_display_com" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_com()">
+                        <p class="card_subtitle">コミュニティ</p>
+                        <p id="user_community_display_renew" class="card_contents">参加していない</p>
+                    </div>
+                </div><div id="dash_right" class="dash_column">
+                    <div id="dash_display_job" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_job()">
+                        <p class="card_subtitle">しごと</p>
+                        <p id="user_job_display_renew" class="card_contents">職探しの民</p>
+                        <p id="user_job_level_display_renew" class="card_contents" style="position: absolute; bottom: 75px; left: 40%">Lv 1</p>
+                        <div id="chart_container" class="chart-container" style="width:100%; height: 150px">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div id="page_contain_com" style="width: 100%; overflow: hidden;">
+            </div>
+        </main>
+
+        <footer id="top_footer">
+            <div id="footer_tab" class="mdc-tab-bar" role="tablist">
+                <div class="mdc-tab-scroller">
+                    <div class="mdc-tab-scroller__scroll-area">
+                        <div class="mdc-tab-scroller__scroll-content">
+                            <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
+                                <span class="mdc-tab__content">
+                                    <span class="mdc-tab__icon material-icons" aria-hidden="true" style="color: #b53d00">home</span>
+                                    <span class="footer_parts mdc-tab__text-label" style="color: #b53d00">ホーム</span>
+                                </span>
+                                <span class="mdc-tab-indicator mdc-tab-indicator--active">
+                                    <span
+                                        class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                </span>
+                                <span class="mdc-tab__ripple"></span>
+                            </button>
+                            <button class="mdc-tab" role="tab" aria-selected="false" tabindex="-1">
+                                <span class="mdc-tab__content">
+                                    <span class="mdc-tab__icon material-icons" aria-hidden="true" style="color: #b53d00">forum</span>
+                                    <span class="footer_parts mdc-tab__text-label" style="color: #b53d00">ナガレ</span>
+                                </span>
+                                <span class="mdc-tab__ripple"></span>
+                                <span class="mdc-tab-indicator">
+                                    <span
+                                        class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--discard renew 関連のelement-->
+        <div id="dash_name" class="mdc-card dash-card" style="display: none;">
+            <button class="mdc-icon-button material-icons back" onclick="display_card_user_back()">keyboard_arrow_down</button>
+            <p class="card_subtitle">なまえ</p>
+            <p id="user_name_display" class="card_contents">ゲストユーザ</p>
+        </div>
+
+        <div id="dash_job" class="mdc-card dash-card" style="display: none;">
+            <button class="mdc-icon-button material-icons back" onclick="display_card_job_back()">keyboard_arrow_down</button>
+            <p class="card_subtitle">しごと</p>
+            <p id="user_job_display" class="card_contents">職探しの民</p>
+            <p id="user_job_level_display" class="card_contents">Lv 1</p>
+        </div>
+
+        <div id="dash_community" class="mdc-card dash-card" style="display: none;">
+            <div id="dash_community_first_div">
+                <button id="community_back" class="mdc-icon-button material-icons back" onclick="display_card_com_back()">keyboard_arrow_down</button>
+                <p class="card_subtitle">コミュニティ</p>
+                <p id="user_community_display" class="card_contents">参加していない</p>
+            </div>
+            <div id="user_join_list_div" class="community_list_container_indscommunity" hidden>
+                <ul id="communities_ul_user_joined" class="mdc-list">
+                </ul>
+            </div>
+            <div id="dash_community_final_div">
+                <button id="join_community" class="mdc-button" style="color: #aa6600" onclick="join_community_active()">
+                    <span class="mdc-button__label">コミュニティに参加する</span>
+                </button>
+                <button id="create_community" class="mdc-button" style="color: #ff6600" onclick="create_community_active()">
+                    <span class="mdc-button__label">コミュニティを新しく作成する</span>
+                </button>
+            </div>
+        </div>
+        <div id="community_detail_display">
+            <div id="community_detail_display_head" hidden>
+                <button id="community_detail_close" class="mdc-icon-button material-icons" onclick="detail_of_the_com_close()">clear</button>
+                <button id="community_detail_verb" class="mdc-icon-button material-icons" onclick="detail_of_the_com_more_verb()">more_vert</button>
+                <div id="community_detail_verb_menus" class="mdc-menu mdc-menu-surface">
+                    <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
+                        <li id="menu_community_back" class="mdc-list-item" role="menuitem">
+                            <span class="mdc-list-item__text noto_font">閉じる</span>
+                        </li>
+                        <li id="menu_community_member_list" class="mdc-list-item" role="menuitem">
+                            <span class="mdc-list-item__text noto_font">メンバーリスト（未実装）</span>
+                        </li>
+                        <li class="mdc-list-item auth_list_verb" role="menuitem" onclick="leave_the_community_dialog()">
+                            <span class="mdc-list-item__text noto_font">コミュニティから抜ける</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="community_detail_display_mid" hidden>
+            </div>
+        </div>
+        <div id="create_community_card" class="mdc-card">
+            <button id="create_community_back" class="mdc-icon-button material-icons" onclick="create_community_active_back()">keyboard_backspace</button>
+            <p class="card_subtitle">新しいコミュニティ</p>
+            <br>
+            <label id="community_icon_upload_label" for="community_icon_create">
+                <p class="card_contents">コミュニティアイコン</p>
+                <div id="community_icon_upload_label_div">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                </div>
+            </label>
+            <input id="community_icon_create" type="file" required accept="image/*" style="display: none;">
+            <p class="card_contents">名前</p>
+            <div class="mdc-text-field mdc-text-field--outlined">
+                <input type="text" id="community_name_create" required class="mdc-text-field__input">
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch"></div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            <!--<input type="text">-->
+            <p class="card_contents">説明</p>
+            <div class="mdc-text-field mdc-text-field--textarea">
+                <input type="text" id="community_text_create" required class="mdc-text-field__input">
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch"></div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            <!--<textarea rows="4" ></textarea>-->
+            <button id="create_community_send" class="mdc-button" style="color: #cc6600" onclick="create_community_send();">
+                <span class="mdc-button__label">送信する</span>
+            </button>
+        </div>
+        <div id="join_community_card" class="mdc-card">
+            <button id="join_community_back" class="mdc-icon-button material-icons" onclick="join_community_active_back()">keyboard_backspace</button>
+            <p class="card_subtitle" style="margin-left: 40px;">コミュニティに参加</p>
+            <div id="community_list_container" style="height: calc(100vh - 168px); overflow-y: scroll;">
+            <ul id="communities_ul" class="mdc-list">
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__text">Single-line item</span>
+                </li>
+            </ul>
+            </div>
+        </div>
+        <div id="permission_list_card" class="mdc-card">
+            <button id="permission_list_back" class="mdc-icon-button material-icons" onclick="back_permission_card()">keyboard_backspace</button>
+            <button id="permission_reject_dialog_button" class="mdc-button" onclick="permission_reject_dialog_display()" style="position: absolute; margin-top: 46.5px; right: 100px; display: none; color: #cc6600">
+                <span class="mdc-button__label">拒否</span>
+            </button>
+            <button id="permission_decide_dialog_button" class="mdc-button" onclick="permission_decide_dialog_display()" style="position: absolute; margin-top: 46.5px; right: 30px; display: none; color: #0066ff">
+                <span class="mdc-button__label">承認</span>
+            </button>
+            <div id="three_permission_container" style="height: calc(100vh - 128px); overflow-y: scroll;">
+                <div id="permission_list_container_auth">
+                    <p id="wana_auth_permission_text" class="card_subtitle" style="margin-left: 40px;">管理者になりたい</p>
+                    <ul id="permission_ul_container_auth" class="mdc-list mdc-list--two-line" role="group" aria-label="List with checkbox items">
+                    </ul>
+                    <br>
+                </div>
+                <div id="permission_list_container_model">
+                    <p id="wana_model_permission_text" class="card_subtitle" style="margin-left: 40px;">モデラーになりたい</p>
+                    <ul id="permission_ul_container_model" class="mdc-list mdc-list--two-line" role="group" aria-label="List with checkbox items">
+                    </ul>
+                    <br>
+                </div>
+                <div id="permission_list_container_join">
+                    <p id="wana_join_permission_text" class="card_subtitle" style="margin-left: 40px;">参加したい</p>
+                    <ul id="permission_ul_container_join" class="mdc-list mdc-list--two-line" role="group" aria-label="List with checkbox items">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--ここは全画面で動かすなど、階層を無視した挙動をさせたいものを置く-->
+        <div id="comment_div" hidden>
+            <div id="comment_div_until">
+                <svg id="chat_icon_mimic" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                <p id="chat_text_mimic">ナガス</p>
+            </div>
+            <div id="comment_div_while" hidden>
+                <img id="comment_div_while_img" src="img/rogo_190811_2.jpg">
+                <p id="comment_div_while_sup">経験値.com</p>
+                <input type="text" id="comment_div_while_textarea" placeholder="コミュニティにナガス...">
+                <button id="comment_div_while_send" class="mdc-icon-button material-icons" onclick="send_nagare_to_com()">send</button>
+            </div>
+        </div>
+
+        <button id="start_fab" class="mdc-fab mdc-fab--extended" onclick="start_pushed()" aria-label="plus">
+            <span id="fab_icon" class="mdc-fab__icon material-icons home">add</span>
+            <span id="fab_text" class="mdc-fab__label">始める</span>
+        </button>
+
+        <div id="timer_delete_alert_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="alert-dialog-description" class="mdc-dialog__content"><p>記録を保存せずに破棄します。<br>よろしいですか？</p></section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" onclick="canseled_finish()" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" onclick="finish_pushed()" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">破棄する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="community_create_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="community_create_description" class="mdc-dialog__content"><p>送信します。<br>完了まで時間がかかる可能性があります。<br>よろしいですか？</p></section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" onclick="community_create_send_send()" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">送信する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="community_create_caution_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="community_create_caution_description" class="mdc-dialog__content"></section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="community_leave_caution_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="community_leave_caution_description" class="mdc-dialog__content">コミュニティを脱退します。<br>本当によろしいですか？</section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="leave_the_community()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">脱退する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="community_wana_join_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="community_wana_join_description" class="mdc-dialog__content">このコミュニティに参加申請を送ります。<br>よろしいですか？</section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="join_this_community_send()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">申請する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="community_wana_model_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="community_wana_model_description" class="mdc-dialog__content">モデラー申請を送ります。<br>よろしいですか？</section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button id="change_model" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="change_role_send(this)" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">申請する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="community_wana_auth_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="community_wana_auth_description" class="mdc-dialog__content">管理者申請を送ります。<br>よろしいですか？</section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button id="change_auth" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="change_role_send(this)" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">申請する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="permission_decide_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="permission_decide_description" class="mdc-dialog__content">確認した申請を承認します。<br>よろしいですか？</section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button id="permission_decide_send_button" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="permission_decide_send()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">承認する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+        
+        <div id="permission_reject_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="permission_reject_description" class="mdc-dialog__content">選択した申請を拒否します。<br>よろしいですか？</section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button id="permission_reject_send_button" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="permission_reject_send()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">拒否する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+        
+        <div id="send_snack" class="mdc-snackbar">
+            <div class="mdc-snackbar__surface">
+                <div class="mdc-snackbar__label" role="status" aria-live="polite">
+                    アップロード（申請）が完了しました。
+                </div>
+                <div class="mdc-snackbar__actions">
+                    <button type="button" class="mdc-button mdc-snackbar__action">了解</button>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+        <!-- material design init js -->
+        <script src="js/material.js"></script>
+        
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="/__/firebase/6.3.4/firebase-app.js"></script>
+        <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#reserved-urls -->
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-functions.js"></script>
+        <!-- Initialize Firebase -->
+        <script src="/__/firebase/init.js"></script>
+        
+        
+        <!-- Firebase auth js-->
+        <script src="js/auth.js"></script>
+        <!-- rogo js-->
+        <script src="js/rogo.js"></script>
+        <!-- timer js-->
+        <script src="js/timer.js"></script>
+        <!--realtime js-->
+        <script src="js/realtime.js"></script>
+        <!--navigation js だったが、tab navigation は material js で代用できる -->
+        <!--<script src="js/navigation.js"></script>-->
+        <!--ナガレのページ js-->
+        <script src="js/nagare.js"></script>
+        <!--dis_card js-->
+        <script src="js/dis_card.js"></script>
+        <!--コミュニティ参加に関する通知などをまとめてしまおうか notice.js-->
+        <script src="js/notice.js"></script>
+        <!--discardの処理を表示を整えた状態で表示するためのjs-->
+        <script src="js/discard_renew.js"></script>
+
+        <!--chart js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+        <!--make chart js-->
+        <script src="js/make_chart.js"></script>
+    </body>
+</html>

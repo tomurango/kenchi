@@ -1,0 +1,233 @@
+﻿.dash-card{
+    /*position はデフォルトだと none js で切り替えるようになるだろうから、その時はdisplay は消す*/
+    position: fixed;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+
+.dash-card .back{
+    display: none;
+    margin-top: 40px;
+}
+
+#dash_name{
+    z-index: 5;
+    position: fixed;
+}#dash_name.active{
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border-radius: 0px;
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 5;
+    padding: 40px;
+    position: fixed;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+#dash_job{
+    z-index: 5;
+    position: fixed;
+}#dash_job.active{
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border-radius: 0px;
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 5;
+    padding: 40px;
+    position: fixed;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+#dash_community{
+    z-index: 5;
+    position: fixed;
+}#dash_community.active{
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border-radius: 0px;
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 5;
+    padding: 40px;
+    position: fixed;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#dash_community.active.create{
+    left: -102vw !important;
+}#join_community{
+    display: none;
+}#create_community{
+    display: none;
+}#create_community_card{
+    display: none;
+    padding: 40px;
+    border-radius: 0px;
+    width: 100vw;
+    height: 100%;
+    z-index: 5;
+    position: fixed;
+    top: 0px;
+    margin: 0px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    left: 102vw;
+}#create_community_card.active{
+    left: 0px;
+}
+#create_community_back{
+    margin-top: 40px;
+}
+#preview{
+    width: 112px;
+    height: 56px;
+    object-fit: contain;
+}
+/*
+#community_icon_upload_label_div{
+    position: relative;
+    bottom: 50px;
+    left: 50px;
+}
+*/
+#create_community_send{
+    position: absolute;
+    top: 100px;
+    right: 55px;
+}
+
+#join_community_card{
+    display: none;
+    padding: 40px 0px 0px 0px;
+    border-radius: 0px;
+    width: 100vw;
+    height: 100%;
+    z-index: 5;
+    position: fixed;
+    top: 0px;
+    margin: 0px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    left: 102vw;
+}#join_community_card.active{
+    left: 0px;
+}
+#join_community_back{
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+
+/* join community */
+.community_li{
+    height: 72px;
+    transition:  all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}.community_li.active{
+    opacity: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+}.community_icon_in_list{
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    margin-right: 16px;
+}.community_texts_inlist{
+    width: calc(100vw - 152px);
+}.community_name_in_list{
+    position: absolute;
+    top: 0px;
+}.community_text_in_list{
+    position: absolute;
+    top: 32px;
+    width: 65%;
+}
+
+#user_join_list_div{
+    overflow-y: scroll;
+    margin: 20px 0px 20px 0px;
+}
+
+#community_detail_display{
+    display: none;
+    background-color: #ffffff;
+    position: fixed;
+    z-index: 6;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+    overflow: hidden;
+    transition:  all 0.225s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#community_detail_display.active{
+    /*display: block;*/
+    left: 0px !important;
+    top: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+}#community_detail_display_head{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 30%;
+    overflow: hidden;
+    opacity: 0;
+    transition:  all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#community_detail_display_head.active{
+    /* 背景画像について考えていこう */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1;
+}
+#community_detail_close{
+    background-color: rgba(255,255,2555,0.4);
+    border-radius: 50%;
+    position: absolute;
+    top: 80px;
+    left: 40px;
+    cursor: pointer;
+}#community_detail_verb{
+    background-color: rgba(255,255,2555,0.4);
+    border-radius: 50%;
+    position: absolute;
+    top: 80px;
+    right: 40px;
+    cursor: pointer;
+}#community_detail_display_mid{
+    padding: 40px 40px 80px 40px;
+    height: calc(70% - 120px);
+    overflow: hidden;
+    opacity: 0.5;
+    transition:  all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#community_detail_display_mid.active{
+    opacity: 1;
+}#join_this_community_button{
+    color: #aa6600;
+    border: solid #aa6600 1px;
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: #ffffff;
+    margin-top: 16px;
+    border-radius: 5px;
+    padding:10px;
+}#join_this_community_button:active{
+    color: #ffffff;
+    background-color: #aa6600;
+}
+
+#permission_list_card{
+    display: none;
+    padding: 40px 0px 0px 0px;
+    border-radius: 0px;
+    width: 100vw;
+    height: 100%;
+    z-index: 7;
+    position: fixed;
+    top: 0px;
+    margin: 0px;
+    transition:  all 0.225s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    left: 102vw;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+}#permission_list_card.active{
+    left: 0px;
+}
+#permission_list_back{
+    margin-top: 40px;
+    margin-left: 40px;
+}
+#community_detail_display.to_left{
+    left: -102vw !important;
+}

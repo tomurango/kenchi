@@ -1,0 +1,52 @@
+﻿#top_footer{
+    z-index: 3;
+    background-color: #ffffff;
+    width: 100vw;
+    position: fixed;
+    top: calc(100% - 50px); 
+    padding: 0px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+}
+.mdc-tab__content{
+    flex-direction: column;
+}
+.mdc-tab:not(.mdc-tab--stacked) .mdc-tab__icon+.mdc-tab__text-label{
+    padding: 0px;
+}
+.mdc-tab{
+    height: 50px;
+}
+
+/*
+@media (min-width: 599px){
+}@media (max-width: 599px){
+    .mdc-tab{
+        height: 56px;
+    }
+}
+*/
+
+.footer_parts.mdc-tab__text-label{
+    font-size: 0.5em;
+}
+/*
+.mdc-tab-scroller{
+    height: 20vh;
+}.mdc-tab-scroller__scroll-area{
+    height: 17vh;
+}.mdc-tab-scroller__scroll-content{
+    height: 15vh;
+}
+*/
+/*
+.mdc-tab-bar{
+    padding: 0px;
+}.mdc-tab-scroller{
+    height: 100%;
+}
+*/
+/*
+.mdc-tab__text-label{
+    padding: 0px;
+}
+下のセレクタが意味していることが分かっていないが、上ではpadding 外れなかった */
