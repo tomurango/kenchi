@@ -84,6 +84,8 @@
     width: calc(100vw - 128px);
     /*height: calc(100% - 48px);*/
     border: none;
+    /* クリックした時に拡大されるのを防ぐための記述 */
+    font-size: 18px;
 }#comment_div_while_send{
     color: #0066ff;
     display: none;
