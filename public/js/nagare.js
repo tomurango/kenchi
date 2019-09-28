@@ -233,7 +233,7 @@ function get_nagare(number_tab){
                 firestore_get_count += listen_snap.size;
             }
             //console.log("read listen", firestore_get_count);
-            var listen_snap_reverse = listen_snap.docs.reverse();
+            //var listen_snap_reverse = listen_snap.docs.reverse();
             //console.log("normal =>", listen_snap);
             //console.log("reverse =>", listen_snap_reverse);
             listen_snap.forEach(function(listen_doc){    
@@ -273,7 +273,10 @@ function insert_nagare_list(nagare_id ,nagare_data, nagare_number, type){
     var nagare_img = '<img src="'+ nagare_data.uimg +'" style="position: relative; top: 16px; left: 16px; width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
     var nagare_name = '<p style="position: relative; color: #0d0d0d; font-size: 0.8em; top: -34px; left: 72px; width: calc(100vw - 128px); margin: 0px;">'+ nagare_data.name + ' ・ <span style="color: #606060">' + time_record +'</span></p>';
     var nagare_text = '<p style="position: relative; top: -30px; left: 72px; width: calc(100vw - 128px); margin: 0px; ">'+ nagare_data.text +'</p>';
-    nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" style="border-bottom: solid 1px #cccccc; min-height: 80px; position: relative">' + nagare_img + nagare_name + nagare_text + '</div>');
+    var favorite_button = '<button class="mdc-icon-button material-icons nagare_icons_favorite">thumb_up</button>';
+    var reply_button = '<button class="mdc-icon-button material-icons nagare_icons_reply">insert_comment</button>';
+    var report_button = '<button class="mdc-icon-button material-icons nagare_icons_report">more_vert</button>';
+    nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" style="border-bottom: solid 1px #cccccc; min-height: 80px; position: relative">' + nagare_img + nagare_name + nagare_text + favorite_button + reply_button + report_button +'</div>');
     //高さ調整
     re_define_nagare_height(nagare_number);
 }

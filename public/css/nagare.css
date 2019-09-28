@@ -93,3 +93,22 @@
     right: 0px;
     bottom: 0px;
 }
+
+.nagare_icons_favorite{
+    color: #606060;
+    position: relative;
+    left: 62px;
+    bottom: 3px;
+}
+.nagare_icons_reply{
+    color: #606060;
+    position: relative;
+    left: 100px;
+    bottom: 1px;
+}
+.nagare_icons_report{
+    color: #606060;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}

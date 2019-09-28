@@ -331,6 +331,9 @@ function user_job_data_get(user_info, job_name){
                     //writeカウント
                     firestore_write_count += 2;
                     console.log("write", firestore_write_count);
+                    //read count on server side
+                    firebase_get_count += 1;
+                    console.log("read", firestore_get_count);
                     insert_level_info(job_name, 0);
                 });
             }else{
