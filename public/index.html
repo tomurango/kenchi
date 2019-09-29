@@ -73,7 +73,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.5.0</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.5.1</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="google_login()">account_circle</button>
@@ -297,10 +297,18 @@
                 <p id="chat_text_mimic">ナガス</p>
             </div>
             <div id="comment_div_while" hidden>
-                <img id="comment_div_while_img" src="img/rogo_190811_2.jpg">
-                <p id="comment_div_while_sup">経験値.com</p>
-                <input type="text" id="comment_div_while_textarea" placeholder="コミュニティにナガス...">
+                <button id="comment_div_while_back" class="mdc-icon-button material-icons back" onclick="open_nagare_delete_dialog()">clear</button>
                 <button id="comment_div_while_send" class="mdc-icon-button material-icons" onclick="send_nagare_to_com()">send</button>
+                <!--画像をアップロードできるようにする-->
+                <p class="comment_div_while_sup" id="comment_div_while_inputimage">画像を入力</p>
+                <label for="comment_div_while_image">
+                    <img id="comment_div_while_image_tag" src="img/add_photo_alternate-24px.svg" height="30%" width="80%" style="background-color: #bbbbbb; object-fit: contain;">
+                </label>
+                <input type="file" id="comment_div_while_image" style="display: none">
+                <label for="comment_div_while_textarea">
+                    <p class="comment_div_while_sup" id="comment_div_while_inputtext">テキストを入力</p>
+                </label>
+                <textarea id="comment_div_while_textarea" placeholder="コミュニティにナガス..."></textarea>
             </div>
         </div>
 
@@ -427,6 +435,20 @@
                     <footer class="mdc-dialog__actions">
                         <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
                         <button id="permission_reject_send_button" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="permission_reject_send()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">拒否する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="nagare_delete_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="nagare_delete_description" class="mdc-dialog__content">入力を破棄します。<br>よろしいですか？</section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button id="nagare_delete_send_button" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="comment_div_while_back()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">破棄する</button>
                     </footer>
                 </div>
             </div>

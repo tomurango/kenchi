@@ -15,7 +15,7 @@
 }
 */
 .nagare_page{
-    background-color: #ffffff;
+    background-color: #eeeeee;
     transition:  all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
     position: absolute;
     top: 0px;
@@ -48,9 +48,9 @@
 #comment_div.nagactive{
     background-color: #ffffff;
     width: 100vw;
-    height: 114px;
+    height: 100%;
     right: 0px;
-    bottom: calc(100% - 114px);
+    bottom: 0px;
     border-radius: 0px;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s;
 }#comment_div.nagactive.sending{
@@ -61,54 +61,49 @@
     }
 
     100% {
-        transform: translateY(-300px);
+        transform: translateY(-100vh);
     }
 }
-#comment_div_while_img{
-    width: 40px;
-    height: 40px;
-    left: 16px;
-    top: 16px;
-    border-radius: 50%;
-    object-fit: cover;
-    position: absolute;
-}#comment_div_while_sup{
+#comment_div_while{
+    height: 100%;
+    width: 100%;
+}.comment_div_while_sup{
     font-size: 0.8em;
     color: #111111;
-    position: absolute;
-    left: 72px;
+    margin-left: 40px;
+    text-align: left;
 }#comment_div_while_textarea{
-    position: absolute;
-    left: 72px;
+    left: 40px;
     top: 32px;
-    width: calc(100vw - 128px);
-    /*height: calc(100% - 48px);*/
-    border: none;
+    width: 80%;
+    height: 20%;
+    border: solid 1px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 10px;
     /* クリックした時に拡大されるのを防ぐための記述 */
     font-size: 18px;
 }#comment_div_while_send{
+    position: absolute;
     color: #0066ff;
     display: none;
+    right: 40px;
+    top: 40px;
+}#comment_div_while_back{
     position: absolute;
-    right: 0px;
-    bottom: 0px;
+    left: 40px;
+    top: 40px;
+}#comment_div_while_inputimage{
+    margin-top: 96px;
+}#comment_div_while_inputtext{
+    margin-top: 48px;
+}#comment_div_while_image_tag{
+    border-radius: 5px;
 }
 
-.nagare_icons_favorite{
-    color: #606060;
-    position: relative;
-    left: 62px;
-    bottom: 3px;
-}
-.nagare_icons_reply{
-    color: #606060;
-    position: relative;
-    left: 100px;
-    bottom: 1px;
-}
 .nagare_icons_report{
     color: #606060;
     position: absolute;
-    top: 0px;
+    top: calc(100vw - 40px);
     right: 0px;
 }

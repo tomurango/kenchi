@@ -9,7 +9,7 @@ var community_change_state = true;
 //auth 56 から飛んで処理
 function insert_communities_navi(){
     //snedに自分の画像を代入する
-    document.getElementById("comment_div_while_img").src = user_info_global.photoURL;
+    //それはなしでdocument.getElementById("comment_div_while_img").src = user_info_global.photoURL;
     //参加しているコミュニティを一つの配列にまとめる
     var all_user_communities = user_doc_global.auth;
     all_user_communities = all_user_communities.concat(user_doc_global.model);
@@ -77,13 +77,13 @@ function nagare_change(nec_index){
     //sendの中身を書き換える
     var trend_num = nagare_global.length;
     if(nec_index == trend_num){
-        //トレンドに対する処理
-        document.getElementById("comment_div_while_sup").textContent = "トレンド";
+        //トレンドに対する処理こちらもオワオワリ
+        //document.getElementById("comment_div_while_sup").textContent = "トレンド";
         //buttonを非表示にする
         document.getElementById("start_fab").style.display = "none";
     }else{    
-        //トレンド以外に対する処理
-        document.getElementById("comment_div_while_sup").textContent = community_list_global[nagare_global[nec_index]].name;
+        //トレンド以外に対する処理文字の書き換えはオワオワリ
+        //document.getElementById("comment_div_while_sup").textContent = community_list_global[nagare_global[nec_index]].name;
         //buttonを表示する
         document.getElementById("start_fab").style.display = "flex";
         //dbから流れを取得する あんど 変更を受け取るリスナを置く。今動いてるリスナは停止させる
@@ -107,8 +107,10 @@ function send_tweet(){
             //textareaにfocusする
             document.getElementById("comment_div_while_textarea").focus();
             //page_nagareとtop_footerのonclickの書き換え
+            /*
             document.getElementById("page_contain_com").onclick = function(){comment_div_while_back()};
             document.getElementById("top_footer").onclick = function(){comment_div_while_back()};
+            */
         },150);
     },10);
     //textarea に対してイベントを指定する
@@ -120,20 +122,52 @@ function send_tweet(){
         if(value == ""){
             document.getElementById("comment_div_while_send").style.display = "none";
         }else{
-            document.getElementById("comment_div_while_send").style.display = "block";
+            //画像が入力されていたらに処理を書き換える        
+            console.log("submit");
+            var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
+            //値が入力されているか確認
+            if(con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase())){
+                document.getElementById("comment_div_while_send").style.display = "block";
+            }else{
+                document.getElementById("comment_div_while_send").style.display = "none";
+            }
         }
     });
 }
+
+function open_nagare_delete_dialog(){
+    //入力値がなかったらcomment_div_while_backへ 入力があったらダイアログを表示する
+    var $input = $('#comment_div_while_textarea');
+    var value = $input.val();
+    var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
+    if(value == ""){
+        //値が入力されているか確認
+        if(con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase())){
+            nagare_delete_dialog.open();
+        }else{
+            //ココだけすぐに処理
+            comment_div_while_back();
+        }
+    }else{
+        nagare_delete_dialog.open();
+    }
+}
+
 function comment_div_while_back(){
     //page_nagareとtop_footerのonclickの書き換え
+    /*
     document.getElementById("page_contain_com").onclick = function(){};
     document.getElementById("top_footer").onclick = function(){};
+    */
     //textarea に対してイベントを指定する
     var $input = $('#comment_div_while_textarea');
     //このイベント投稿欄を閉じたときに停止させる
     $input.off('input');
-    //中身を空にする textarea
+    //中身を空にする textarea file も
     document.getElementById("comment_div_while_textarea").value = "";
+    document.getElementById("comment_div_while_image").value = "";
+    //label内のimageも書き換える
+    $("#comment_div_while_image_tag").attr('src', 'img/add_photo_alternate-24px.svg');
     //送信ボタンを無力化する
     document.getElementById("comment_div_while_send").style.display = "none";
     //divのtranstion
@@ -166,39 +200,58 @@ function send_nagare_to_com(){
     var $input = $('#comment_div_while_textarea');
     //このイベント投稿欄を閉じたときに停止させる
     $input.off('input');
-    db.collection("communities").doc(community_doc_id).collection("nagare").add({
-        date: new Date(),
-        name: user_doc_global.name,
-        uimg: user_info_global.photoURL,
-        text: new_text
-    }).then(function(){
-        //write カウント
-        firestore_write_count += 1;
-        console.log("write", firestore_write_count);
-        //rules count
-        firestore_extra_count += 3;
-        console.log("extra", firestore_extra_count);
-        //textareaの中身を空にする
-        document.getElementById("comment_div_while_textarea").value = "";
-        //送信ボタンを無力化する
-        document.getElementById("comment_div_while_send").style.display = "none";
-        //表示の切り替え
-        setTimeout(function(){
-            //トレンドかそれ以外かを識別する
-            var now_now_index = Number(document.getElementById("nagare_trend").className.slice(-1));
-            var trend_num = nagare_global.length;
-            if(now_now_index == trend_num){
-                //トレンドに対する処理
-                document.getElementById("start_fab").style.display = "none";
-            }else{
-                //トレンド以外に対する処理
-                //fabを元に戻して表示
-                document.getElementById("start_fab").style.display = "flex";
-            }
-        },600);
-    }).catch(function(error){
-        console.log("error", error);
+    //以下コピペ
+    var fileList = document.getElementById("comment_div_while_image").files;
+    for(var i=0; i<fileList.length; i++){
+        place += fileList[i].name;
+    }
+    place = "nagares/" + place;
+    var storageRef = firebase.storage().ref();
+    var ref = storageRef.child(place);
+    var file = document.getElementById("comment_div_while_image").files[0]; // use the Blob or File API
+    ref.put(file).then(function() {
+        console.log('Uploaded or file!');
+        image_place = firebase.storage().ref().child(place).getDownloadURL().then(function(url){
+            db.collection("communities").doc(community_doc_id).collection("nagare").add({
+                date: new Date(),
+                name: user_doc_global.name,
+                uimg: user_info_global.photoURL,
+                text: new_text,
+                contentImage: url
+            }).then(function(){
+                console.log("画像含めてアップロード完了");            
+                //textareaの中身を空にする
+                document.getElementById("comment_div_while_textarea").value = "";
+                document.getElementById("comment_div_while_image").value = "";
+                //label内のimageも書き換える
+                $("#comment_div_while_image_tag").attr('src', 'img/add_photo_alternate-24px.svg');
+            }).catch(function(error){
+                console.log("error", error);
+            })
+        });
     });
+    //write カウント
+    firestore_write_count += 1;
+    console.log("write", firestore_write_count);
+    //rules count
+    firestore_extra_count += 3;
+    console.log("extra", firestore_extra_count);
+    //送信ボタンを無力化する
+    document.getElementById("comment_div_while_send").style.display = "none";
+    //表示の切り替え
+    setTimeout(function(){
+        //トレンドかそれ以外かを識別する
+        var now_now_index = Number(document.getElementById("nagare_trend").className.slice(-1));
+        var trend_num = nagare_global.length;
+        if(now_now_index == trend_num){
+            //トレンドに対する処理
+            document.getElementById("start_fab").style.display = "none";
+        }else{
+            //トレンド以外に対する処理
+            //fabを元に戻して表示
+            document.getElementById("start_fab").style.display = "flex";
+        }
+    },600);
     
     setTimeout(function(){
         //入れ物を非表示
@@ -232,7 +285,7 @@ function get_nagare(number_tab){
             }else{
                 firestore_get_count += listen_snap.size;
             }
-            //console.log("read listen", firestore_get_count);
+            console.log("read listen", firestore_get_count);
             //var listen_snap_reverse = listen_snap.docs.reverse();
             //console.log("normal =>", listen_snap);
             //console.log("reverse =>", listen_snap_reverse);
@@ -264,21 +317,25 @@ function get_nagare(number_tab){
 
 //user see list
 function insert_nagare_list(nagare_id ,nagare_data, nagare_number, type){
-    //時間差を求める
-    //var time_difference = get_time_difference(nagare_data.date.toDate());
     //時間を求める
-    var time_record = nagare_data.date.toDate().getHours() + ":" + nagare_data.date.toDate().getMinutes();
+    var time_list = fire_time_normalization(nagare_data.date);
+    var time_record = time_list[0] + "月" + time_list[1] + "日 " + time_list[2] + ":" + time_list[3];
     //insert していく記述
     var nagare_container = document.getElementById("nagare_" + nagare_global[nagare_number]);
-    var nagare_img = '<img src="'+ nagare_data.uimg +'" style="position: relative; top: 16px; left: 16px; width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
-    var nagare_name = '<p style="position: relative; color: #0d0d0d; font-size: 0.8em; top: -34px; left: 72px; width: calc(100vw - 128px); margin: 0px;">'+ nagare_data.name + ' ・ <span style="color: #606060">' + time_record +'</span></p>';
-    var nagare_text = '<p style="position: relative; top: -30px; left: 72px; width: calc(100vw - 128px); margin: 0px; ">'+ nagare_data.text +'</p>';
-    var favorite_button = '<button class="mdc-icon-button material-icons nagare_icons_favorite">thumb_up</button>';
-    var reply_button = '<button class="mdc-icon-button material-icons nagare_icons_reply">insert_comment</button>';
-    var report_button = '<button class="mdc-icon-button material-icons nagare_icons_report">more_vert</button>';
-    nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" style="border-bottom: solid 1px #cccccc; min-height: 80px; position: relative">' + nagare_img + nagare_name + nagare_text + favorite_button + reply_button + report_button +'</div>');
+    //var report_button = '<button class="mdc-icon-button material-icons nagare_icons_report">more_vert</button>';
+    var nagare_content_image = '<img src="' + nagare_data.contentImage + '" style="height: calc(100vw - 40px); width: 100%; object-fit: cover;">';
+    var nagare_time = '<p style="position: relative; color: #606060; font-size: 0.8em; margin-left: 20px; margin-right: 48px;">' + time_record +'</p>';
+    var nagare_text = '<p style="position: relative; margin: 0px 0px 0px 20px; font-size: 2em;">'+ nagare_data.text +'</p>';
+    nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-ripple-surface" style="margin: 20px 20px 40px 20px; border-radius:5px; position: relative; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.26); height: calc(141vw - 56px); overflow: hidden">' + nagare_content_image + nagare_time + nagare_text +'</div>');
     //高さ調整
     re_define_nagare_height(nagare_number);
+
+    var lists = document.querySelectorAll('.nagare_ripple');
+    //console.log("lists ripple re", lists.length);
+    for(var i=0; i<lists.length; i++){
+        var a_list = lists[i];
+        new mdc.ripple.MDCRipple(a_list);
+    }
 }
 
 //page_contain_comの高さを挿入するごとに書き換える
@@ -333,3 +390,53 @@ function get_time_difference(the_time){
     }
 }
 
+
+
+//input type file の値が切り替わったら起動する。画像をプレビューする discard 30 からコピーしたやーつ
+$(document).ready(function(){
+    $('#comment_div_while_image').on('change', function (e) {
+        var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
+        if(con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase())){
+            //入力されている処理
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#comment_div_while_image_tag").attr('src', e.target.result);
+                //テキストの入力値を確認して入力されていたらボタンをon そうでなければoff にする
+                if($("#comment_div_while_textarea").val() == ""){
+                    //入力されていないのでボタンを非表示にする
+                    document.getElementById("comment_div_while_send").style.display = "none";
+                }else{
+                    //どちらも入力されているので、ボタンを表示する
+                    document.getElementById("comment_div_while_send").style.display = "block";
+                }
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }else{
+            //入力されていない処理
+            $("#comment_div_while_image_tag").attr('src', 'img/add_photo_alternate-24px.svg');
+            document.getElementById("comment_div_while_send").style.display = "none";
+            alert("svg, png, jpg, gif のいずれかの形式でアップロードしてください");
+        }
+    });
+});
+
+//このライブラリの 320 あたり？ insert nagare のところで時間表示をただすために使用
+function fire_time_normalization(firestore_timestamp){
+    //時間を求める
+    var month = String(firestore_timestamp.toDate().getMonth() + 1);
+    var date = String(firestore_timestamp.toDate().getDate());
+    var hours = firestore_timestamp.toDate().getHours();
+    var minutes = firestore_timestamp.toDate().getMinutes();
+    //hour と minutes は一桁だったら 0 を描きたす
+    if(Math.floor(hours / 10) == 0){
+        hours = "0"+ String(hours);
+    }else{
+        hours = String(hours);
+    }
+    if(Math.floor(minutes / 10) == 0){
+        minutes = "0"+ String(minutes);
+    }else{
+        minutes = String(minutes);
+    }
+    return [month, date, hours, minutes];
+}

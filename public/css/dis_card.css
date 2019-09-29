@@ -6,7 +6,7 @@
 
 .dash-card .back{
     display: none;
-    margin-top: 40px;
+    margin-top: 0px;
 }
 
 #dash_name{
@@ -74,9 +74,7 @@
 }#create_community_card.active{
     left: 0px;
 }
-#create_community_back{
-    margin-top: 40px;
-}
+
 #preview{
     width: 112px;
     height: 56px;
@@ -111,7 +109,6 @@
     left: 0px;
 }
 #join_community_back{
-    margin-top: 40px;
     margin-left: 40px;
 }
 
@@ -177,14 +174,14 @@
     background-color: rgba(255,255,2555,0.4);
     border-radius: 50%;
     position: absolute;
-    top: 80px;
+    top: 40px;
     left: 40px;
     cursor: pointer;
 }#community_detail_verb{
     background-color: rgba(255,255,2555,0.4);
     border-radius: 50%;
     position: absolute;
-    top: 80px;
+    top: 40px;
     right: 40px;
     cursor: pointer;
 }#community_detail_display_mid{

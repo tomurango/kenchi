@@ -42,8 +42,8 @@
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
     color: #ffffff;
     position: absolute;
-    top: 80px;
-    left: 20px;
+    top: 40px;
+    left: 40px;
 }#back_timer_screen.open{
     transform: scale(1);
 }

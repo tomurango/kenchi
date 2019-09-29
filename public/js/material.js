@@ -105,6 +105,7 @@ function card_ripple_re(){
 }
 
 
+
 //dialog timer_delete_alert_dialog
 var timer_delete_alert_dialog = new mdc.dialog.MDCDialog(document.querySelector('#timer_delete_alert_dialog'));
 timer_delete_alert_dialog.scrimClickAction = "";
@@ -128,6 +129,8 @@ var community_wana_auth_dialog = new mdc.dialog.MDCDialog(document.querySelector
 var permission_decide_dialog = new mdc.dialog.MDCDialog(document.querySelector('#permission_decide_dialog'));
 
 var permission_reject_dialog = new mdc.dialog.MDCDialog(document.querySelector('#permission_reject_dialog'));
+
+var nagare_delete_dialog = new mdc.dialog.MDCDialog(document.querySelector('#nagare_delete_dialog'));
 
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
