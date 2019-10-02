@@ -318,14 +318,14 @@ function level_exp_needed(the_level){
 
 
 //ユーザが新しい日時でログインした時の処理
-exports.logedNewdate = functions.firestore.document('users/{userID}/logindate/{loginID}').onUpdate((snap, context) => {
+exports.logedNewdate = functions.firestore.document('users/{userID}/logindate/{loginID}').onUpdate((change, context) => {
     //jobのＩＤを取得
     db.collection("users").doc(context.params.userID).get().then(function(doc){
         var job_id = doc.data().job;
         //ログインしたら、ユーザのlevinfoのタイムスタンプを書き換える
         db.collection("users").doc(context.params.userID).collection("jobs").doc(job_id).collection("levinfo").doc(job_id).update({
             today_time: 0,
-            timestamp: snap.data().loginTime
+            timestamp: change.after.data().loginTime
         });
     })
     return 0;

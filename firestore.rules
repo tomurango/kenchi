@@ -63,6 +63,11 @@ service cloud.firestore {
         allow read: if true;
         allow update, delete: if false;
         allow create: if exists(/databases/$(database)/documents/communities/$(communityId)/joiner/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+
+        match /comments/{commentId} {
+          allow read: if true;
+          allow create: if request.auth.uid != null;
+        }
       }
     }
 

@@ -18,7 +18,7 @@ function display_card_user(){
     },50);
 }
 
-//カードを指定された位置に召還して動かす
+//カードを指定された位置に召還して動かす スペル両方ミスってるっぽいなｗ 定義時も使用時も
 function apper_card(clicked_element_id, apper_element_id){
     console.log("appear card");
     //それぞれエレメントを取得

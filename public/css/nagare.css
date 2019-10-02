@@ -107,3 +107,16 @@
     top: calc(100vw - 40px);
     right: 0px;
 }
+
+#hidden_wadai{
+    overflow-y: scroll;
+    position: fixed;
+    z-index: 5;
+    background-color: #ffffff;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s;
+}#hidden_wadai.being{
+    height: 100% !important;
+    width: 100% !important;
+    top: 0px !important;
+    left: 0px !important;
+}

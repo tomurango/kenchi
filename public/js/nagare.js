@@ -25,6 +25,8 @@ function insert_communities_navi(){
         for(var i= 0; i<all_user_communities.length; i++ ){
             //コミュニティをTopAppBarにぶち込んでく
             var one_c = all_user_communities[i];
+            //wadai_nagare_globalのためにマップを代入しておく
+            wadai_nagare_glbal[one_c] = {};
             document.getElementById("community_navi_trend").insertAdjacentHTML("beforebegin", '<button id="community_navi_'+ one_c +'" class="mdc-tab" role="tab" aria-selected="false" tabindex="-1"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">'+ community_list_global[one_c].name +'</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>')
             //コミュニティごとにナガレを生成する
             document.getElementById("nagare_trend").insertAdjacentHTML("beforebegin", '<div id="nagare_'+ one_c +'" class="nagare_page index_0" style="top: 106px; left:'+ String(i*102) +'vw; min-height: 100vh; "></div>');
@@ -37,8 +39,6 @@ function insert_communities_navi(){
         }
     }
     community_change_state = false;
-    //このタイミング(for処理後)で処理しないとforがエラーになる
-    //nagare_global.push("トレンド");
     //インスタンス化 再定義
     header_tabBar.destroy();
     //tab bar
@@ -77,13 +77,9 @@ function nagare_change(nec_index){
     //sendの中身を書き換える
     var trend_num = nagare_global.length;
     if(nec_index == trend_num){
-        //トレンドに対する処理こちらもオワオワリ
-        //document.getElementById("comment_div_while_sup").textContent = "トレンド";
         //buttonを非表示にする
         document.getElementById("start_fab").style.display = "none";
-    }else{    
-        //トレンド以外に対する処理文字の書き換えはオワオワリ
-        //document.getElementById("comment_div_while_sup").textContent = community_list_global[nagare_global[nec_index]].name;
+    }else{
         //buttonを表示する
         document.getElementById("start_fab").style.display = "flex";
         //dbから流れを取得する あんど 変更を受け取るリスナを置く。今動いてるリスナは停止させる
@@ -106,11 +102,6 @@ function send_tweet(){
             document.getElementById("comment_div_while").hidden = false;
             //textareaにfocusする
             document.getElementById("comment_div_while_textarea").focus();
-            //page_nagareとtop_footerのonclickの書き換え
-            /*
-            document.getElementById("page_contain_com").onclick = function(){comment_div_while_back()};
-            document.getElementById("top_footer").onclick = function(){comment_div_while_back()};
-            */
         },150);
     },10);
     //textarea に対してイベントを指定する
@@ -122,15 +113,8 @@ function send_tweet(){
         if(value == ""){
             document.getElementById("comment_div_while_send").style.display = "none";
         }else{
-            //画像が入力されていたらに処理を書き換える        
-            console.log("submit");
-            var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
-            //値が入力されているか確認
-            if(con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase())){
-                document.getElementById("comment_div_while_send").style.display = "block";
-            }else{
-                document.getElementById("comment_div_while_send").style.display = "none";
-            }
+            //画像が入力されていなくてもいけ－
+            document.getElementById("comment_div_while_send").style.display = "block";
         }
     });
 }
@@ -154,11 +138,6 @@ function open_nagare_delete_dialog(){
 }
 
 function comment_div_while_back(){
-    //page_nagareとtop_footerのonclickの書き換え
-    /*
-    document.getElementById("page_contain_com").onclick = function(){};
-    document.getElementById("top_footer").onclick = function(){};
-    */
     //textarea に対してイベントを指定する
     var $input = $('#comment_div_while_textarea');
     //このイベント投稿欄を閉じたときに停止させる
@@ -184,52 +163,77 @@ function comment_div_while_back(){
         },150);
     },150);
 }
+
+function send_nagare_to_com_try(){
+    var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
+    var result = con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase());
+    console.log("result", result, typeof result);
+}
+
 function send_nagare_to_com(){
+    var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
+    var result = con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase());
     //ナガレのindex変化前をトレンドから取得する
     var now_index = Number(document.getElementById("nagare_trend").className.slice(-1));
     //トレンドで反応することがない前提の処理
     var community_doc_id = nagare_global[now_index];
     //テキストエリアからテキストを取得する
     var new_text = document.getElementById("comment_div_while_textarea").value;
-    //page_nagareとtop_footerのonclickの書き換え
-    document.getElementById("page_contain_com").onclick = function(){};
-    document.getElementById("top_footer").onclick = function(){};
     //sendingでanimationをつける
     document.getElementById("comment_div").classList.add("sending");
-    //textarea に対してイベントを取り消し
-    var $input = $('#comment_div_while_textarea');
-    //このイベント投稿欄を閉じたときに停止させる
-    $input.off('input');
-    //以下コピペ
-    var fileList = document.getElementById("comment_div_while_image").files;
-    for(var i=0; i<fileList.length; i++){
-        place += fileList[i].name;
-    }
-    place = "nagares/" + place;
-    var storageRef = firebase.storage().ref();
-    var ref = storageRef.child(place);
-    var file = document.getElementById("comment_div_while_image").files[0]; // use the Blob or File API
-    ref.put(file).then(function() {
-        console.log('Uploaded or file!');
-        image_place = firebase.storage().ref().child(place).getDownloadURL().then(function(url){
-            db.collection("communities").doc(community_doc_id).collection("nagare").add({
-                date: new Date(),
-                name: user_doc_global.name,
-                uimg: user_info_global.photoURL,
-                text: new_text,
-                contentImage: url
-            }).then(function(){
-                console.log("画像含めてアップロード完了");            
-                //textareaの中身を空にする
-                document.getElementById("comment_div_while_textarea").value = "";
-                document.getElementById("comment_div_while_image").value = "";
-                //label内のimageも書き換える
-                $("#comment_div_while_image_tag").attr('src', 'img/add_photo_alternate-24px.svg');
-            }).catch(function(error){
-                console.log("error", error);
-            })
+    if(result){//画像が入力されているときの処理
+        //textarea に対してイベントを取り消し
+        var $input = $('#comment_div_while_textarea');
+        //このイベント投稿欄を閉じたときに停止させる
+        $input.off('input');
+        //以下コピペ
+        var fileList = document.getElementById("comment_div_while_image").files;
+        for(var i=0; i<fileList.length; i++){
+            place += fileList[i].name;
+        }
+        place = "nagares/" + place;
+        var storageRef = firebase.storage().ref();
+        var ref = storageRef.child(place);
+        var file = document.getElementById("comment_div_while_image").files[0]; // use the Blob or File API
+        ref.put(file).then(function() {
+            console.log('Uploaded or file!');
+            image_place = firebase.storage().ref().child(place).getDownloadURL().then(function(url){
+                db.collection("communities").doc(community_doc_id).collection("nagare").add({
+                    date: new Date(),
+                    name: user_doc_global.name,
+                    uimg: user_info_global.photoURL,
+                    text: new_text,
+                    contentImage: url
+                }).then(function(){
+                    console.log("画像含めてアップロード完了");            
+                    //textareaの中身を空にする
+                    document.getElementById("comment_div_while_textarea").value = "";
+                    document.getElementById("comment_div_while_image").value = "";
+                    //label内のimageも書き換える
+                    $("#comment_div_while_image_tag").attr('src', 'img/add_photo_alternate-24px.svg');
+                }).catch(function(error){
+                    console.log("error", error);
+                });
+            });
         });
-    });
+    }else{//テキストのみで画像が入力されてないときの処理
+        db.collection("communities").doc(community_doc_id).collection("nagare").add({
+            date: new Date(),
+            name: user_doc_global.name,
+            uimg: user_info_global.photoURL,
+            text: new_text,
+            contentImage: true
+        }).then(function(){
+            console.log("画像なしでアップロード完了");            
+            //textareaの中身を空にする
+            document.getElementById("comment_div_while_textarea").value = "";
+            document.getElementById("comment_div_while_image").value = "";
+            //label内のimageも書き換える
+            $("#comment_div_while_image_tag").attr('src', 'img/add_photo_alternate-24px.svg');
+        }).catch(function(error){
+            console.log("error", error);
+        });
+    }
     //write カウント
     firestore_write_count += 1;
     console.log("write", firestore_write_count);
@@ -268,13 +272,12 @@ function send_nagare_to_com(){
 var nagare_listener_global;
 //一度実行したら変更させる
 function get_nagare(number_tab){
-    console.log(number_tab, "get_nagare");
     //nagareを取得
     db.collection("communities").doc(nagare_global[number_tab]).collection("nagare").where('date', '>' ,nagare_timestamp[number_tab]).orderBy("date", "desc").limit(10).get().then(function(nagares){
         //timestamp
         nagare_timestamp[number_tab] = firebase.firestore.Timestamp.now();
         //listener でタッチ
-        try{nagare_listener_global();}catch(error){console.log("error", error);};
+        try{nagare_listener_global();console.log("listener でタッチ")}catch(error){console.log("error", error);};
         //listener を設置
         nagare_listener_global = db.collection("communities").doc(nagare_global[number_tab]).collection("nagare").where('date', '>' ,nagare_timestamp[number_tab]).onSnapshot(function(listen_snap){
             //timestamp
@@ -317,19 +320,40 @@ function get_nagare(number_tab){
 
 //user see list
 function insert_nagare_list(nagare_id ,nagare_data, nagare_number, type){
-    //時間を求める
-    var time_list = fire_time_normalization(nagare_data.date);
-    var time_record = time_list[0] + "月" + time_list[1] + "日 " + time_list[2] + ":" + time_list[3];
-    //insert していく記述
-    var nagare_container = document.getElementById("nagare_" + nagare_global[nagare_number]);
-    //var report_button = '<button class="mdc-icon-button material-icons nagare_icons_report">more_vert</button>';
-    var nagare_content_image = '<img src="' + nagare_data.contentImage + '" style="height: calc(100vw - 40px); width: 100%; object-fit: cover;">';
-    var nagare_time = '<p style="position: relative; color: #606060; font-size: 0.8em; margin-left: 20px; margin-right: 48px;">' + time_record +'</p>';
-    var nagare_text = '<p style="position: relative; margin: 0px 0px 0px 20px; font-size: 2em;">'+ nagare_data.text +'</p>';
-    nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-ripple-surface" style="margin: 20px 20px 40px 20px; border-radius:5px; position: relative; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.26); height: calc(141vw - 56px); overflow: hidden">' + nagare_content_image + nagare_time + nagare_text +'</div>');
+    if(nagare_data.contentImage == true){//画像は入力されてないときの処理
+        console.log(nagare_data.contentImage, typeof nagare_data.contentImage);
+        //時間を求める
+        var time_list = fire_time_normalization(nagare_data.date);
+        var time_record = time_list[0] + "月" + time_list[1] + "日 " + time_list[2] + ":" + time_list[3];
+        //insert していく記述
+        var nagare_container = document.getElementById("nagare_" + nagare_global[nagare_number]);
+        var nagare_time = '<p style="position: relative; color: #606060; font-size: 0.8em; margin-left: 20px; margin-top: 26px; margin-right: 48px;">' + time_record +'</p>';
+        var nagare_text = '<p style="position: relative; margin: 0px 0px 0px 20px; font-size: 2em;">'+ nagare_data.text +'</p>';
+        nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 20px 20px; border-radius:5px; position: relative; background-color: #ffffff; height: calc(41.42vw - 16.57px); overflow: hidden">' + nagare_time + nagare_text +'</div>');
+    }else{//画像とテキストが両方入力されてるときの処理
+        console.log("画像は入力されてるはず");
+        //時間を求める
+        var time_list = fire_time_normalization(nagare_data.date);
+        var time_record = time_list[0] + "月" + time_list[1] + "日 " + time_list[2] + ":" + time_list[3];
+        //insert していく記述
+        var nagare_container = document.getElementById("nagare_" + nagare_global[nagare_number]);
+        //var report_button = '<button class="mdc-icon-button material-icons nagare_icons_report">more_vert</button>';
+        var nagare_content_image = '<img src="' + nagare_data.contentImage + '" style="height: calc(41.42vw - 16.57px); width: 100%; object-fit: cover;">';
+        var nagare_time = '<p style="position: relative; color: #606060; font-size: 0.8em; margin-left: 20px; margin-right: 48px; margin-top: 26px;">' + time_record +'</p>';
+        var nagare_text = '<p style="position: relative; margin: 0px 0px 0px 20px; font-size: 2em;">'+ nagare_data.text +'</p>';
+        nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 20px 20px; border-radius:5px; position: relative; background-color: #ffffff; height: calc(82.84vw - 33.14px); overflow: hidden">' + nagare_content_image + nagare_time + nagare_text +'</div>');
+    }
+    //あとでtalkを開くときのためにタイムスタンプを押すwadai_nagare_global 安定の一週間前デフォルト
+    var one_week_ago = new Date();
+    one_week_ago.setDate(one_week_ago.getDate() - 7);
+    //疑似配列って一々定義していくものなのだろうか一応動いたけども
+    wadai_nagare_glbal[nagare_global[nagare_number]][nagare_id] = {
+        timeStamp: firebase.firestore.Timestamp.fromDate(one_week_ago),
+        commentDocs: []
+    };
     //高さ調整
     re_define_nagare_height(nagare_number);
-
+    //material ripples をつける
     var lists = document.querySelectorAll('.nagare_ripple');
     //console.log("lists ripple re", lists.length);
     for(var i=0; i<lists.length; i++){
@@ -341,8 +365,6 @@ function insert_nagare_list(nagare_id ,nagare_data, nagare_number, type){
 //page_contain_comの高さを挿入するごとに書き換える
 function re_define_nagare_height(com_index){
     var trend_num = nagare_global.length;
-    //console.log(trend_num);
-    //console.log(com_index);
     if(com_index == trend_num){
         //トレンドに対する処理
         document.getElementById("page_contain_com").style.height = "300px";
@@ -398,6 +420,7 @@ $(document).ready(function(){
         var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
         if(con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase())){
             //入力されている処理
+            document.getElementById("comment_div_while_send").style.display = "none";//一時的にボタンを止める
             var reader = new FileReader();
             reader.onload = function (e) {
                 $("#comment_div_while_image_tag").attr('src', e.target.result);
@@ -414,7 +437,6 @@ $(document).ready(function(){
         }else{
             //入力されていない処理
             $("#comment_div_while_image_tag").attr('src', 'img/add_photo_alternate-24px.svg');
-            document.getElementById("comment_div_while_send").style.display = "none";
             alert("svg, png, jpg, gif のいずれかの形式でアップロードしてください");
         }
     });
@@ -440,3 +462,190 @@ function fire_time_normalization(firestore_timestamp){
     }
     return [month, date, hours, minutes];
 }
+
+//裏のスクロールを調整して戻して表示するためのグローバル変数
+var window_y = window.pageYOffset;
+//wadai click で nagare display display_talk になってるがnagareとしていたものをwadaiにしたから、命名が複雑化
+function display_talk(wadai_element){
+    window_y = window.pageYOffset;
+    var com_nag = wadai_element.id.split("_");
+    document.getElementById("wadai_nagare_id_hidden").value = wadai_element.id;//コメントを送信するときに参照する
+    //クリックした要素の情報を取得
+    var rect = wadai_element.getBoundingClientRect();
+    var left = rect.left;// + window.pageXOffset;
+    var top = rect.top;// + window.pageYOffset;
+    var width = rect.width;
+    var height = rect.height;
+    //console.log("left", left, "top", top, "width", width, "height", height);
+    //隠し話題に適用
+    var hidden_wadai = document.getElementById("hidden_wadai");
+    hidden_wadai.hidden = false;
+    hidden_wadai.style.top = String(top) + "px";
+    hidden_wadai.style.left = String(left) + "px";
+    hidden_wadai.style.height = String(height) + "px";
+    hidden_wadai.style.width = String(width) + "px";
+    //スクロールしてる親要素の高さを100％にするかhidden_wadaiに合わせることでスクロール調節する
+    //absoluteで対応していく路線で決定 => fixed でelementスクロールにするとsafariで挙動が望ましくない形でスライドしたりするからその対策かな？
+    //だが、現在また考え中という感じ。fixedのほうが早く実装できそうだから fixed にする
+    var hidden_wadai_mimic = document.getElementById("hidden_wadai_mimic");//トランジションをきれいに見せるためのdiv
+    hidden_wadai_mimic.innerHTML = wadai_element.innerHTML;
+    var hidden_wadai_content = document.getElementById("hidden_wadai_content");//閲覧とかボタンとかのwadaiを見るときに表示するdiv
+    var hidden_wadai_fixed = document.getElementById("hidden_wadai_fixed");
+    setTimeout(function(){
+        hidden_wadai.classList.add("being");
+        setTimeout(function(){
+            //transition 中に表示を切り替える
+            //hidden_wadai_mimic.hidden = true;
+            hidden_wadai_content.hidden = false;
+            setTimeout(function(){
+                hidden_wadai_fixed.hidden = false;
+                //裏ですくろーできないように
+                document.getElementById("page_contain_com").hidden = true;
+            }, 150);
+        },150);
+    },100);
+    //textarea に対してイベントを指定する
+    var hidden_wadai_fixed_text_input = $('#hidden_wadai_fixed_text');
+    //このイベント投稿欄を閉じたときに停止させたりしたほうがいいとかあるかね？
+    hidden_wadai_fixed_text_input.on('input', function(event) {
+        var value = hidden_wadai_fixed_text_input.val();
+        //console.log(value, event);
+        if(value == ""){
+            //無効か
+            $("#hidden_wadai_fixed_send").attr('disabled', true);
+            document.getElementById("hidden_wadai_fixed_send").style.color = "#595959";
+        }else{
+            // 有効化
+            $("#hidden_wadai_fixed_send").attr('disabled', false);
+            document.getElementById("hidden_wadai_fixed_send").style.color = "#0066ff";
+        }
+    });
+    //listener でタッチ
+    try{nagare_listener_global();console.log("listener でタッチ")}catch(error){console.log("error", error);};
+    //talkを取得して代入する
+    get_talk_content(com_nag);
+}
+
+function display_talk_back(){
+    //裏を元に戻す
+    document.getElementById("page_contain_com").hidden = false;
+    window.scrollTo( 0, window_y );
+    //元に戻す処理を書く
+    var hidden_wadai = document.getElementById("hidden_wadai");
+    //var hidden_wadai_mimic = document.getElementById("hidden_wadai_mimic");//トランジションをきれいに見せるためのdiv
+    var hidden_wadai_content = document.getElementById("hidden_wadai_content");//閲覧とかボタンとかのwadaiを見るときに表示するdiv
+    var hidden_wadai_fixed = document.getElementById("hidden_wadai_fixed");
+    hidden_wadai_content.innerHTML = "";
+    setTimeout(function(){
+        hidden_wadai_fixed.hidden = true;
+        hidden_wadai.classList.remove("being");//アニメーションの開始
+        setTimeout(function(){
+            //transition 中に表示を切り替える
+            hidden_wadai_content.hidden = true;
+            //hidden_wadai_mimic.hidden = false;
+            setTimeout(function(){
+                hidden_wadai.hidden = true;
+                //talkを取得して代入する            
+                //ナガレのindex変化前をトレンドから取得するかな(このライブラリの60からコピー)
+                var nagare_index_number = Number(document.getElementById("nagare_trend").className.slice(-1));
+                get_nagare(nagare_index_number);
+                document.getElementById("wadai_nagare_id_hidden").value = "";
+            }, 150);
+        },150);
+    }, 100);
+    //イベント無効か
+    var hidden_wadai_fixed_text_input = $('#hidden_wadai_fixed_text');
+    //このイベント投稿欄を閉じたときに停止させたりしたほうがいいとかあるかね？
+    hidden_wadai_fixed_text_input.off('input');
+    //wadai_nagare_glbalのリスナ停止
+    try{talk_listener_global();console.log("wadai_nagare_glbal でタッチ")}catch(error){console.log("error", error);};
+}
+
+//ボタンを有効化するリスナはこのライブラリの500行当たり
+function send_reply(){
+    //送信ボタンの無効化
+    $("#hidden_wadai_fixed_send").attr('disabled', true);
+    document.getElementById("hidden_wadai_fixed_send").style.color = "#595959";
+    var talk_text = document.getElementById("hidden_wadai_fixed_text").value;
+    var com_nag = document.getElementById("wadai_nagare_id_hidden").value.split("_");
+    //データベースに送信する
+    db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments").add({
+        createdAt: new Date(),
+        name: user_doc_global.name,
+        comment: talk_text,
+        member: true,
+        iconUrl: user_info_global.photoURL,
+        uid: user_info_global.uid
+    }).then(function(){
+        document.getElementById("hidden_wadai_fixed_text").value = "";//送信後にする
+        //書き込みカウント
+        firestore_write_count ++;
+        console.log("書き込みカウント", firestore_write_count);
+    }).catch(function(error){
+        console.log("error", error);
+    });
+}
+
+var talk_listener_global;//あとでリスナとか置くときに活躍します
+var wadai_nagare_glbal = {};//wadai と nagare を保存しておくための
+function get_talk_content(com_nag){
+    //タイムスタンプは347で一週間前に一度インサート同時に押しておく
+    db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments")
+    .where('createdAt', '>' , wadai_nagare_glbal[com_nag[0]][com_nag[1]]["timeStamp"]).orderBy("createdAt", "desc").limit(10)
+    .get().then(function(docs){
+        //timestamp
+        wadai_nagare_glbal[com_nag[0]][com_nag[1]]["timeStamp"] = firebase.firestore.Timestamp.now();
+        //listenerの設置
+        talk_listener_global = db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments")
+        .where('createdAt', '>' ,wadai_nagare_glbal[com_nag[0]][com_nag[1]].timeStamp).onSnapshot(function(listen_snap){            
+            //timestamp
+            wadai_nagare_glbal[com_nag[0]][com_nag[1]]["timeStamp"] = firebase.firestore.Timestamp.now();
+            //read count
+            if(listen_snap.size == 0){
+                firestore_get_count += 1;
+            }else{
+                firestore_get_count += listen_snap.size;
+            }
+            console.log("read listen", firestore_get_count);
+            listen_snap.forEach(function(listen_doc){    
+                //コメントドックsに代入
+                wadai_nagare_glbal[com_nag[0]][com_nag[1]].commentDocs.push(listen_doc.data());
+                insert_talk_content(listen_doc.data());
+            });
+        });
+        docs.docs.reverse().forEach(function(one_comment){
+            //コメントドックsに代入
+            wadai_nagare_glbal[com_nag[0]][com_nag[1]].commentDocs.push(one_comment.data());
+        });
+        //コメントドックの中身でループする
+        for(var i=0 ; i< wadai_nagare_glbal[com_nag[0]][com_nag[1]].commentDocs.length; i++){
+            insert_talk_content(wadai_nagare_glbal[com_nag[0]][com_nag[1]].commentDocs[i]);
+        }
+        //読み込みカウント
+        if(listen_snap.size == 0){
+            firestore_get_count += 1;
+        }else{
+            firestore_get_count += listen_snap.size;
+        }
+        console.log("読み込みカウント", firestore_get_count);
+    }).catch(function(error){
+        console.log("error", error);
+    });
+};
+
+function insert_talk_content(comment_doc){
+    //console.log(comment_doc);
+    //時間を求める
+    var time_list = fire_time_normalization(comment_doc.createdAt);
+    var comment_time = time_list[0] + "月" + time_list[1] + "日 " + time_list[2] + ":" + time_list[3] ;
+    var comment_icon = '<img src="' + comment_doc.iconUrl + '" width="40px" height="40px" style="border-radius: 50%; objectfit:cover; top:16px; left: 16px; position:absolute;">';
+    var comment_content = '<p style="position: relative; left: 72px; font-size: 18px; width: calc(100vw - 88px)">' + comment_doc.comment + '</p>';
+    var comment_name = '<p style="position: relative; left: 72px; top: 16px;color: #606060; font-size: 0.8em; margin: 0px">'+ comment_doc.name + '・' + comment_time + '</p>';
+    var comment_list = document.getElementById("hidden_wadai_content");
+    comment_list.insertAdjacentHTML("beforeend", '<div style="position: relative; overflow: hidden">' + comment_icon + comment_name + comment_content + '</div>' );
+    //一番下までスクロールする処理を書く前に、実装をどのようにするかを考える
+
+
+
+}
+

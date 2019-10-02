@@ -37,6 +37,8 @@ tabBar.listen('MDCTabBar:activated',function(event){
     //nagareで表示するheader
     var header = document.getElementById("community_bar");
     if(index == 0){
+        //hiddenの解除
+        document.getElementById("page_contain_dash").hidden = false;
         //listener でタッチ
         try{nagare_listener_global();}catch(error){console.log("error", error);};
         //renew_card に onclickを代入する
@@ -49,8 +51,14 @@ tabBar.listen('MDCTabBar:activated',function(event){
         setTimeout(function(){
             dash.classList.add("active_page");
             fab_change(index);
+            //裏のページを確実にonclickできなくするためにhiddenする
+            setTimeout(function(){
+                document.getElementById("page_contain_com").hidden = true;
+            },300);
         },25);
     }else if(index == 1){
+        //hiddenの解除
+        document.getElementById("page_contain_com").hidden = false;
         //dash home の onclick 停止
         var cards = document.querySelectorAll('.dash-card_renew');
         for(var i = 0; i<cards.length; i++){
@@ -64,12 +72,12 @@ tabBar.listen('MDCTabBar:activated',function(event){
         dash.classList.remove("active_page");
         //nagereのページ全体を有効化
         setTimeout(function(){
-            /*
-            dash.style.display = "none";
-            nagare.style.display = "block";
-            */
             nagare.classList.add("active_page");
             fab_change(index);
+            //裏のページを確実にonclickできなくするためにhiddenする
+            setTimeout(function(){
+                document.getElementById("page_contain_dash").hidden = true;
+            },300);
         },25);
         //nagareを取得
         //nagare_change(0);

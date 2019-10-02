@@ -37,6 +37,8 @@ function google_login(){
 
 var db = firebase.firestore();
 function check_db(user_info){
+    //talkにアイコンぶち込め
+    document.getElementById("hidden_wadai_fixed_uicon").src = user_info_global.photoURL;
     //条件によってfulldcreen dialog を表示するかどうか決める
     var docRef = db.collection("users").doc(user_info.uid);
     //localだとデータベース周りが機能しなくなる 機能しますけどｗ
