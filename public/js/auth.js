@@ -25,7 +25,16 @@ function google_login(){
         // if a user forgets to sign out.
         // ...
         // New sign-in will be persisted with session persistence.
-        return firebase.auth().signInWithRedirect(provider);
+        return firebase.auth().signInWithRedirect(provider).then(user =>{
+            // Get the user's ID token as it is needed to exchange for a session cookie.
+            return user.getIdToken();/*.then(idToken => {
+                // Session login endpoint is queried and the session cookie is set.
+                // CSRF protection should be taken into account.
+                // ...
+                const csrfToken = getCookie('csrfToken')
+                return postIdTokenToSessionLogin('/sessionLogin', idToken, csrfToken);
+            });*/
+        });
     }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
