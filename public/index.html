@@ -75,7 +75,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.5.8</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.7.7</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="google_login()">account_circle</button>
@@ -114,13 +114,19 @@
                         <p class="card_subtitle">コミュニティ</p>
                         <p id="user_community_display_renew" class="card_contents">参加していない</p>
                     </div>
+
+                    <!--div id="chart_sample" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
+                        <div id="chart_contain" class="chart-container" style="width:100%; height: 150px">
+                            <p>なんも書き換えてない</p>
+                        </div>
+                    </div-->
                 </div><div id="dash_right" class="dash_column">
                     <div id="dash_display_job" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_job()">
                         <p class="card_subtitle">しごと</p>
                         <p id="user_job_display_renew" class="card_contents">職探しの民</p>
                         <p id="user_job_level_display_renew" class="card_contents" style="position: absolute; bottom: 75px; left: 40%">Lv 1</p>
-                        <div id="chart_container" class="chart-container" style="width:100%; height: 150px">
-                            <canvas id="myChart"></canvas>
+                        <div id="chart_container" class="chart-container" style="width:100%; height: 150px; position: relative;">
+                            <canvas id="myChart" height="100%" width="100%"></canvas>
                         </div>
                     </div>
                 </div>

@@ -282,7 +282,7 @@ exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/w
         //日付が変わったかどうかで分岐する
         if(level_info.timestamp.toDate().getDate() != new Date().getDate()){
             //日付が異なったときはタイムスタンプを押して、今日の経験値をクリアする
-            var new_timestamp = new Date().getDate();
+            var new_timestamp = new Date();
             var new_today = the_diff;
         }else{
             //日付は変わらなかった

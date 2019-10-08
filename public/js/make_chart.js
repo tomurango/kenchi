@@ -2,33 +2,43 @@
 //なんか気づいたら上の行のやつが書かれてたけど、よくわからん
 
 //円グラフ作成代入の関数（あくまで、最初のページに関してのみの話である）
+var doughnut_chart;
 function insert_level_chart(exp_array){
+    //chart js のグラフが表示されない問題の解決のための検証
+    
+    if(doughnut_chart){doughnut_chart.destroy()};
     console.log("exp_array =>", exp_array);
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('myChart');//.getContext('2d');
     //データのセット
     var data = {
         datasets: [{
             data: exp_array,
-            backgroundColor: [
-                '#0066ff',
-                '#ff9800',
-                '#ff6900',
-                '#eeeeee'
-            ]
+            backgroundColor: ['#0066ff','#ff9800','#ff6900','#eeeeee']
         }],
     };
     //オプションのマップ
     var options = {
         cutoutPercentage: 80,
         maintainAspectRatio: false
-    };
+        //devicePixelRatio: window.devicePixelRatio 
+    };//window.devicePixelRatio 
     // ドーナツチャート
-    var myDoughnutChart = new Chart(ctx, {
+    doughnut_chart = new Chart(ctx, {
         type: 'doughnut',
         data: data,
         options: options
     });
-};
+
+    //コピペだが、高解像度のレンダリングに関しての対応策っぽい
+    /*var originalRetinaScale = doughnut_chart.helpers.retinaScale;
+    doughnut_chart.helpers.retinaScale = function(chart) {
+        if( !chart.options.responsive && !chart.options.maintainAspectRatio ){
+            return;
+        }
+        originalRetinaScale( chart );
+    };*/
+    
+}
 
 //insert_level_info auth の 302 で使用中
 function insert_level_info(job_id, latest_time){

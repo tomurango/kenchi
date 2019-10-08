@@ -86,6 +86,8 @@ function check_db(user_info){
 
 //redirect 後の挙動を書きたいのだが、これでいいのかわからん
 $(document).ready(function(){
+    //chart js のグラフが表示されない問題の解決のための検証
+    //document.getElementById("chart_contain").textContent = window.devicePixelRatio;
     firebase.auth().getRedirectResult().then(function(result) {
         if (result.credential) {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -356,5 +358,7 @@ function user_job_data_get(user_info, job_name){
         });
     }).catch(function(error) {
         console.log("Error getting document:", error);
+        //スマホだけ表示されないエラーに関する検証
+        //document.getElementById("chart_contain").innerHTML = "error >" + String(error);
     });
 }
