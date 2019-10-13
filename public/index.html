@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="css/nagare.css">
         <link rel="stylesheet" href="css/dis_card.css">
         <link rel="stylesheet" href="css/discard_renew.css">
+        <link rel="stylesheet" href="css/tutorial.css">
         <!--chart js-->
         <link rel="stylesheet" href="modules/Chart.min.css">
         <script src="modules/Chart.min.js"></script>
@@ -71,14 +72,42 @@
             </button>
         </div>
 
+        <!--guest js で使用される部分-->
+        <div id="first_card" class="mdc-card mdc-ripple-surface" style="position: fixed; display: none;" onclick="first_card_display()">
+            <button id="first_card_back" class="mdc-icon-button material-icons" onclick="first_card_close()">keyboard_arrow_down</button>
+            <p style="font-size: 2em; margin:0px">ようこそ</p>
+        </div>
+        <div id="second_card" class="mdc-card mdc-ripple-surface" style="position: fixed; display: none;" onclick="second_card_display()">
+            <button id="second_card_back" class="mdc-icon-button material-icons" onclick="second_card_close()">clear</button>
+            <p style="font-size: 2em; margin: 0px">利用規約</p>
+            <button id="second_card_approval" onclick="tutorial_approval()">同意</button>
+        </div>
+        <button id="third_fab" class="mdc-fab mdc-fab--extended" style="display: none" onclick="the_third()" >
+            <span id="third_icon" class="mdc-fab__icon material-icons home">done</span>
+            <span id="third_text" class="mdc-fab__label">始める</span>
+        </button>
+
+        <div id="login_menu" class="mdc-menu mdc-menu-surface">
+            <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
+                <li class="mdc-list-item" role="menuitem">
+                    <span class="mdc-list-item__text">もどる</span>
+                </li>
+                <li class="mdc-list-item" role="menuitem">
+                    <span class="mdc-list-item__text" onclick = "google_login()">google</span>
+                </li>
+                <li class="mdc-list-item" role="menuitem" onclick="log_out()">
+                    <span class="mdc-list-item__text">ログアウト</span>
+                </li>
+            </ul>
+        </div>
         <header id="the_header" class="mdc-top-app-bar">
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.7.7</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.7.8</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-                    <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="google_login()">account_circle</button>
+                    <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
                 </section>
             </div>
             <div id="community_bar" class="mdc-top-app-bar__row">
@@ -104,6 +133,13 @@
         </header>
 
         <main id="the_main">
+            <div id="page_contain_guest" style="width: 100%" hidden>
+                <!--guest の時に表示する画面 チュートリアル後に表示されるよてい（ゲストの場合）-->
+                <img src="img/anonymous_01_03_アートボード 1.svg" style="object-fit: cover;width: 80vw;height: 80vw;margin: 100px 10% 0px 10%;">
+                <p style="font-size: 2em; text-align: center">匿名ユーザ</p>
+                <p style="text-align: center">ログインするとあなたの情報が<br>表示されます。</p>
+            </div>
+
             <div id="page_contain_dash" class="active_page" style="width: 100%; padding-top: 56px; padding-bottom: 50px">
                 <div id="dash_left" class="dash_column">
                     <div id="dash_display_user" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_user()">
@@ -340,7 +376,7 @@
 
         <input type="hidden" id="wadai_nagare_id_hidden">
 
-        <button id="start_fab" class="mdc-fab mdc-fab--extended" onclick="start_pushed()" aria-label="plus">
+        <button id="start_fab" class="mdc-fab mdc-fab--extended" onclick="start_pushed()" >
             <span id="fab_icon" class="mdc-fab__icon material-icons home">add</span>
             <span id="fab_text" class="mdc-fab__label">始める</span>
         </button>
@@ -531,10 +567,9 @@
         <script src="js/notice.js"></script>
         <!--discardの処理を表示を整えた状態で表示するためのjs-->
         <script src="js/discard_renew.js"></script>
-
-        <!--chart js-->
-        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>-->
         <!--make chart js-->
         <script src="js/make_chart.js"></script>
+        <!--guest js-->
+        <script src="js/guest.js"></script>
     </body>
 </html>

@@ -38,7 +38,10 @@ tabBar.listen('MDCTabBar:activated',function(event){
     var header = document.getElementById("community_bar");
     if(index == 0){
         //hiddenの解除
-        document.getElementById("page_contain_dash").hidden = false;
+        document.getElementById("page_contain_dash").hidden = false;//guestの時はguestの表示に切り替える
+
+
+
         //listener でタッチ
         try{nagare_listener_global();}catch(error){console.log("error", error);};
         //renew_card に onclickを代入する
@@ -49,8 +52,13 @@ tabBar.listen('MDCTabBar:activated',function(event){
         header.style.display = "none";
         nagare.classList.remove("active_page");
         setTimeout(function(){
-            dash.classList.add("active_page");
-            fab_change(index);
+            dash.classList.add("active_page");//guestの時はguestのページをアクティブにする
+
+
+            fab_change(index);//このfabもguestの時は表示調整しなきゃ
+
+
+
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
                 document.getElementById("page_contain_com").hidden = true;
@@ -67,13 +75,22 @@ tabBar.listen('MDCTabBar:activated',function(event){
         //headerの表示
         header.style.display = "block";
         //TopAppBar内のTabの有効化
-        insert_communities_navi();
+        insert_communities_navi();//この関数内部をいじって、コミュニティに参加してない人の処理を記述していく
+
+
+
         //dash を閉じる
-        dash.classList.remove("active_page");
+        dash.classList.remove("active_page");//guestの場合はゲストの非表示をするようにする
+
+
+
         //nagereのページ全体を有効化
         setTimeout(function(){
             nagare.classList.add("active_page");
-            fab_change(index);
+            fab_change(index);//ゲスト（コミュニティ未参加の時はそもそも表示しない処理に書き換えが必要）
+
+            
+
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
                 document.getElementById("page_contain_dash").hidden = true;
@@ -176,4 +193,5 @@ function fab_change(page_num){
 const list = new mdc.list.MDCList(document.querySelector('.mdc-list'));
 
 /* menu */
-const menu = new mdc.menu.MDCMenu(document.querySelector('.mdc-menu'));
+const menu = new mdc.menu.MDCMenu(document.querySelector('#community_detail_verb_menus'));
+const login_menu = new mdc.menu.MDCMenu(document.querySelector('#login_menu'));

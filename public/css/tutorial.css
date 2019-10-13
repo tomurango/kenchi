@@ -1,0 +1,61 @@
+﻿#first_card{
+    width: calc(100vw - 40px);
+    height: calc(82.84vw - 33.14px);
+    margin: 40px 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    z-index: 0;
+}
+#first_card.display{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    z-index: 1;
+}
+
+#first_card_back{
+    display: none;
+}#first_card_back.display{
+    display: block;
+}
+
+#second_card{
+    width: calc(100vw - 40px);
+    height: calc(41.42vw - 16.57px);
+    margin: calc(80px + 82.84vw - 33.14px) 20px 20px 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    z-index: 0;
+}
+#second_card.display{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    z-index: 1;
+}
+
+#second_card_back{
+    display: none;
+}#second_card_back.display{
+    display: block;
+}
+#second_card_approval{
+    display: none;
+}#second_card_approval.display{
+    display: block;
+}
+
+
+/* 以下 guest */
+#login_menu{
+    top: 35px !important;
+    right: 30px !important;
+    left: auto !important;
+    transform-origin: right top !important;
+}
+
+/*#lets_login_card{
+    height: 300px;
+    width: calc(100vw - 40px);
+    margin: 100px 20px 20px 20px;
+}*/

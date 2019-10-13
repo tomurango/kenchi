@@ -622,10 +622,10 @@ function get_talk_content(com_nag){
             insert_talk_content(wadai_nagare_glbal[com_nag[0]][com_nag[1]].commentDocs[i]);
         }
         //読み込みカウント
-        if(listen_snap.size == 0){
+        if(docs.size == 0){
             firestore_get_count += 1;
         }else{
-            firestore_get_count += listen_snap.size;
+            firestore_get_count += docs.size;
         }
         console.log("読み込みカウント", firestore_get_count);
     }).catch(function(error){

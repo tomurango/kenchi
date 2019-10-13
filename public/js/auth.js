@@ -15,7 +15,26 @@ var user_job_global;
 //var user_community_global;communityのリストは統一させて辞書でインデックスする感じでいいかも
 var community_list_global = {};
 
-//click で login させる
+//login menu
+function display_login_menu(){
+    //menu.open
+    login_menu.open = true;
+}
+
+function log_out(){
+    firebase.auth().signOut().then(()=>{
+        console.log("ログアウトしました");
+        //脳死でリロードするが、変更するかもなぜか → リロードにＵＸ的理由を決めれてないから
+        //ただ、リロードしなければ表示がＵＸ的にはおかしくなる。要は、いつか最適化しようという感じ
+        //リロードでよくね？ログアウトって感じがしていいと思い始めた
+        location.reload();
+    })
+    .catch( (error)=>{
+        console.log(`ログアウト時にエラーが発生しました (${error})`);
+    });
+}
+
+//google
 function google_login(){
     //セッションの永続性を指定から、ログインしてる感じ
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function() {
@@ -118,8 +137,19 @@ $(document).ready(function(){
                 //fabを表示する
                 //document.getElementById("start_fab").hidden = false;
                 // User is signed in.
-                user_info_global = user;
-                check_db(user);
+                if(user.isAnonymous){
+                    //匿名                    
+                    console.log("すでに anonymously");
+                    //fabを非表示に
+                    document.getElementById("start_fab").style.display = "none";
+                    //page_contain_guestを表示して、page_contain_dashをしまう
+                    document.getElementById('page_contain_guest').hidden = false;
+                    document.getElementById('page_contain_dash').hidden = true;
+                }else{
+                    //匿名じゃない
+                    user_info_global = user;
+                    check_db(user);
+                }
             } else {
                 // No user is signed in.
                 console.log("No user is signed in");
@@ -144,7 +174,7 @@ $(document).ready(function(){
 
 function insert_image_button(image){
     var button_style = 'style="background-image:url(' + image + '); border:none; padding:0px; width:32px; height:32px; background-size: contain; border-radius:50%; margin:8px;"';
-    var button_tag = '<button class="mdc-top-app-bar__navigation-icon"'+ button_style +' onclick="google_login()"></button>';
+    var button_tag = '<button class="mdc-top-app-bar__navigation-icon"'+ button_style +' onclick="display_login_menu()"></button>';
     document.getElementById("user_login").innerHTML = button_tag;
     //console.log("user is signed in");''
 }
@@ -314,6 +344,9 @@ function login_anonymously(){
     console.log("anonymously login");
     //fabを非表示に
     document.getElementById("start_fab").style.display = "none";
+    //page_contain_guestを表示して、page_contain_dashをしまう
+    document.getElementById('page_contain_guest').hidden = false;
+    document.getElementById('page_contain_dash').hidden = true;
 }
 
 var level_info_global = {};
