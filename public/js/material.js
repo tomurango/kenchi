@@ -28,20 +28,31 @@ $(document).ready(function(){
 var tabBar = new mdc.tabBar.MDCTabBar(document.querySelector('#footer_tab'));
 //tab ページ切り替え
 tabBar.listen('MDCTabBar:activated',function(event){
-    //fabの表示はまとめてonにする
-    document.getElementById("start_fab").style.display = "flex";
+    //user info 取得！！
+    var user = firebase.auth().currentUser;
+    if(user.isAnonymous){
+        //fabは匿名なら常に非表示
+        document.getElementById("start_fab").style.display = "none";
+    }else{
+        //fabの表示はまとめてonにする
+        document.getElementById("start_fab").style.display = "flex";
+    }
     var index = event["detail"]["index"];
     //pageの要素を取得
     var dash = document.getElementById("page_contain_dash");
     var nagare = document.getElementById("page_contain_com");
+    var guest = document.getElementById("page_contain_guest");
     //nagareで表示するheader
     var header = document.getElementById("community_bar");
     if(index == 0){
         //hiddenの解除
-        document.getElementById("page_contain_dash").hidden = false;//guestの時はguestの表示に切り替える
-
-
-
+        if(user.isAnonymous){
+            //ゲストなので、guestを表示
+            guest.hidden = false;
+        }else{
+            //ログインユーザなので、ダッシュボードを表示する
+            dash.hidden = false;
+        }
         //listener でタッチ
         try{nagare_listener_global();}catch(error){console.log("error", error);};
         //renew_card に onclickを代入する
@@ -52,13 +63,14 @@ tabBar.listen('MDCTabBar:activated',function(event){
         header.style.display = "none";
         nagare.classList.remove("active_page");
         setTimeout(function(){
-            dash.classList.add("active_page");//guestの時はguestのページをアクティブにする
-
-
-            fab_change(index);//このfabもguestの時は表示調整しなきゃ
-
-
-
+            if(user.isAnonymous){
+                //ゲストなのでゲストページをアクティブにする
+                guest.classList.add("active_page");
+            }else{
+                //ログインユーザなので、ダッシュボードをアクティブにする
+                dash.classList.add("active_page");
+            }
+            fab_change(index);//このfabもguestの時は表示調整しなきゃ → とりま書き換えた
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
                 document.getElementById("page_contain_com").hidden = true;
@@ -72,28 +84,32 @@ tabBar.listen('MDCTabBar:activated',function(event){
         for(var i = 0; i<cards.length; i++){
             cards[i].onclick="";
         }
-        //headerの表示
-        header.style.display = "block";
         //TopAppBar内のTabの有効化
-        insert_communities_navi();//この関数内部をいじって、コミュニティに参加してない人の処理を記述していく
-
-
-
-        //dash を閉じる
-        dash.classList.remove("active_page");//guestの場合はゲストの非表示をするようにする
-
-
-
+        //insert_communities_navi();この関数内部をいじって、コミュニティに参加してない人の処理を記述していく つもりだったが、ここで分岐させて関数増やして書く形で行ったほうがわかりやすいと思た
+        if(user.isAnonymous){
+            //匿名ユーザなのでguestの場合はゲストの非表示をするようにする
+            guest.classList.remove("active_page");
+            insert_guest_navi();
+        }else{
+            //匿名ユーザでないから dash を閉じる
+            dash.classList.remove("active_page");
+            insert_communities_navi();//コミュニティに参加してない人はトレンドのみのタブは表示しないようにするから、その対応処理をかけるようにする        
+            //headerの表示
+            header.style.display = "block";
+        }
         //nagereのページ全体を有効化
         setTimeout(function(){
             nagare.classList.add("active_page");
-            fab_change(index);//ゲスト（コミュニティ未参加の時はそもそも表示しない処理に書き換えが必要）
-
-            
-
+            fab_change(index);//ゲスト（コミュニティ未参加の時はそもそも表示しない処理に書き換えが必要）→取りま書き換えた
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
-                document.getElementById("page_contain_dash").hidden = true;
+                if(user.isAnonymous){
+                    //匿名なので、ゲストを非表示
+                    guest.hidden = true;
+                }else{
+                    //ログインユーザなので、ダッシュボードを非表示にする
+                    dash.hidden = true;
+                }
             },300);
         },25);
         //nagareを取得
@@ -161,8 +177,14 @@ var nagare_delete_dialog = new mdc.dialog.MDCDialog(document.querySelector('#nag
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
 function fab_change(page_num){
-    //fabの要素を取得
     var the_fab = document.getElementById("start_fab");
+    //guestの時はfabを常に非表示にして、関数終了
+    var user = firebase.auth().currentUser;
+    if(user.isAnonymous){
+        the_fab.style.display = "none";
+        return
+    }
+    //fabの要素を取得
     the_fab.onclick = "";
     var the_fab_icon = document.getElementById("fab_icon");
     var the_fab_text = document.getElementById("fab_text");

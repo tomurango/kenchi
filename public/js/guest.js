@@ -1,4 +1,7 @@
-﻿//チュートリアルの画面を表示する等の処理をする
+﻿//import { firestore } from "firebase";
+//上の文の自動生成はfirestoreと入力して、自動変換張りに何も考えずにEnter押した結果かもしれない なんか草
+
+//チュートリアルの画面を表示する等の処理をする
 $(document).ready(function(){
     if (localStorage.getItem('UserLoginTime')) {
         //二回目以降のログイン
@@ -156,3 +159,31 @@ function anonymous_false(){
     //main を表示する
     document.getElementById('the_main').hidden = false;
 }
+
+//material 89 で採用している。tabbarの表示時にエラーになるのでその対応
+function insert_guest_navi(){
+    var header = document.getElementById("community_bar");
+    //trend だけ表示して、firestore で情報取得と挿入をしていく感じ
+    header.style.display = "none";
+    //今は試しに書き込んでる
+    document.getElementById("page_contain_com").innerHTML = '<p style = "margin: 70px 20px 20px 20px; font-size:2em;">ここにfirestoreで取得したトレンドの話題を並べる</p>';
+    get_trend();
+}
+
+function get_trend(){
+    db.collectionGroup('nagare').get().then(function (querySnapshot) {
+        //get カウント
+        if(querySnapshot.size == 0){
+            firestore_get_count += 1;
+        }else{
+            firestore_get_count += querySnapshot.size;
+        }
+        console.log("get", firestore_get_count);
+        querySnapshot.forEach(function (doc) {
+            console.log(doc.id, ' => ', doc.data());
+        });
+    }).catch(function(error){
+        console.log("error => ", error);
+    });
+}
+

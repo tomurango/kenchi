@@ -63,7 +63,7 @@ function google_login(){
     });
 }
 
-var db = firebase.firestore();
+const db = firebase.firestore();
 function check_db(user_info){
     //talkにアイコンぶち込め
     document.getElementById("hidden_wadai_fixed_uicon").src = user_info_global.photoURL;

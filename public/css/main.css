@@ -69,6 +69,21 @@ main{
     z-index: 1;
 }
 
+#page_contain_guest{
+    position: absolute;
+    transform: scale(0.95);
+    opacity: 0;
+    z-index: 0;
+    transform-origin:center center;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+
+#page_contain_guest.active_page{
+    transform: scale(1);
+    opacity: 1;
+    z-index: 1;
+}
+
 #page_nagare{
     /*width: 100vw;*/
     z-index: 0;
