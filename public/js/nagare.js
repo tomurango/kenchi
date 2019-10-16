@@ -6,6 +6,7 @@ var nagare_timestamp = [];
 
 //コミュニティが変更されない限り1度の実行にするため nagare globalを書き換えたら falseとかにするかな （未実装）
 var community_change_state = true;
+//var all_user_communities;//84行目で再利用するため。ひっどいコードになってきたｗ
 //auth 56 から飛んで処理
 function insert_communities_navi(){
     //snedに自分の画像を代入する
@@ -79,6 +80,10 @@ function nagare_change(nec_index){
     if(nec_index == trend_num){
         //buttonを非表示にする
         document.getElementById("start_fab").style.display = "none";
+        //これトレンドの処理だね guestに合わせるために、一度トレンドの中身を非表示というか、クリアしてからの代入になるが、正直非効率的な気がする 今はいいが要修正
+        //document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><div>';
+        document.getElementById("nagare_trend").innerHTML = "";//中身を空にする
+        get_trend();
     }else{
         //buttonを表示する
         document.getElementById("start_fab").style.display = "flex";
@@ -203,7 +208,10 @@ function send_nagare_to_com(){
                     name: user_doc_global.name,
                     uimg: user_info_global.photoURL,
                     text: new_text,
-                    contentImage: url
+                    contentImage: url,
+                    communityId: community_doc_id,
+                    replyCount: 0,
+                    replyText: ""
                 }).then(function(){
                     console.log("画像含めてアップロード完了");            
                     //textareaの中身を空にする
@@ -222,7 +230,10 @@ function send_nagare_to_com(){
             name: user_doc_global.name,
             uimg: user_info_global.photoURL,
             text: new_text,
-            contentImage: true
+            contentImage: true,
+            communityId: community_doc_id,
+            replyCount: 0,
+            replyText: ""
         }).then(function(){
             console.log("画像なしでアップロード完了");            
             //textareaの中身を空にする
@@ -272,14 +283,14 @@ function send_nagare_to_com(){
 var nagare_listener_global;
 //一度実行したら変更させる
 function get_nagare(number_tab){
-    //nagareを取得
+    //nagareを取得 時間取得でタイムスタンプおいてるのに重複した。要注意
     db.collection("communities").doc(nagare_global[number_tab]).collection("nagare").where('date', '>' ,nagare_timestamp[number_tab]).orderBy("date", "desc").limit(10).get().then(function(nagares){
         //timestamp
         nagare_timestamp[number_tab] = firebase.firestore.Timestamp.now();
         //listener でタッチ
         try{nagare_listener_global();console.log("listener でタッチ")}catch(error){console.log("error", error);};
-        //listener を設置
-        nagare_listener_global = db.collection("communities").doc(nagare_global[number_tab]).collection("nagare").where('date', '>' ,nagare_timestamp[number_tab]).onSnapshot(function(listen_snap){
+        //listener を設置 このリスナに複数のオブジェクトがヒットして重複が発生してしまうのでlimit１にして対応する が、実験的であるため、要修正
+        nagare_listener_global = db.collection("communities").doc(nagare_global[number_tab]).collection("nagare").where('date', '>' ,nagare_timestamp[number_tab]).limit(1).onSnapshot(function(listen_snap){
             //timestamp
             nagare_timestamp[number_tab] = firebase.firestore.Timestamp.now();
             //read count
@@ -367,7 +378,8 @@ function re_define_nagare_height(com_index){
     var trend_num = nagare_global.length;
     if(com_index == trend_num){
         //トレンドに対する処理
-        document.getElementById("page_contain_com").style.height = "300px";
+        var height = document.getElementById("nagare_trend").clientHeight;
+        document.getElementById("page_contain_com").style.height = String(height + 200) + "px";
         //console.log(300, 'px');
     }else{    
         //トレンド以外に対する処理
@@ -568,22 +580,43 @@ function send_reply(){
     document.getElementById("hidden_wadai_fixed_send").style.color = "#595959";
     var talk_text = document.getElementById("hidden_wadai_fixed_text").value;
     var com_nag = document.getElementById("wadai_nagare_id_hidden").value.split("_");
-    //データベースに送信する
-    db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments").add({
-        createdAt: new Date(),
-        name: user_doc_global.name,
-        comment: talk_text,
-        member: true,
-        iconUrl: user_info_global.photoURL,
-        uid: user_info_global.uid
-    }).then(function(){
-        document.getElementById("hidden_wadai_fixed_text").value = "";//送信後にする
-        //書き込みカウント
-        firestore_write_count ++;
-        console.log("書き込みカウント", firestore_write_count);
-    }).catch(function(error){
-        console.log("error", error);
-    });
+    //データベースに送信する ps 匿名かどうかで処理を分ける
+    var user = firebase.auth().currentUser;
+    if(user.isAnonymous){
+        //匿名ユーザ（ゲスト）のログイン
+        db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments").add({
+            createdAt: new Date(),
+            name: "匿名ユーザ",
+            comment: talk_text,
+            member: false,
+            iconUrl: "img/account_circle-24px.svg",
+            uid: user.uid
+        }).then(function(){
+            document.getElementById("hidden_wadai_fixed_text").value = "";//送信後にする
+            //書き込みカウント
+            firestore_write_count ++;
+            console.log("書き込みカウント", firestore_write_count);
+        }).catch(function(error){
+            console.log("error", error);
+        });
+    }else{
+        //もうすでにログイン済み ps あとでログイン済みでもコミュニティのメンバーかどうかで分岐するはず
+        db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments").add({
+            createdAt: new Date(),
+            name: user_doc_global.name,
+            comment: talk_text,
+            member: true,
+            iconUrl: user_info_global.photoURL,
+            uid: user_info_global.uid
+        }).then(function(){
+            document.getElementById("hidden_wadai_fixed_text").value = "";//送信後にする
+            //書き込みカウント
+            firestore_write_count ++;
+            console.log("書き込みカウント", firestore_write_count);
+        }).catch(function(error){
+            console.log("error", error);
+        });
+    }
 }
 
 var talk_listener_global;//あとでリスナとか置くときに活躍します

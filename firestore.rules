@@ -1,3 +1,5 @@
+rules_version = '2';//collectionGroup実装で必要らしい。そのための記述
+
 service cloud.firestore {
   match /databases/{database}/documents {
     // Make sure the uid of the requesting user matches name of the user
@@ -69,6 +71,11 @@ service cloud.firestore {
           allow create: if request.auth.uid != null;
         }
       }
+    }
+
+    //このルールはトレンドで使用するために使いまっす。
+    match /{path=**}/nagare/{nagareId} {
+      allow read: if request.auth.uid != null;
     }
 
     match /admin_users/{docID} {

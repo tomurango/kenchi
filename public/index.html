@@ -104,7 +104,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.7.9</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.1</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
@@ -367,8 +367,8 @@
             <!--こっちのdivは返信の表示や入力などアクションとか利用時に使う-->
                 <button class="mdc-icon-button material-icons back" onclick="display_talk_back()" style="position: fixed; top:40px; left:40px;">clear</button>
                 <div style="position: fixed; bottom: 0px; left: 0px; height: 72px; width: 100%; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.26);">
-                    <img id="hidden_wadai_fixed_uicon" src="img/add_photo_alternate-24px.svg" width="40px" height="40px" style="position: absolute; border-radius: 50%; object-fit: cover; left: 16px; top: 16px">
-                    <input id="hidden_wadai_fixed_text" type="text" style="position: absolute; font-size: 18px; width: calc(100% - 156px) ; border: none; left: 72px; top: 26px;" placeholder="コメントを入力、、、">
+                    <img id="hidden_wadai_fixed_uicon" src="img/account_circle-24px.svg" width="40px" height="40px" style="position: absolute; border-radius: 50%; object-fit: cover; left: 16px; top: 16px">
+                    <input id="hidden_wadai_fixed_text" type="text" style="position: absolute; font-size: 18px; width: calc(100% - 156px) ; border: none; left: 72px; top: 20px; height: 26px;" placeholder="コメントを入力、、、">
                     <button id="hidden_wadai_fixed_send" class="mdc-icon-button material-icons" style="position: absolute; right: 10px; bottom: 10px; color: #595959" onclick="send_reply()" disabled = "true">send</button>
                 </div>
             </div>
@@ -541,10 +541,11 @@
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="/__/firebase/6.3.4/firebase-app.js"></script>
         <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#reserved-urls -->
-        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-storage.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-functions.js"></script>
+        <!--5.10.1から6.2.0に書き換えて挙動を試す 結果、許可に関するエラーのみ出てきた。それに対処する-->
+        <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-functions.js"></script>
         <!-- Initialize Firebase -->
         <script src="/__/firebase/init.js"></script>
         

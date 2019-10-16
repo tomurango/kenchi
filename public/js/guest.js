@@ -166,12 +166,20 @@ function insert_guest_navi(){
     //trend だけ表示して、firestore で情報取得と挿入をしていく感じ
     header.style.display = "none";
     //今は試しに書き込んでる
-    document.getElementById("page_contain_com").innerHTML = '<p style = "margin: 70px 20px 20px 20px; font-size:2em;">ここにfirestoreで取得したトレンドの話題を並べる</p>';
+    //document.getElementById("page_contain_com").innerHTML = '<p style = "margin: 70px 20px 20px 20px; font-size:2em;">ここにfirestoreで取得したトレンドの話題を並べる</p>';
+    document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px;"><div>';
     get_trend();
 }
 
+//1週間以内のnagareについて扱うためのタイムスタンプ
+var one_week_ago_trend = new Date();
+one_week_ago_trend.setDate(one_week_ago_trend.getDate() - 7);
+var nagare_timestamp_trend = firebase.firestore.Timestamp.fromDate(one_week_ago_trend);
 function get_trend(){
-    db.collectionGroup('nagare').get().then(function (querySnapshot) {
+    //collectionGroup → _collectionGroup アンダーバー付けたら、funtion じゃないよエラーから、許可下りてませんよエラーになった。
+    db.collectionGroup('nagare').where('date', '>' , nagare_timestamp_trend).orderBy("date", "desc").limit(10).get().then(function (querySnapshot) {
+        //timestamp
+        //nagare_timestamp_trend = firebase.firestore.Timestamp.now();トレンドは常に最新のものを取得したいから、タイムスタンプは惜しませン
         //get カウント
         if(querySnapshot.size == 0){
             firestore_get_count += 1;
@@ -179,11 +187,70 @@ function get_trend(){
             firestore_get_count += querySnapshot.size;
         }
         console.log("get", firestore_get_count);
-        querySnapshot.forEach(function (doc) {
+        //そのまま取得した要素に対しては逆順でなければ上に行ってくれない
+        querySnapshot.docs.reverse().forEach(function (doc) {
             console.log(doc.id, ' => ', doc.data());
+            insert_to_trend(doc.id, doc.data());
         });
     }).catch(function(error){
         console.log("error => ", error);
     });
 }
 
+//挿入していくための関数
+function insert_to_trend(doc_id , doc_data){
+    //時間を求める
+    var time_list = fire_time_normalization(doc_data.date);
+    var time_record = time_list[0] + "月" + time_list[1] + "日 " + time_list[2] + ":" + time_list[3];
+    var wadai_time = '<p style="position: relative; color: #606060; font-size: 0.8em; margin-left: 20px; margin-right: 48px; margin-top: 26px;">' + time_record +'</p>';
+    var wadai_text = '<p style="position: relative; margin: 0px 0px 0px 20px; font-size: 2em;">'+ doc_data.text +'</p>';
+    if(doc_data.contentImage == true){
+        //画像なしカードの処理
+        var wadai_card_img = '';
+        var card_height = 'height: calc(41.42vw - 16.57px);';
+    }else{
+        //画像ありのカードの処理
+        var wadai_card_img = '<img src="' + doc_data.contentImage + '" style="height: calc(41.42vw - 16.57px); width: 100%; object-fit: cover;">';
+        var card_height = 'height: calc(82.84vw - 33.14px);';
+    }
+    //trendをぶち込んでくelement
+    var wadai_card = '<div id="' + doc_data.communityId + '_' + doc_id +'" class="nagare_ripple mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 20px 20px; border-radius:5px; position: relative; background-color: #ffffff;' + card_height + ' overflow: hidden">' + wadai_card_img + wadai_time + wadai_text + '</div>';
+    document.getElementById("nagare_trend").insertAdjacentHTML("afterbegin", wadai_card);
+    //高さ調節
+    var height = document.getElementById("nagare_trend").clientHeight;
+    document.getElementById("page_contain_com").style.height = String(height + 200) + "px";
+    //rippleの書き足し
+    var lists = document.querySelectorAll('.nagare_ripple');
+    //console.log("lists ripple re", lists.length);
+    for(var i=0; i<lists.length; i++){
+        var a_list = lists[i];
+        new mdc.ripple.MDCRipple(a_list);
+    }
+    //talkごとのタイムスタンプ だが、今までのやつパクったので理解が薄い。要注意
+    var one_week_ago = new Date();
+    one_week_ago.setDate(one_week_ago.getDate() - 7);
+    //タイムスタンプとtalk内容の分岐生成処理
+    if(wadai_nagare_glbal[doc_data.communityId]){
+        //コミュニティレベルで既に存在してる
+        if(wadai_nagare_glbal[doc_data.communityId][doc_id]){
+            //ワダイレベルで既に存在してる恐らく、これが挙動不審の部分になる
+            //理由はwadaiを再取得して検証してることになるから
+            console.log("挙動不審");//今のところ常に最新の状態に保ちたいから、この挙動を積極的に取り入れていくので行っちゃう
+            //ただ、特に細かい処理はしない
+        }else{
+            //wadaiレベルで定義
+            wadai_nagare_glbal[doc_data.communityId][doc_id] = {
+                timeStamp: firebase.firestore.Timestamp.fromDate(one_week_ago),
+                commentDocs: []
+            };
+        }
+    }else{
+        //コミュニティレベルで存在してないなら、コミュニティレベルの連想配列を生成したのちに、wadaiの文も生成する
+        wadai_nagare_glbal[doc_data.communityId] = {};
+        //疑似配列って一々定義していくものなのだろうか一応動いたけども
+        wadai_nagare_glbal[doc_data.communityId][doc_id] = {
+            timeStamp: firebase.firestore.Timestamp.fromDate(one_week_ago),
+            commentDocs: []
+        }
+    }
+}
