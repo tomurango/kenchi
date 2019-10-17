@@ -31,6 +31,8 @@ function insert_communities_navi(){
             document.getElementById("community_navi_trend").insertAdjacentHTML("beforebegin", '<button id="community_navi_'+ one_c +'" class="mdc-tab" role="tab" aria-selected="false" tabindex="-1"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">'+ community_list_global[one_c].name +'</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>')
             //コミュニティごとにナガレを生成する
             document.getElementById("nagare_trend").insertAdjacentHTML("beforebegin", '<div id="nagare_'+ one_c +'" class="nagare_page index_0" style="top: 106px; left:'+ String(i*102) +'vw; min-height: 100vh; "></div>');
+            //empty state を挿入
+            insert_no_wadai(document.getElementById( 'nagare_' + nagare_global[i]));
             //timestampに１週間まえの日付をぶち込む コミュニティが変更等されない限りは一度の実行 ここのifは書き換え
             if(community_change_state){
                 var one_week_ago = new Date();
@@ -298,6 +300,8 @@ function get_nagare(number_tab){
                 firestore_get_count += 1;
             }else{
                 firestore_get_count += listen_snap.size;
+                //empty state を削除
+                try{document.getElementById( 'nagare_' + nagare_global[number_tab] + '_no_wadai').hidden = true;}catch(error){console.log(error)};
             }
             console.log("read listen", firestore_get_count);
             //var listen_snap_reverse = listen_snap.docs.reverse();
@@ -321,6 +325,8 @@ function get_nagare(number_tab){
             firestore_get_count += 1;
         }else{
             firestore_get_count += nagares.size;
+            //empty state を削除
+            try{document.getElementById( 'nagare_' + nagare_global[number_tab] + '_no_wadai').hidden = true;}catch(error){console.log(error)};
         }
         //カウントを表示
         console.log("read", firestore_get_count);
@@ -682,3 +688,10 @@ function insert_talk_content(comment_doc){
 
 }
 
+//wadaiがない時に適宜挿入する
+function insert_no_wadai(div_element){
+    //empty message
+    div_element.innerHTML = '<div id="' + div_element.id + '_no_wadai"><img src="img/no_wadai_03.svg" style="object-fit: cover;width: 80%;height: 80%; margin: 0px 10% 0px 10%;"><p style="font-size: 2em; text-align: center; margin: 0px">投稿はありません</p><p style="text-align: center; margin: 0px">投稿されたワダイが<br>ここに表示されます。</p></div>';
+    //高さ調整
+    document.getElementById("page_contain_com").style.height = "100%";
+}

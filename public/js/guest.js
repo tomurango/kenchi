@@ -183,8 +183,12 @@ function get_trend(){
         //get カウント
         if(querySnapshot.size == 0){
             firestore_get_count += 1;
+            //空だった時にからの情報を提示
+            insert_no_wadai(document.getElementById("nagare_trend"));
+            console.log("ワダイがない in trend");
         }else{
             firestore_get_count += querySnapshot.size;
+            console.log("ワダイがある in trend");
         }
         console.log("get", firestore_get_count);
         //そのまま取得した要素に対しては逆順でなければ上に行ってくれない
