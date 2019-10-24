@@ -104,7 +104,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.2</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.3</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
@@ -167,9 +167,18 @@
                     </div>
                 </div>
             </div>
+            <!--siraseのページ-->
+            <div id="page_contain_sirase" style="width: 100%; overflow: hidden;" hidden>
+                <p style="margin-top: 40%">これはsirase</p>
+            </div>
 
-            
+            <!--wadaiのページ-->
             <div id="page_contain_com" style="width: 100%; overflow: hidden;" hidden>
+            </div>
+
+            <!--iraiのページ-->
+            <div id="page_contain_irai" style="width: 100%; overflow: hidden;" hidden>
+                <p style="margin-top: 40%">これはirai</p>
             </div>
         </main>
 
@@ -180,21 +189,44 @@
                         <div class="mdc-tab-scroller__scroll-content">
                             <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
                                 <span class="mdc-tab__content">
-                                    <span class="mdc-tab__icon material-icons" aria-hidden="true" style="color: #b53d00">home</span>
-                                    <span class="footer_parts mdc-tab__text-label" style="color: #b53d00">ホーム</span>
+                                    <span id="bab_icon_home" class="mdc-tab__icon material-icons bab_icon using" aria-hidden="true" style="color: #666666">home</span>
+                                    <span id="bab_icon_home_text" class="footer_parts mdc-tab__text-label bab_icon using" style="color: #666666">ホーム</span>
                                 </span>
                                 <span class="mdc-tab-indicator mdc-tab-indicator--active">
                                     <span
                                         class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
                                 </span>
-                                <span class="mdc-tab__ripple"></span>
+                                <span class="mdc-tab__ripple" hidden></span>
                             </button>
-                            <button class="mdc-tab" role="tab" aria-selected="false" tabindex="-1">
+                            <button class="mdc-tab" role="tab" aria-selected="false" tabindex="0">
                                 <span class="mdc-tab__content">
-                                    <span class="mdc-tab__icon material-icons" aria-hidden="true" style="color: #b53d00">forum</span>
-                                    <span class="footer_parts mdc-tab__text-label" style="color: #b53d00">ワダイ</span>
+                                    <span id="bab_icon_sirase" class="mdc-tab__icon material-icons bab_icon" aria-hidden="true" style="color: #666666">public</span>
+                                    <span id="bab_icon_sirase_text" class="footer_parts mdc-tab__text-label bab_icon" style="color: #666666">シラセ</span>
                                 </span>
-                                <span class="mdc-tab__ripple"></span>
+                                <span class="mdc-tab__ripple" hidden></span>
+                                <span class="mdc-tab-indicator">
+                                    <span
+                                        class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                </span>
+                                <!--indicator 消したらエラー吐いた-->
+                            </button>
+                            <button class="mdc-tab" role="tab" aria-selected="false" tabindex="0">
+                                <span class="mdc-tab__content">
+                                    <span id="bab_icon_wadai" class="mdc-tab__icon material-icons bab_icon" aria-hidden="true" style="color: #666666">forum</span>
+                                    <span id="bab_icon_wadai_text" class="footer_parts mdc-tab__text-label bab_icon" style="color: #666666">ワダイ</span>
+                                </span>
+                                <span class="mdc-tab__ripple" hidden></span>
+                                <span class="mdc-tab-indicator">
+                                    <span
+                                        class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+                                </span>
+                            </button>
+                            <button class="mdc-tab" role="tab" aria-selected="false" tabindex="0">
+                                <span class="mdc-tab__content">
+                                    <span id="bab_icon_irai" class="mdc-tab__icon material-icons bab_icon" aria-hidden="true" style="color: #666666">thumb_up</span>
+                                    <span id="bab_icon_irai_text" class="footer_parts mdc-tab__text-label bab_icon" style="color: #666666">イライ</span>
+                                </span>
+                                <span class="mdc-tab__ripple" hidden></span>
                                 <span class="mdc-tab-indicator">
                                     <span
                                         class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
@@ -572,5 +604,7 @@
         <script src="js/make_chart.js"></script>
         <!--guest js-->
         <script src="js/guest.js"></script>
+        <!--fab additional-->
+        <script src="js/fab_additional.js"></script>
     </body>
 </html>

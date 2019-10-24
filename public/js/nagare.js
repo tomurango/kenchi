@@ -571,10 +571,13 @@ function display_talk_back(){
             }, 150);
         },150);
     }, 100);
-    //イベント無効か
-    var hidden_wadai_fixed_text_input = $('#hidden_wadai_fixed_text');
-    //このイベント投稿欄を閉じたときに停止させたりしたほうがいいとかあるかね？
-    hidden_wadai_fixed_text_input.off('input');
+    //なんかエラー出たから下の2行もtryで囲うが要確認修正
+    try{
+        //イベント無効か
+        var hidden_wadai_fixed_text_input = $('#hidden_wadai_fixed_text');
+        //このイベント投稿欄を閉じたときに停止させたりしたほうがいいとかあるかね？
+        hidden_wadai_fixed_text_input.off('input');
+    }catch(error){console.log("error ->", error)};
     //wadai_nagare_glbalのリスナ停止
     try{talk_listener_global();console.log("wadai_nagare_glbal でタッチ")}catch(error){console.log("error", error);};
 }

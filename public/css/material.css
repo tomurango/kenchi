@@ -12,22 +12,9 @@
     right: calc(50vw - 56.875px);
     bottom: 70px;
     transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
-    /*
-    transition: height 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
-    transition: border-radius 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
-    transition: bottom 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
-    transition: right 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
-    */
+    
 }
-/*@media (min-width: 599px){
-    .mdc-fab{
-        bottom: calc(18vh - 59px + 1vh);
-    }
-}@media (max-width: 599px){
-    .mdc-fab{
-        bottom: calc(18vh - 51px + 1vh);
-    }
-}*/
+
 #start_fab.home.open{
     transform: scale(0);
     box-shadow: none;
@@ -47,6 +34,18 @@
     opacity: 0.5;
     transform: scale(0.7);
     transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#start_fab.irai{
+    background-color: #ff9900;
+    color: #000000;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#start_fab.sirase{
+    background-color: #ff9900;
+    color: #000000;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
 
 /* card */
@@ -114,4 +113,13 @@
 /* header */
 #the_header{
     box-shadow: 0 2px 5px rgba(0,0,0,0.26);
+}
+
+
+/*bottom navigation mimic*/
+.mdc-tab-indicator{
+    display: none !important;
+}
+.bab_icon.using{
+    color: #ff9900 !important;
 }

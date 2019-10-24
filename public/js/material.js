@@ -28,6 +28,9 @@ $(document).ready(function(){
 var tabBar = new mdc.tabBar.MDCTabBar(document.querySelector('#footer_tab'));
 //tab ページ切り替え
 tabBar.listen('MDCTabBar:activated',function(event){
+    var index = event["detail"]["index"];
+    //bottom のアイコン等の書き換え
+    bottom_icon_change(index);
     //user info 取得！！
     var user = firebase.auth().currentUser;
     if(user.isAnonymous){
@@ -37,11 +40,12 @@ tabBar.listen('MDCTabBar:activated',function(event){
         //fabの表示はまとめてonにする
         document.getElementById("start_fab").style.display = "flex";
     }
-    var index = event["detail"]["index"];
     //pageの要素を取得
     var dash = document.getElementById("page_contain_dash");
     var nagare = document.getElementById("page_contain_com");
     var guest = document.getElementById("page_contain_guest");
+    var sirase = document.getElementById("page_contain_sirase");
+    var irai = document.getElementById("page_contain_irai");
     //nagareで表示するheader
     var header = document.getElementById("community_bar");
     if(index == 0){
@@ -62,6 +66,8 @@ tabBar.listen('MDCTabBar:activated',function(event){
         //hederの非表示
         header.style.display = "none";
         nagare.classList.remove("active_page");
+        sirase.classList.remove("active_page");
+        irai.classList.remove("active_page");
         setTimeout(function(){
             if(user.isAnonymous){
                 //ゲストなのでゲストページをアクティブにする
@@ -73,10 +79,44 @@ tabBar.listen('MDCTabBar:activated',function(event){
             fab_change(index);//このfabもguestの時は表示調整しなきゃ → とりま書き換えた
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
+                //home以外をhiddenにする
                 document.getElementById("page_contain_com").hidden = true;
+                irai.hidden = true;
+                sirase.hidden = true;
             },300);
         },25);
     }else if(index == 1){
+        //シラセの処理をここに記述する
+        document.getElementById("page_contain_sirase").hidden = false;//dash home の onclick 停止
+        var cards = document.querySelectorAll('.dash-card_renew');
+        for(var i = 0; i<cards.length; i++){
+            cards[i].onclick="";
+        }
+        header.style.display = "none";
+        nagare.classList.remove("active_page");
+        dash.classList.remove("active_page");
+        irai.classList.remove("active_page");
+        guest.classList.remove("active_page");
+        //シラセを有効化したい
+        setTimeout(function(){
+            sirase.classList.add("active_page");
+            fab_change(index);//ゲスト（コミュニティ未参加の時はそもそも表示しない処理に書き換えが必要）→取りま書き換えた
+            //裏のページを確実にonclickできなくするためにhiddenする
+            setTimeout(function(){
+                //シラセ以外を非表示にする
+                irai.hidden = true;
+                nagare.hidden = true;
+                if(user.isAnonymous){
+                    //匿名なので、ゲストを非表示
+                    guest.hidden = true;
+                }else{
+                    //ログインユーザなので、ダッシュボードを非表示にする
+                    dash.hidden = true;
+                }
+            },300);
+        },25);
+    }else if(index == 2){
+        //ワダイの処理をここに記述する
         //hiddenの解除
         document.getElementById("page_contain_com").hidden = false;
         //dash home の onclick 停止
@@ -97,12 +137,17 @@ tabBar.listen('MDCTabBar:activated',function(event){
             //headerの表示
             header.style.display = "block";
         }
+        irai.classList.remove("active_page");
+        sirase.classList.remove("active_page");
         //nagereのページ全体を有効化
         setTimeout(function(){
             nagare.classList.add("active_page");
             fab_change(index);//ゲスト（コミュニティ未参加の時はそもそも表示しない処理に書き換えが必要）→取りま書き換えた
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
+                //ナガレ以外を非表示にする これいらない記述か？
+                sirase.hidden = true;
+                irai.hidden = true;
                 if(user.isAnonymous){
                     //匿名なので、ゲストを非表示
                     guest.hidden = true;
@@ -114,6 +159,37 @@ tabBar.listen('MDCTabBar:activated',function(event){
         },25);
         //nagareを取得
         //nagare_change(0);
+    }else if(index == 3){
+        //イライの記述をここにする
+        irai.hidden = false;
+        //dash home の onclick 停止
+        var cards = document.querySelectorAll('.dash-card_renew');
+        for(var i = 0; i<cards.length; i++){
+            cards[i].onclick="";
+        }
+        //active_page remove
+        header.style.display = "none";
+        dash.classList.remove("active_page");
+        guest.classList.remove("active_page");
+        nagare.classList.remove("active_page");
+        sirase.classList.remove("active_page");
+        //iraiのページ全体を有効化
+        setTimeout(function(){
+            irai.classList.add("active_page");
+            fab_change(index);//ゲスト（コミュニティ未参加の時はそもそも表示しない処理に書き換えが必要）→取りま書き換えた
+            //裏のページを確実にonclickできなくするためにhiddenする
+            setTimeout(function(){
+                nagare.hidden = true;
+                sirase.hidden = true;
+                if(user.isAnonymous){
+                    //匿名なので、ゲストを非表示
+                    guest.hidden = true;
+                }else{
+                    //ログインユーザなので、ダッシュボードを非表示にする
+                    dash.hidden = true;
+                }
+            },300);
+        },25);
     }
 },false);
 
@@ -189,7 +265,10 @@ function fab_change(page_num){
     var the_fab_icon = document.getElementById("fab_icon");
     var the_fab_text = document.getElementById("fab_text");
     if(page_num == 0){
+        //ホームのボタン
         the_fab.classList.remove("nagare");
+        the_fab.classList.remove("sirase");
+        the_fab.classList.remove("irai");
         the_fab.classList.add("small");
         setTimeout(function (){
             the_fab_icon.textContent = "add";
@@ -199,7 +278,23 @@ function fab_change(page_num){
             the_fab.onclick = function(){start_pushed()};
         },100);
     }else if(page_num == 1){
+        //siraseのボタン
         the_fab.classList.remove("home");
+        the_fab.classList.remove("nagare");
+        the_fab.classList.remove("irai");
+        the_fab.classList.add("small");
+        setTimeout(function (){
+            the_fab_icon.textContent = "emoji_people";
+            the_fab_text.textContent = "シラス";
+            the_fab.classList.remove("small");
+            the_fab.classList.add("sirase");
+            the_fab.onclick = function(){sirasu()};
+        },100);
+    }else if(page_num == 2){
+        //ナガレのボタン
+        the_fab.classList.remove("home");
+        the_fab.classList.remove("sirase");
+        the_fab.classList.remove("irai");
         the_fab.classList.add("small");
         setTimeout(function (){
             the_fab_icon.textContent = "chat";
@@ -207,6 +302,19 @@ function fab_change(page_num){
             the_fab.classList.remove("small");
             the_fab.classList.add("nagare");
             the_fab.onclick = function(){send_tweet()};
+        },100);
+    }else if(page_num == 3){
+        //iraiのボタン
+        the_fab.classList.remove("home");
+        the_fab.classList.remove("nagare");
+        the_fab.classList.remove("sirase");
+        the_fab.classList.add("small");
+        setTimeout(function (){
+            the_fab_icon.textContent = "emoji_flags";
+            the_fab_text.textContent = "タノム";
+            the_fab.classList.remove("small");
+            the_fab.classList.add("irai");
+            the_fab.onclick = function(){tanomu()};
         },100);
     }
 }
@@ -217,3 +325,28 @@ const list = new mdc.list.MDCList(document.querySelector('.mdc-list'));
 /* menu */
 const menu = new mdc.menu.MDCMenu(document.querySelector('#community_detail_verb_menus'));
 const login_menu = new mdc.menu.MDCMenu(document.querySelector('#login_menu'));
+
+
+/* bottom_icon */
+function bottom_icon_change(num){
+    console.log(num);
+    //始めにclass .bab_icon.usingのやつのusingを取り消す
+    var elem = document.querySelectorAll('.bab_icon.using');
+    elem.forEach(function(value) {
+        value.classList.remove("using");
+    });
+    //書き換えるぞおらー クラスを書き足して色を変化させる処理
+    if(num == 0){
+        document.getElementById("bab_icon_home").classList.add("using");
+        document.getElementById("bab_icon_home_text").classList.add("using");
+    }else if(num == 1){
+        document.getElementById("bab_icon_sirase").classList.add("using");
+        document.getElementById("bab_icon_sirase_text").classList.add("using");    
+    }else if(num == 2){
+        document.getElementById("bab_icon_wadai").classList.add("using");
+        document.getElementById("bab_icon_wadai_text").classList.add("using");    
+    }else if(num == 3){
+        document.getElementById("bab_icon_irai").classList.add("using");
+        document.getElementById("bab_icon_irai_text").classList.add("using");        
+    }
+}
