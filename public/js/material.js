@@ -329,7 +329,7 @@ const login_menu = new mdc.menu.MDCMenu(document.querySelector('#login_menu'));
 
 /* bottom_icon */
 function bottom_icon_change(num){
-    console.log(num);
+    //console.log(num);
     //始めにclass .bab_icon.usingのやつのusingを取り消す
     var elem = document.querySelectorAll('.bab_icon.using');
     elem.forEach(function(value) {

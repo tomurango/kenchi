@@ -117,9 +117,9 @@
 
 
 /*bottom navigation mimic*/
-.mdc-tab-indicator{
+.mdc-tab-indicator.onfooter{
     display: none !important;
 }
 .bab_icon.using{
-    color: #ff9900 !important;
+    color: #0066ff !important;
 }

@@ -104,7 +104,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.3</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.5</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
@@ -150,6 +150,14 @@
                         <p class="card_subtitle">コミュニティ</p>
                         <p id="user_community_display_renew" class="card_contents">参加していない</p>
                     </div>
+                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
+                        <p class="card_subtitle">ユーザランク</p>
+                        <p class="card_contents" style="font-size: 4em; text-align: center">A</p>
+                    </div>
+                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
+                        <p class="card_subtitle">トロフィ</p>
+                        <p class="card_contents"><span style="font-size: 2em">３</span>つ所持</p>
+                    </div>
 
                     <!--div id="chart_sample" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
                         <div id="chart_contain" class="chart-container" style="width:100%; height: 150px">
@@ -165,11 +173,62 @@
                             <canvas id="myChart" height="100%" width="100%"></canvas>
                         </div>
                     </div>
+                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
+                        <p class="card_subtitle">スキル</p>
+                        <p class="card_contents"><span style="font-size: 2em">２</span>ポイント所持</p>
+                    </div>
+                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
+                        <p class="card_subtitle">お知らせ</p>
+                        <p class="card_contents"><span>１</span>件の新着情報があります</p>
+                    </div>
                 </div>
             </div>
             <!--siraseのページ-->
-            <div id="page_contain_sirase" style="width: 100%; overflow: hidden;" hidden>
-                <p style="margin-top: 40%">これはsirase</p>
+            <div id="page_contain_sirase" style="width: 100%; overflow: hidden; padding-top: 56px; padding-bottom: 120px;" hidden>
+                <div class="mdc-layout-grid">
+                    <div class="mdc-layout-grid__inner">
+                        <!-- シラスのcell -->
+                        <div class="mdc-layout-grid__cell">
+                            <p>シラスインフォメーション</p>
+                            <div class="mdc-card">
+                                <p style="text-align: center"><span id="sirasu_count" style="font-size: 7em">0</span> シラス</p>
+                            </div>
+                        </div>
+                        <!-- ワークラインのcell -->
+                        <div class="mdc-layout-grid__cell">
+                            <p>ワークライン</p>
+                            <div class="mdc-layout-grid__inner">
+                                <div class="mdc-layout-grid__cell">
+                                    <div class="mdc-card">
+                                        <img src="img/account_circle-24px.svg" height="40px" width="40px">
+                                        <div style="position: absolute; left: 72px;">
+                                            <p style="font-size: 0.7em; color: #595959">とむらんご / Ｌｖ２１プログラマ / ２３：４０</p>
+                                        </div>
+                                        <p style="text-align: center;"><span style="font-size: 2em">３０</span>分</p>
+                                    </div>
+                                </div>
+                                <div class="mdc-layout-grid__cell">
+                                    <div class="mdc-card">
+                                        <img src="img/account_circle-24px.svg" height="40px" width="40px">
+                                        <div style="position: absolute; left: 72px;">
+                                            <p style="font-size: 0.7em; color: #595959">かとむ / Ｌｖ１３テニスプレーヤー / １７：３０</p>
+                                        </div>
+                                        <p style="text-align: center;"><span style="font-size: 2em">２</span>時間</p>
+                                    </div>
+                                </div>
+                                <div class="mdc-layout-grid__cell">
+                                    <div class="mdc-card">
+                                        <img src="img/account_circle-24px.svg" height="40px" width="40px">
+                                        <div style="position: absolute; left: 72px;">
+                                            <p style="font-size: 0.7em; color: #595959">とむらんご / Ｌｖ２０プログラマ / １４：３２</p>
+                                        </div>
+                                        <p style="text-align: center;"><span style="font-size: 2em">４５</span>分</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
             </div>
 
             <!--wadaiのページ-->
@@ -177,8 +236,40 @@
             </div>
 
             <!--iraiのページ-->
-            <div id="page_contain_irai" style="width: 100%; overflow: hidden;" hidden>
-                <p style="margin-top: 40%">これはirai</p>
+            <div id="page_contain_irai" style="width: 100%; overflow: hidden; padding: 56px 0px 120px 0px" hidden>
+                <div class="mdc-layout-grid">
+                    <button class="mdc-button" style="color: #000033">
+                        <span class="mdc-button__label">すべての依頼</span>
+                        <i class="material-icons mdc-button__icon" aria-hidden="true">arrow_drop_down</i>
+                    </button>
+                    <div class="mdc-layout-grid__inner">
+                        <div class="mdc-layout-grid__cell">
+                            <div class="mdc-card">
+                                <p style="text-align: center;">イラスト作成の依頼</p>
+                            </div>
+                        </div>
+                        <div class="mdc-layout-grid__cell">
+                            <div class="mdc-card">
+                                <p style="text-align: center;">カネかしてくれ</p>
+                            </div>
+                        </div>
+                        <div class="mdc-layout-grid__cell">
+                            <div class="mdc-card">
+                                <p style="text-align: center;">拡張機能を作ってほしい</p>
+                            </div>
+                        </div>
+                        <div class="mdc-layout-grid__cell">
+                            <div class="mdc-card">
+                                <p style="text-align: center;">僕と一緒にお話ししようよ</p>
+                            </div>
+                        </div>
+                        <div class="mdc-layout-grid__cell">
+                            <div class="mdc-card">
+                                <p style="text-align: center;">マクロ経済の経常収支と雇用と貿易のジレンマについての質問</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -192,7 +283,7 @@
                                     <span id="bab_icon_home" class="mdc-tab__icon material-icons bab_icon using" aria-hidden="true" style="color: #666666">home</span>
                                     <span id="bab_icon_home_text" class="footer_parts mdc-tab__text-label bab_icon using" style="color: #666666">ホーム</span>
                                 </span>
-                                <span class="mdc-tab-indicator mdc-tab-indicator--active">
+                                <span class="mdc-tab-indicator mdc-tab-indicator--active onfooter">
                                     <span
                                         class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
                                 </span>
@@ -204,7 +295,7 @@
                                     <span id="bab_icon_sirase_text" class="footer_parts mdc-tab__text-label bab_icon" style="color: #666666">シラセ</span>
                                 </span>
                                 <span class="mdc-tab__ripple" hidden></span>
-                                <span class="mdc-tab-indicator">
+                                <span class="mdc-tab-indicator onfooter">
                                     <span
                                         class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
                                 </span>
@@ -216,7 +307,7 @@
                                     <span id="bab_icon_wadai_text" class="footer_parts mdc-tab__text-label bab_icon" style="color: #666666">ワダイ</span>
                                 </span>
                                 <span class="mdc-tab__ripple" hidden></span>
-                                <span class="mdc-tab-indicator">
+                                <span class="mdc-tab-indicator onfooter">
                                     <span
                                         class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
                                 </span>
@@ -227,7 +318,7 @@
                                     <span id="bab_icon_irai_text" class="footer_parts mdc-tab__text-label bab_icon" style="color: #666666">イライ</span>
                                 </span>
                                 <span class="mdc-tab__ripple" hidden></span>
-                                <span class="mdc-tab-indicator">
+                                <span class="mdc-tab-indicator onfooter">
                                     <span
                                         class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
                                 </span>
