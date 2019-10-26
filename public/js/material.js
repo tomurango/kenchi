@@ -48,6 +48,9 @@ tabBar.listen('MDCTabBar:activated',function(event){
     var irai = document.getElementById("page_contain_irai");
     //nagareで表示するheader
     var header = document.getElementById("community_bar");
+    //listener でタッチ もともとindex0 にだけ設置されていたが、共通にしちゃう。これはワダイのリスナを解除する処理で、未定義（そもそもリッスンしてない）の時出るエラーへの対処
+    try{nagare_listener_global();}catch(error){console.log("error", error);};
+    try{sirasu_listener();}catch(error){console.log("error", error);};
     if(index == 0){
         //hiddenの解除
         if(user.isAnonymous){
@@ -57,8 +60,6 @@ tabBar.listen('MDCTabBar:activated',function(event){
             //ログインユーザなので、ダッシュボードを表示する
             dash.hidden = false;
         }
-        //listener でタッチ
-        try{nagare_listener_global();}catch(error){console.log("error", error);};
         //renew_card に onclickを代入する
         document.getElementById("dash_display_user").onclick = function(){display_card_user()};
         document.getElementById("dash_display_job").onclick= function(){display_card_job()};
@@ -97,6 +98,9 @@ tabBar.listen('MDCTabBar:activated',function(event){
         dash.classList.remove("active_page");
         irai.classList.remove("active_page");
         guest.classList.remove("active_page");
+        //siraseとworkをそれぞれ取ってくる処理を
+        sirasu_get();
+        work_get();//この二つの関数はfab_additionalで定義してる
         //シラセを有効化したい
         setTimeout(function(){
             sirase.classList.add("active_page");

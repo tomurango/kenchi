@@ -78,8 +78,17 @@ service cloud.firestore {
       allow read: if request.auth.uid != null;
     }
 
-    match /admin_users/{docID} {
+    match /admin_users/{docId} {
       allow read, write: if false;
+    }
+
+    match /sirasu/{sirasuId} {
+      allow read, write: if request.auth.uid != null;
+    }
+
+    //このルールはシラスのワークラインで使います。
+    match /{path=**}/works/{workId} {
+      allow read: if request.auth.uid != null;
     }
   }
 }
