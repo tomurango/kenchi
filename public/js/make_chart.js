@@ -40,6 +40,7 @@ function insert_level_chart(exp_array){
     
 }
 
+var just_level_global = "測定不能";
 //insert_level_info auth の 302 で使用中
 function insert_level_info(job_id, latest_time){
     var job_doc = level_info_global[job_id];

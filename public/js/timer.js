@@ -119,7 +119,11 @@ function send_work(){
     db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).collection("works").doc(work_id).set({
         time: number_counted,
         start: start_time,
-        finish: end_time
+        finish: end_time,
+        userName: user_info_global.displayName,
+        userIcon: user_info_global.photoURL,
+        jobName: user_job_global.name,
+        jobLevel: level_info_global[user_doc_global.job].level
     })
     .then(function() {
         //get カウント サーバー側でget 1 ,write 1

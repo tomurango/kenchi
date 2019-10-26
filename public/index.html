@@ -104,7 +104,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.6</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.7</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
@@ -140,7 +140,7 @@
                 <p style="text-align: center; margin: 0px">ログインするとあなたの情報が<br>表示されます。</p>
             </div>
 
-            <div id="page_contain_dash" class="active_page" style="width: 100%; padding-top: 56px; padding-bottom: 50px">
+            <div id="page_contain_dash" class="active_page" style="width: 100%; padding-top: 56px; padding-bottom: 120px">
                 <div id="dash_left" class="dash_column">
                     <div id="dash_display_user" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_user()">
                         <p class="card_subtitle">なまえ</p>
@@ -197,9 +197,9 @@
                         <!-- ワークラインのcell -->
                         <div class="mdc-layout-grid__cell">
                             <p>ワークライン</p>
-                            <div class="mdc-layout-grid__inner">
+                            <div id="work_line_inner" class="mdc-layout-grid__inner">
                                 <div class="mdc-layout-grid__cell">
-                                    <div class="mdc-card">
+                                    <div class="mdc-card" style="position: relative">
                                         <img src="img/account_circle-24px.svg" height="40px" width="40px">
                                         <div style="position: absolute; left: 72px;">
                                             <p style="font-size: 0.7em; color: #595959">とむらんご / Ｌｖ２１プログラマ / ２３：４０</p>
@@ -208,7 +208,7 @@
                                     </div>
                                 </div>
                                 <div class="mdc-layout-grid__cell">
-                                    <div class="mdc-card">
+                                    <div class="mdc-card" style="position: relative">
                                         <img src="img/account_circle-24px.svg" height="40px" width="40px">
                                         <div style="position: absolute; left: 72px;">
                                             <p style="font-size: 0.7em; color: #595959">かとむ / Ｌｖ１３テニスプレーヤー / １７：３０</p>
@@ -217,7 +217,7 @@
                                     </div>
                                 </div>
                                 <div class="mdc-layout-grid__cell">
-                                    <div class="mdc-card">
+                                    <div class="mdc-card" style="position: relative">
                                         <img src="img/account_circle-24px.svg" height="40px" width="40px">
                                         <div style="position: absolute; left: 72px;">
                                             <p style="font-size: 0.7em; color: #595959">とむらんご / Ｌｖ２０プログラマ / １４：３２</p>
