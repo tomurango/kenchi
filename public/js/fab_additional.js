@@ -46,8 +46,8 @@ function work_get(){
         firestore_get_count += querySnapshot.size;
         //カウントを表示
         console.log("read_one", firestore_get_count);
-        var works_reverse = querySnapshot.docs.reverse();
-        works_reverse.forEach(function(doc) {
+        //var works_reverse = querySnapshot.docs.reverse();
+        querySnapshot.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots
             insert_work(doc.id, doc.data());
         });
