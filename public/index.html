@@ -104,7 +104,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.8.8</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.1</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
@@ -198,33 +198,7 @@
                         <div class="mdc-layout-grid__cell">
                             <p>ワークライン</p>
                             <div id="work_line_inner" class="mdc-layout-grid__inner">
-                                <div class="mdc-layout-grid__cell">
-                                    <div class="mdc-card" style="position: relative">
-                                        <img src="img/account_circle-24px.svg" height="40px" width="40px">
-                                        <div style="position: absolute; left: 72px;">
-                                            <p style="font-size: 0.7em; color: #595959">とむらんご / Ｌｖ２１プログラマ / ２３：４０</p>
-                                        </div>
-                                        <p style="text-align: center;"><span style="font-size: 2em">３０</span>分</p>
-                                    </div>
-                                </div>
-                                <div class="mdc-layout-grid__cell">
-                                    <div class="mdc-card" style="position: relative">
-                                        <img src="img/account_circle-24px.svg" height="40px" width="40px">
-                                        <div style="position: absolute; left: 72px;">
-                                            <p style="font-size: 0.7em; color: #595959">かとむ / Ｌｖ１３テニスプレーヤー / １７：３０</p>
-                                        </div>
-                                        <p style="text-align: center;"><span style="font-size: 2em">２</span>時間</p>
-                                    </div>
-                                </div>
-                                <div class="mdc-layout-grid__cell">
-                                    <div class="mdc-card" style="position: relative">
-                                        <img src="img/account_circle-24px.svg" height="40px" width="40px">
-                                        <div style="position: absolute; left: 72px;">
-                                            <p style="font-size: 0.7em; color: #595959">とむらんご / Ｌｖ２０プログラマ / １４：３２</p>
-                                        </div>
-                                        <p style="text-align: center;"><span style="font-size: 2em">４５</span>分</p>
-                                    </div>
-                                </div>
+                                <!--ここにワークカードが挿入されていく-->
                             </div>
                         </div>
                     </div>
@@ -242,32 +216,8 @@
                         <span class="mdc-button__label">すべての依頼</span>
                         <i class="material-icons mdc-button__icon" aria-hidden="true">arrow_drop_down</i>
                     </button>
-                    <div class="mdc-layout-grid__inner">
-                        <div class="mdc-layout-grid__cell">
-                            <div class="mdc-card">
-                                <p style="text-align: center;">イラスト作成の依頼</p>
-                            </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell">
-                            <div class="mdc-card">
-                                <p style="text-align: center;">カネかしてくれ</p>
-                            </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell">
-                            <div class="mdc-card">
-                                <p style="text-align: center;">拡張機能を作ってほしい</p>
-                            </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell">
-                            <div class="mdc-card">
-                                <p style="text-align: center;">僕と一緒にお話ししようよ</p>
-                            </div>
-                        </div>
-                        <div class="mdc-layout-grid__cell">
-                            <div class="mdc-card">
-                                <p style="text-align: center;">マクロ経済の経常収支と雇用と貿易のジレンマについての質問</p>
-                            </div>
-                        </div>
+                    <div id="irai_inner" class="mdc-layout-grid__inner">
+                        <!--ここにイライカードが挿入されていく-->
                     </div>
                 </div>
             </div>
@@ -651,6 +601,28 @@
                 <div class="mdc-snackbar__actions">
                     <button type="button" class="mdc-button mdc-snackbar__action">了解</button>
                 </div>
+            </div>
+        </div>
+
+        <!--イライの div-->
+        <div id="irai_submit_card" hidden>
+            <button class="mdc-icon-button material-icons back" onclick="not_submit_irai()">clear</button>
+            <p>依頼内容を入力してください</p>
+            <input id="irai_title">
+            <button onclick="submit_irai()">提出</button>
+        </div>
+
+        <div id="irai_caution_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="irai_caution_description" class="mdc-dialog__content"><p>依頼内容を入力してください。</p></section>
+                    <footer class="mdc-dialog__actions">
+                        <!--ダイアログ閉じるだけだから、onclickは定義してない-->
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
             </div>
         </div>
         

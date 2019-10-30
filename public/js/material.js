@@ -51,6 +51,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
     //listener でタッチ もともとindex0 にだけ設置されていたが、共通にしちゃう。これはワダイのリスナを解除する処理で、未定義（そもそもリッスンしてない）の時出るエラーへの対処
     try{nagare_listener_global();}catch(error){console.log("error", error);};
     try{sirasu_listener();}catch(error){console.log("error", error);};
+    try{irai_listener();}catch(error){console.log("error", error);};
     if(index == 0){
         //hiddenの解除
         if(user.isAnonymous){
@@ -177,6 +178,8 @@ tabBar.listen('MDCTabBar:activated',function(event){
         guest.classList.remove("active_page");
         nagare.classList.remove("active_page");
         sirase.classList.remove("active_page");
+        //iraiをとってくる
+        get_irai();
         //iraiのページ全体を有効化
         setTimeout(function(){
             irai.classList.add("active_page");
@@ -252,6 +255,8 @@ var permission_decide_dialog = new mdc.dialog.MDCDialog(document.querySelector('
 var permission_reject_dialog = new mdc.dialog.MDCDialog(document.querySelector('#permission_reject_dialog'));
 
 var nagare_delete_dialog = new mdc.dialog.MDCDialog(document.querySelector('#nagare_delete_dialog'));
+
+var irai_caution_dialog = new mdc.dialog.MDCDialog(document.querySelector('#irai_caution_dialog'));
 
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
