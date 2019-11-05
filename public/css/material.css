@@ -41,8 +41,8 @@
     transform: scale(1);
     transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#start_fab.sirase{
-    background-color: #ff9900;
-    color: #000000;
+    background-color: #003dcb;
+    color: #ffffff;
     opacity: 1;
     transform: scale(1);
     transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
@@ -111,9 +111,9 @@
 }
 
 /* header */
-#the_header{
+/*#the_header{
     box-shadow: 0 2px 5px rgba(0,0,0,0.26);
-}
+}*/
 
 
 /*bottom navigation mimic*/

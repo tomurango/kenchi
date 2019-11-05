@@ -5,7 +5,7 @@
     });
     firestore_write_count += 1;
     //カウントを表示
-    console.log("read_one", firestore_write_count);
+    console.log("write_one", firestore_write_count);
 }
 
 function sirasu_get(){

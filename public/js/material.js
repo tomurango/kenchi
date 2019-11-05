@@ -70,6 +70,8 @@ tabBar.listen('MDCTabBar:activated',function(event){
         nagare.classList.remove("active_page");
         sirase.classList.remove("active_page");
         irai.classList.remove("active_page");
+        //シラセの取得
+        sirasu_get();
         setTimeout(function(){
             if(user.isAnonymous){
                 //ゲストなのでゲストページをアクティブにする
@@ -100,7 +102,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         irai.classList.remove("active_page");
         guest.classList.remove("active_page");
         //siraseとworkをそれぞれ取ってくる処理を
-        sirasu_get();
+        //sirasu_get(); これはホームでの処理になりました
         work_get();//この二つの関数はfab_additionalで定義してる
         //シラセを有効化したい
         setTimeout(function(){
@@ -273,7 +275,8 @@ function fab_change(page_num){
     the_fab.onclick = "";
     var the_fab_icon = document.getElementById("fab_icon");
     var the_fab_text = document.getElementById("fab_text");
-    if(page_num == 0){
+    //シラスとワークスタートのボタンとページの組み合わせを切り替えたので、if の順番が崩れてます
+    if(page_num == 1){
         //ホームのボタン
         the_fab.classList.remove("nagare");
         the_fab.classList.remove("sirase");
@@ -286,7 +289,7 @@ function fab_change(page_num){
             the_fab.classList.add("home");
             the_fab.onclick = function(){start_pushed()};
         },100);
-    }else if(page_num == 1){
+    }else if(page_num == 0){
         //siraseのボタン
         the_fab.classList.remove("home");
         the_fab.classList.remove("nagare");
@@ -294,7 +297,7 @@ function fab_change(page_num){
         the_fab.classList.add("small");
         setTimeout(function (){
             the_fab_icon.textContent = "emoji_people";
-            the_fab_text.textContent = "シラス";
+            the_fab_text.textContent = "ハロー";
             the_fab.classList.remove("small");
             the_fab.classList.add("sirase");
             the_fab.onclick = function(){sirasu()};

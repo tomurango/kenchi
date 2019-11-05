@@ -87,6 +87,8 @@ function check_db(user_info){
             card_ripple_re();
             //notice jsに飛んで処理
             notice_permission(user_doc_global);
+            //sirasuを取得する
+            sirasu_get();
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");   
