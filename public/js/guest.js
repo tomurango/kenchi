@@ -239,7 +239,7 @@ function insert_to_trend(doc_id , doc_data){
         if(wadai_nagare_glbal[doc_data.communityId][doc_id]){
             //ワダイレベルで既に存在してる恐らく、これが挙動不審の部分になる
             //理由はwadaiを再取得して検証してることになるから
-            console.log("挙動不審");//今のところ常に最新の状態に保ちたいから、この挙動を積極的に取り入れていくので行っちゃう
+            console.log("挙動不審");//今のところ常に最新の状態に保ちたいから、この挙動を積極的に取り入れていくので行っちゃう 要は挙動不審を許容しますよってことかな？
             //ただ、特に細かい処理はしない
         }else{
             //wadaiレベルで定義

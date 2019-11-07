@@ -637,9 +637,9 @@ function get_talk_content(com_nag){
     .get().then(function(docs){
         //timestamp
         wadai_nagare_glbal[com_nag[0]][com_nag[1]]["timeStamp"] = firebase.firestore.Timestamp.now();
-        //listenerの設置
+        //listenerの設置 20191107limit(1)を追加記述
         talk_listener_global = db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments")
-        .where('createdAt', '>' ,wadai_nagare_glbal[com_nag[0]][com_nag[1]].timeStamp).onSnapshot(function(listen_snap){            
+        .where('createdAt', '>' ,wadai_nagare_glbal[com_nag[0]][com_nag[1]].timeStamp).limit(1).onSnapshot(function(listen_snap){            
             //timestamp
             wadai_nagare_glbal[com_nag[0]][com_nag[1]]["timeStamp"] = firebase.firestore.Timestamp.now();
             //read count
