@@ -637,9 +637,9 @@ function get_talk_content(com_nag){
     .get().then(function(docs){
         //timestamp
         wadai_nagare_glbal[com_nag[0]][com_nag[1]]["timeStamp"] = firebase.firestore.Timestamp.now();
-        //listenerの設置 20191107limit(1)を追加記述
+        //listenerの設置 20191107limit(1)を追加記述 20191107limit(1)消去（1回しか取れなくなった）同日現状リスナで取得したものを繰り返し挿入する傾向を発見 同日orderByとlimit()を追加
         talk_listener_global = db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments")
-        .where('createdAt', '>' ,wadai_nagare_glbal[com_nag[0]][com_nag[1]].timeStamp).limit(1).onSnapshot(function(listen_snap){            
+        .where('createdAt', '>' ,wadai_nagare_glbal[com_nag[0]][com_nag[1]].timeStamp).orderBy("createdAt", "desc").limit(1).onSnapshot(function(listen_snap){
             //timestamp
             wadai_nagare_glbal[com_nag[0]][com_nag[1]]["timeStamp"] = firebase.firestore.Timestamp.now();
             //read count
@@ -651,6 +651,7 @@ function get_talk_content(com_nag){
             console.log("read listen", firestore_get_count);
             listen_snap.forEach(function(listen_doc){    
                 //コメントドックsに代入
+                console.log("comment id => " , listen_doc.id);
                 wadai_nagare_glbal[com_nag[0]][com_nag[1]].commentDocs.push(listen_doc.data());
                 insert_talk_content(listen_doc.data());
             });
