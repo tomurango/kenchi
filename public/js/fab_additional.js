@@ -51,6 +51,8 @@ function work_get(){
             // doc.data() is never undefined for query doc snapshots
             insert_work(doc.id, doc.data());
         });
+        //empty message の有無の確認
+        check_work_isornot();
         //workのリスナを配置する limit(1)は重複回避の記述だが要検討(wadaiリスナからのコピペ)
         work_listener = db.collectionGroup('works').where('finish', '>' , work_timestamp).orderBy("finish", "desc").limit(1).onSnapshot(function(listen_work){
             //timestamp
@@ -65,6 +67,8 @@ function work_get(){
                     insert_work(listen_doc.id, listen_doc.data());
                 },600);
             });
+            //empty message の有無の確認
+            check_work_isornot();
         });
         
     }).catch(function(error){
@@ -181,4 +185,14 @@ function insert_irai(irai_id, irai_doc){
     var irai_cell = '<div class="mdc-layout-grid__cell"><div id="irai_'+ irai_id +'" class="mdc-card"><p style="text-align: center;">'+ irai_doc.title +'</p></div></div>';
     //insert
     document.getElementById("irai_inner").insertAdjacentHTML("afterbegin", irai_cell);
+}
+
+function check_work_isornot(){
+    if(document.getElementById("work_line_inner").hasChildNodes()){
+        //中身あり
+        document.getElementById("no_work_div").hidden = true;
+    }else{
+        //中身なし
+        document.getElementById("no_work_div").hidden = false;
+    }
 }
