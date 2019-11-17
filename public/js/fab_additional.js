@@ -85,6 +85,8 @@ function insert_work(work_id, work_doc){
     var time_info_tag = '<p style="text-align: center;"><span style="font-size: 2em">'+ exp_list[0] +'</span>' + exp_list[1] + '</p>';
     var insert_element = '<div class="mdc-layout-grid__cell"><div id="workcard_' + work_id + '" class="mdc-card" style="position:relative">'+ work_icon + user_info_div + time_info_tag +'</div></div>';
     document.getElementById('work_line_inner').insertAdjacentHTML('afterbegin', insert_element);
+    //挿入後に検証してしまう(未検証)191112
+    check_work_isornot();
 }
 
 function exp_to_time(exp){

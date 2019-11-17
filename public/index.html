@@ -104,7 +104,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.5</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.6</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
@@ -142,6 +142,10 @@
 
             <div id="page_contain_dash" class="active_page" style="width: 100%; padding-top: 56px; padding-bottom: 120px">
                 <div id="dash_left" class="dash_column">
+                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
+                        <p class="card_subtitle">あいさつ</p>
+                        <p style="text-align: center"><span id="sirasu_count" style="font-size: 2em">0</span> ハロー</p>
+                    </div>
                     <div id="dash_display_user" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_user()">
                         <p class="card_subtitle">なまえ</p>
                         <p id="user_name_display_renew" class="card_contents">ゲストユーザ</p>
@@ -150,6 +154,7 @@
                         <p class="card_subtitle">コミュニティ</p>
                         <p id="user_community_display_renew" class="card_contents">参加していない</p>
                     </div>
+                    <!--
                     <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
                         <p class="card_subtitle">ユーザランク</p>
                         <p class="card_contents" style="font-size: 4em;">A</p>
@@ -158,6 +163,7 @@
                         <p class="card_subtitle">トロフィ</p>
                         <p class="card_contents"><span style="font-size: 2em">３</span>つ所持</p>
                     </div>
+                    -->
 
                     <!--div id="chart_sample" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
                         <div id="chart_contain" class="chart-container" style="width:100%; height: 150px">
@@ -173,10 +179,7 @@
                             <canvas id="myChart" height="100%" width="100%"></canvas>
                         </div>
                     </div>
-                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
-                        <p class="card_subtitle">あいさつ</p>
-                        <p style="text-align: center"><span id="sirasu_count" style="font-size: 2em">0</span> ハロー</p>
-                    </div>
+                    <!--
                     <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
                         <p class="card_subtitle">スキル</p>
                         <p class="card_contents"><span style="font-size: 2em">２</span>ポイント所持</p>
@@ -185,6 +188,7 @@
                         <p class="card_subtitle">お知らせ</p>
                         <p class="card_contents"><span>１</span>件の新着情報があります</p>
                     </div>
+                    -->
                 </div>
             </div>
             <!--siraseのページ-->

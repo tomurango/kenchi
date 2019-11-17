@@ -566,8 +566,16 @@ function display_talk_back(){
                 //talkを取得して代入する            
                 //ナガレのindex変化前をトレンドから取得するかな(このライブラリの60からコピー)
                 var nagare_index_number = Number(document.getElementById("nagare_trend").className.slice(-1));
-                get_nagare(nagare_index_number);
+                //console.log(nagare_index_number, typeof nagare_index_number);
                 document.getElementById("wadai_nagare_id_hidden").value = "";
+                if(nagare_global.length == nagare_index_number){
+                    //トレンドの時の処理
+                    //get_trend();何もしないのが正解！？
+                    console.log("トレンドは何もしない");
+                }else{
+                    //それ以外の処理
+                    get_nagare(nagare_index_number);
+                }
             }, 150);
         },150);
     }, 100);
@@ -686,10 +694,11 @@ function insert_talk_content(comment_doc){
     var comment_name = '<p style="position: relative; left: 72px; top: 16px;color: #606060; font-size: 0.8em; margin: 0px">'+ comment_doc.name + '・' + comment_time + '</p>';
     var comment_list = document.getElementById("hidden_wadai_content");
     comment_list.insertAdjacentHTML("beforeend", '<div style="position: relative; overflow: hidden">' + comment_icon + comment_name + comment_content + '</div>' );
-    //一番下までスクロールする処理を書く前に、実装をどのようにするかを考える
-
-
-
+    // 現在の縦スクロール位置
+    //var scrollPosition = document.getElementById("hidden_wadai_content").scrollTop;
+    // スクロール要素の高さ
+    //var scrollHeight = document.getElementById("hidden_wadai_content").scrollHeight;
+    document.getElementById("hidden_wadai").scrollTop = document.getElementById("hidden_wadai").scrollHeight;
 }
 
 //wadaiがない時に適宜挿入する
