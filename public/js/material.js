@@ -362,3 +362,10 @@ function bottom_icon_change(num){
         document.getElementById("bab_icon_irai_text").classList.add("using");        
     }
 }
+
+//drawer
+const drawer = new mdc.drawer.MDCDrawer(document.querySelector('.mdc-drawer'));
+      
+function drawer_open(){
+  drawer.open = !drawer.open;
+}

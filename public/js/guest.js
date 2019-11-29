@@ -83,6 +83,8 @@ function second_card_display(){
     second_card.onclick = "";
     //rippleをなくす
     second_card.classList.remove("mdc-ripple-surface");
+    //利用規約を表示する
+    document.getElementById("concern_terms").hidden = false;
 }//second_card_back
 function second_card_close(){
     var second_card = document.querySelector('#second_card');
@@ -95,6 +97,8 @@ function second_card_close(){
     document.querySelector("#second_card_approval").classList.remove("display");
     //rippleをもどす
     second_card.classList.add("mdc-ripple-surface");
+    //利用規約を非表示する
+    document.getElementById("concern_terms").hidden = true;
     //onclickを元に戻す
     setTimeout(function(){
         //なんか間を置かないと暴発して全然戻らない

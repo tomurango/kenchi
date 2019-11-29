@@ -75,6 +75,7 @@ function check_db(user_info){
             //名前の書き換え
             document.getElementById("user_name_display").textContent = doc.data().name;
             document.getElementById("user_name_display_renew").textContent = doc.data().name;
+            document.getElementById("user_name_in_drawer").textContent = doc.data().name;//drawerにも書く
             //アイコンボタンをユーザの画像のボタンに切り替える
             insert_image_button(user_info.photoURL);
             //グローバルスコープでユーザのdbを使えるようにする
@@ -219,6 +220,7 @@ function fullscreen_dialog_close(){
     if(name_input == ""){
         document.getElementById("user_name_display").textContent = user_info_global.displayName;
         document.getElementById("user_name_display_renew").textContent = user_info_global.displayName;
+        document.getElementById("user_name_in_drawer").textContent = user_info_global.displayName;
         //firebase authentication の書き換え
         name_update(user_info_global.displayName);
         //データベースの書き換え
@@ -236,6 +238,7 @@ function fullscreen_dialog_close(){
     }else{
         document.getElementById("user_name_display").textContent = name_input;
         document.getElementById("user_name_display_renew").textContent = name_input;
+        document.getElementById("user_name_in_drawer").textContent = name_input;
         //firebase authentication の書き換え
         name_update(name_input);
         //こっからデータベースの書き換え

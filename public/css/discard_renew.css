@@ -15,3 +15,29 @@
     display: inline-block;
     vertical-align: top;
 }
+
+#terms_of_service{
+    background-color: #ffffff;
+    top: -100%;
+    z-index: 3;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    padding: 70px 8px 70px 8px;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+#terms_of_service.display{
+    top: 0px !important;
+}
+
+#privacy_policy{
+    background-color: #ffffff;
+    top: -100%;
+    z-index: 3;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    padding: 70px 8px 70px 8px;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+#privacy_policy.display{
+    top: 0px !important;
+}

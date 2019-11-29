@@ -123,3 +123,11 @@
 .bab_icon.using{
     color: #0066ff !important;
 }
+
+/* drawer */
+.mdc-drawer .mdc-list-item--activated {
+    color: #0066ff;
+}
+.mdc-drawer .mdc-list-item--activated .mdc-list-item__graphic {
+    color: #0066ff;
+}

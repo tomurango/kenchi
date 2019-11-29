@@ -154,3 +154,12 @@ function display_card_com_back(){
         },300);
     },100);
 }
+
+//利用規約の記述
+function terms_of_service(){
+    document.getElementById("terms_of_service").classList.toggle("display");
+}
+//プライバシーポリシーの記述
+function privacy_policy(){
+    document.getElementById("privacy_policy").classList.toggle("display");
+}
