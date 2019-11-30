@@ -540,7 +540,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.7</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.8</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
@@ -603,7 +603,7 @@
 
             <div id="page_contain_dash" class="active_page" style="width: 100%; padding-top: 56px; padding-bottom: 120px">
                 <div id="dash_left" class="dash_column">
-                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
+                    <div id="dash_display_greet" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;" onclick="display_card_greet()">
                         <p class="card_subtitle">あいさつ</p>
                         <p style="text-align: center"><span id="sirasu_count" style="font-size: 2em">0</span> ハロー</p>
                     </div>
@@ -639,6 +639,10 @@
                         <div id="chart_container" class="chart-container" style="width:100%; height: 150px; position: relative;">
                             <canvas id="myChart" height="100%" width="100%"></canvas>
                         </div>
+                    </div>
+                    <div id="dash_display_message" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;"  onclick="display_card_message()">
+                        <p class="card_subtitle">お知らせ</p>
+                        <p id="user_message_display_renew" class="card_contents">開発・運営より</p>
                     </div>
                     <!--
                     <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
@@ -740,6 +744,49 @@
             </div>
         </footer>
         <!--discard renew 関連のelement-->
+        <div id="dash_greet" class="mdc-card dash-card" style="display: none;">
+            <button class="mdc-icon-button material-icons back" onclick="display_card_greet_back()">keyboard_arrow_down</button>
+            <p class="card_subtitle">あいさつ</p>
+            <p class="card_contents"><span id="sirasu_count_another" style="font-size: 2em">0</span> ハロー</p>
+            <div id="greet_text" hidden>
+                <p>
+                    あいさつは大切
+                </p>
+                <p>
+                    あいさつはワダイやコミュニケーションの促進につながります。
+                    <br>
+                    今は、挨拶を無制限にできるなど誰がしたかわからないなどあるので、機能を付け足していこうと考えている。
+                    <br>
+                    <br>
+                    2019/11/30
+                </p>
+            </div>
+        </div>
+
+        <div id="dash_message" class="mdc-card dash-card" style="display: none;">
+            <button class="mdc-icon-button material-icons back" onclick="display_card_message_back()">keyboard_arrow_down</button>
+            <p class="card_subtitle">お知らせ</p>
+            <p class="card_contents">開発・運営より</p>
+            <div id="message_text" hidden>
+                <p>
+                    2019/11/30
+                </p>
+                <p>
+                    開発運営への連絡及び意見などは下のツイッターアカウントからお願いします。
+                    <br>
+                    開発運営は一人で行っているので、対応できる範囲が狭いことについては理解していただけると助かります。
+                    <br>
+                    <br>
+                    twitter
+                    <br>
+                    @tomra_manabu
+                    <br>
+                    <br>
+                    ※スペルミスにご注意ください
+                </p>
+            </div>
+        </div>
+
         <div id="dash_name" class="mdc-card dash-card" style="display: none;">
             <button class="mdc-icon-button material-icons back" onclick="display_card_user_back()">keyboard_arrow_down</button>
             <p class="card_subtitle">なまえ</p>
@@ -772,6 +819,7 @@
                 </button>
             </div>
         </div>
+
         <div id="community_detail_display">
             <div id="community_detail_display_head" hidden>
                 <button id="community_detail_close" class="mdc-icon-button material-icons" onclick="detail_of_the_com_close()">clear</button>

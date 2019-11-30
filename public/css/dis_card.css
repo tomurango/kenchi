@@ -9,6 +9,39 @@
     margin-top: 0px;
 }
 
+/* greet・messageを追加20191130 */
+#dash_greet{
+    z-index: 5;
+    position: fixed;
+}#dash_greet.active{
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border-radius: 0px;
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 5;
+    padding: 40px;
+    position: fixed;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+
+#dash_message{
+    z-index: 5;
+    position: fixed;
+}#dash_message.active{
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border-radius: 0px;
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 5;
+    padding: 40px;
+    position: fixed;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+
 #dash_name{
     z-index: 5;
     position: fixed;

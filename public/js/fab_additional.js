@@ -16,6 +16,7 @@ function sirasu_get(){
         //数値の書き換え
         var the_count = doc.data().count;
         document.getElementById("sirasu_count").textContent = the_count;
+        document.getElementById("sirasu_count_another").textContent = the_count;
         //リスナの設置
         sirasu_listener = db.collection("sirasu").doc("6WrFkQ2L0tuoatHbw4Qj").onSnapshot(function(doc) {
             firestore_get_count += 1;
@@ -24,6 +25,7 @@ function sirasu_get(){
             //数値の書き換え
             var the_count = doc.data().count;
             document.getElementById("sirasu_count").textContent = the_count;
+            document.getElementById("sirasu_count_another").textContent = the_count;
         });
     }).catch(function(error){
         console.log("error → ", error);
