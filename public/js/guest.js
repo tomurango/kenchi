@@ -93,6 +93,8 @@ function second_card_display(){
 function second_card_close(){
     var second_card = document.querySelector('#second_card');
     var second_card_back = document.querySelector('#second_card_back');
+    //スクロールを初期位置にする
+    document.getElementById("second_card").scrollTop = 0;
     //表示縮小をする
     second_card.classList.remove("display");
     //戻るボタンを非表示にする
