@@ -108,7 +108,8 @@ function send_work(){
     //終わった時間（今の時間）を取得
     var end_time = new Date();
     //doc.data().job_name;
-    //documentのidを指定できるようにする。
+    //documentのidを指定できるようにする。//やっぱ固有IDのほうがわかりやすいかも2019/12/01
+    /*
     var year = String(end_time.getFullYear());
     var month = String(end_time.getMonth() + 1);
     var date = String(end_time.getDate());
@@ -116,7 +117,8 @@ function send_work(){
     var minites = String(end_time.getMinutes());
     var time = String(end_time.getSeconds());
     var work_id = year + "-" + month + "-" + date + "-" + hours + "-" + minites + "-" + time;
-    db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).collection("works").doc(work_id).set({
+    */
+    db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).collection("works").add({
         time: number_counted,
         start: start_time,
         finish: end_time,

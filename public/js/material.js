@@ -61,10 +61,12 @@ tabBar.listen('MDCTabBar:activated',function(event){
             //ログインユーザなので、ダッシュボードを表示する
             dash.hidden = false;
         }
-        //renew_card に onclickを代入する
+        //renew_card に onclickを代入する//下２行を追記2019/12/01
         document.getElementById("dash_display_user").onclick = function(){display_card_user()};
         document.getElementById("dash_display_job").onclick= function(){display_card_job()};
         document.getElementById("dash_display_com").onclick = function(){display_card_com()};
+        document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
+        document.getElementById("dash_display_message").onclick = function(){display_card_message()};
         //hederの非表示
         header.style.display = "none";
         nagare.classList.remove("active_page");

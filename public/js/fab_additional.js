@@ -40,6 +40,7 @@ var work_listener;
 var one_date_ago_trend = new Date();
 one_date_ago_trend.setDate(one_date_ago_trend.getDate() - 1);
 var work_timestamp = firebase.firestore.Timestamp.fromDate(one_date_ago_trend);
+var work_library = [];
 function work_get(){
     //1日以内のものを取得する
     db.collectionGroup('works').where('finish', '>' , work_timestamp).orderBy("finish", "desc").limit(10).get().then(function (querySnapshot) {
@@ -51,12 +52,24 @@ function work_get(){
         var works_reverse = querySnapshot.docs.reverse();
         works_reverse.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots
-            insert_work(doc.id, doc.data());
+            var work_insert_flag = 0;
+            for(var i= 0; i < work_library.length; i++){
+                if(doc.id == work_library[i]){
+                    //何もしない
+                    console.log("重複取得");
+                    work_insert_flag = 1;
+                    break
+                }    
+            }
+            if(work_insert_flag == 0){
+                work_library.push(doc.id);
+                insert_work(doc.id, doc.data());
+            }
         });
         //empty message の有無の確認
         check_work_isornot();
         //workのリスナを配置する limit(1)は重複回避の記述だが要検討(wadaiリスナからのコピペ)
-        work_listener = db.collectionGroup('works').where('finish', '>' , work_timestamp).orderBy("finish", "desc").limit(1).onSnapshot(function(listen_work){
+        work_listener = db.collectionGroup('works').where('finish', '>' , work_timestamp).orderBy("finish", "desc").onSnapshot(function(listen_work){
             //timestamp
             work_timestamp = firebase.firestore.Timestamp.now();
             //read count
@@ -65,9 +78,21 @@ function work_get(){
             //listener取得は一つに限定してるけど、foreach回さないとエラー出てくる（不思議ですねぇ～～～～）
             listen_work.forEach(function(listen_doc){    
                 //listにして表示していく関数 送信のaninmation と被んないように遅らせてる
-                setTimeout(function(){
-                    insert_work(listen_doc.id, listen_doc.data());
-                },600);
+                var work_insert_flag_listen = 0;
+                for(var i= 0; i < work_library.length; i++){
+                    if(listen_doc.id == work_library[i]){
+                        //何もしない
+                        console.log("重複取得");
+                        work_insert_flag_listen = 1;
+                        break
+                    }    
+                }
+                if(work_insert_flag_listen == 0){
+                    work_library.push(listen_doc.id);
+                    setTimeout(function(){
+                        insert_work(listen_doc.id, listen_doc.data());
+                    },600);
+                }
             });
             //empty message の有無の確認
             check_work_isornot();

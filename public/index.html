@@ -76,6 +76,19 @@
         <div id="first_card" class="mdc-card mdc-ripple-surface" style="position: fixed; display: none;" onclick="first_card_display()">
             <button id="first_card_back" class="mdc-icon-button material-icons" onclick="first_card_close()">keyboard_arrow_down</button>
             <p style="font-size: 2em; margin:0px">ようこそ</p>
+            <div id="welcome" hidden>
+                <p>
+                    経験値.com は趣味や仕事や好きなことなど、自分の活動を報告したり、共通の話題を持つ人と会話を楽しむ場を目指しています。
+                </p>
+                <p>
+                    ジョブを決めて活動報告したり、コミュニティに参加して好きなことについて話そう。
+                    <br>
+                    コミュニティを作ることもできます。
+                </p>
+                <p>
+                    一言で表すならば、「仮想ギルド」かな。
+                </p>
+            </div>
         </div>
         <div id="second_card" class="mdc-card mdc-ripple-surface" style="position: fixed; display: none;" onclick="second_card_display()">
             <button id="second_card_back" class="mdc-icon-button material-icons" onclick="second_card_close()">clear</button>
@@ -538,7 +551,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.9</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.0</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -767,6 +780,20 @@
             <p class="card_contents">開発・運営より</p>
             <div id="message_text" hidden>
                 <p>
+                    2019/12/01
+                </p>
+                <p>
+                    一応、このサービスの行く末として考えていることを簡単に書きます。
+                    <br>
+                    <br>
+                    すきなことを楽しみ、成長して社会（周りの人）にも貢献していけるような仕組みになればいいなと考えています。
+                    <br>
+                    <br>
+                    ドラクエのジョブを最初はイメージしました。
+                </p>
+                <br>
+                <br>
+                <p>
                     2019/11/30
                 </p>
                 <p>
@@ -789,6 +816,9 @@
             <button class="mdc-icon-button material-icons back" onclick="display_card_user_back()">keyboard_arrow_down</button>
             <p class="card_subtitle">なまえ</p>
             <p id="user_name_display" class="card_contents">ゲストユーザ</p>
+            <p>
+                ここで名前を変更できるようにする
+            </p>
         </div>
 
         <div id="dash_job" class="mdc-card dash-card" style="display: none;">
@@ -796,6 +826,9 @@
             <p class="card_subtitle">しごと</p>
             <p id="user_job_display" class="card_contents">職探しの民</p>
             <p id="user_job_level_display" class="card_contents">Lv 1</p>
+            <p>
+                ここにレベルの詳細を表示する
+            </p>
         </div>
 
         <div id="dash_community" class="mdc-card dash-card" style="display: none;">

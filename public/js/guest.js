@@ -45,6 +45,8 @@ function first_card_display(){
     first_card.onclick = "";
     //rippleをなくす
     first_card.classList.remove("mdc-ripple-surface");
+    //welcomeを表示する
+    document.getElementById("welcome").hidden = false;
     //second_cardを表示する
     setTimeout(function(){
         //時間差で表示しないとタイミング的になんかおかしくなる
@@ -56,6 +58,8 @@ function first_card_display(){
 function first_card_close(){
     var first_card = document.querySelector('#first_card');
     var first_card_back = document.querySelector('#first_card_back');
+    //welcomeを非表示する
+    document.getElementById("welcome").hidden = true;
     //表示縮小をする
     first_card.classList.remove("display");
     //戻るボタンを非表示にする
