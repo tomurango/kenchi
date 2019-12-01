@@ -26,6 +26,7 @@
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
     z-index: 0;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 #second_card.display{
     width: 100%;
