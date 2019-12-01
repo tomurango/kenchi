@@ -242,19 +242,17 @@
             <span id="third_text" class="mdc-fab__label">始める</span>
         </button>
 
-        <div id="login_menu" class="mdc-menu mdc-menu-surface">
-            <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
-                <li class="mdc-list-item" role="menuitem">
-                    <span class="mdc-list-item__text">もどる</span>
-                </li>
-                <li class="mdc-list-item" role="menuitem">
-                    <span class="mdc-list-item__text" onclick = "google_login()">googleでログイン</span>
-                </li>
-                <li class="mdc-list-item" role="menuitem" onclick="log_out()">
-                    <span class="mdc-list-item__text">ログアウト</span>
-                </li>
-            </ul>
+        <!--ログインカード-->
+        <div id="how_to_login" style="height: 100%; width: 100%; position: fixed; left: 0px; text-align: center">
+            <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" style="position: absolute; top: 0px;left: 0px" onclick="how_to_login_close()">clear</button>
+            <img id="google_login_img" src="img/btn_google_signin_light_normal_web.png" onclick="google_login()">
+            <br>
+            <button class="mdc-button mdc-button--outlined" onclick="log_out()">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">ログアウト</span>
+            </button>
         </div>
+
 
         <!--利用規約カード-->
         <div id="terms_of_service" style="height: 100%; width: 100%; position: fixed; left: 0px;">
@@ -540,10 +538,10 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.8</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.5.9.9</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-                    <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="display_login_menu()">account_circle</button>
+                    <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
                 </section>
             </div>
             <div id="community_bar" class="mdc-top-app-bar__row">

@@ -48,15 +48,45 @@
 
 
 /* 以下 guest */
+/*
 #login_menu{
     top: 35px !important;
     right: 30px !important;
     left: auto !important;
     transform-origin: right top !important;
 }
+*/
 
 /*#lets_login_card{
     height: 300px;
     width: calc(100vw - 40px);
     margin: 100px 20px 20px 20px;
 }*/
+
+
+/* icon 震えを与える */
+#user_login_button{
+    animation: hurueru 3s infinite;
+}
+
+@keyframes hurueru {
+    0% {transform: translate(0px, 0px) rotateZ(0deg)}
+    2.5% {transform: translate(2px, 2px) rotateZ(1deg)}
+    5% {transform: translate(0px, 2px) rotateZ(0deg)}
+    7.5% {transform: translate(2px, 0px) rotateZ(-1deg)}
+    10% {transform: translate(0px, 0px) rotateZ(0deg)}
+    100% {transform: translate(0px, 0px) rotateZ(0deg)}
+}
+
+#how_to_login{
+    background-color: #ffffff;
+    top: -100%;
+    z-index: 5;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    padding: 70px 8px 70px 8px;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+#how_to_login.display{
+    top: 0px !important;
+}

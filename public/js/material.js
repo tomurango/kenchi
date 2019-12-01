@@ -336,7 +336,7 @@ const list = new mdc.list.MDCList(document.querySelector('.mdc-list'));
 
 /* menu */
 const menu = new mdc.menu.MDCMenu(document.querySelector('#community_detail_verb_menus'));
-const login_menu = new mdc.menu.MDCMenu(document.querySelector('#login_menu'));
+//const login_menu = new mdc.menu.MDCMenu(document.querySelector('#login_menu'));
 
 
 /* bottom_icon */

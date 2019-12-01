@@ -16,10 +16,12 @@ var user_job_global;
 var community_list_global = {};
 
 //login menu
+/*
 function display_login_menu(){
     //menu.open
     login_menu.open = true;
 }
+*/
 
 function log_out(){
     firebase.auth().signOut().then(()=>{
@@ -177,7 +179,7 @@ $(document).ready(function(){
 
 function insert_image_button(image){
     var button_style = 'style="background-image:url(' + image + '); border:none; padding:0px; width:32px; height:32px; background-size: contain; border-radius:50%; margin:8px;"';
-    var button_tag = '<button class="mdc-top-app-bar__navigation-icon"'+ button_style +' onclick="display_login_menu()"></button>';
+    var button_tag = '<button class="mdc-top-app-bar__navigation-icon"'+ button_style +' onclick="how_to_login_open()"></button>';
     document.getElementById("user_login").innerHTML = button_tag;
     //console.log("user is signed in");''
 }

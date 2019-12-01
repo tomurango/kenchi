@@ -262,3 +262,33 @@ function insert_to_trend(doc_id , doc_data){
         }
     }
 }
+
+function how_to_login_open(){
+    document.getElementById("how_to_login").classList.add("display");
+}
+
+function how_to_login_close(){
+    document.getElementById("how_to_login").classList.remove("display");
+}
+
+
+/*
+$(document).ready(function(){
+    //var google_login_img = document.getElementById('google_login_img');
+
+    //ON
+    document.getElementById('google_login_img').addEventListener('mouseenter', () => {
+        google_login_img.src = "img/btn_google_signin_light_focus_web.png";
+    }, false);
+
+    //OUT
+    document.getElementById('google_login_img').addEventListener('mouseleave', () => {
+        google_login_img.src = "img/btn_google_signin_light_normal_web.png";
+    }, false);
+
+    //CLICK
+    document.getElementById('google_login_img').addEventListener('mousedown', () => {
+        google_login_img.src = "img/btn_google_signin_light_pressed_web.png";
+    }, false);
+});
+*/
