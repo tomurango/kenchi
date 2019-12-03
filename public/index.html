@@ -74,7 +74,6 @@
 
         <!--guest js で使用される部分-->
         <div id="first_card" class="mdc-card mdc-ripple-surface" style="position: fixed; display: none;" onclick="first_card_display()">
-            <button id="first_card_back" class="mdc-icon-button material-icons" onclick="first_card_close()">keyboard_arrow_down</button>
             <p style="font-size: 2em; margin:0px">ようこそ</p>
             <div id="welcome" hidden>
                 <p>
@@ -88,10 +87,15 @@
                 <p>
                     一言で表すならば、「仮想ギルド」です。
                 </p>
+                <button id="first_card_back" onclick="first_card_close()" class="mdc-button">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">把握</span>
+                </button>
             </div>
+            <div id="first_ok" class="ok" hidden></div>
         </div>
         <div id="second_card" class="mdc-card mdc-ripple-surface" style="position: fixed; display: none;" onclick="second_card_display()">
-            <button id="second_card_back" class="mdc-icon-button material-icons" onclick="second_card_close()">clear</button>
+            <!--<button id="second_card_back" class="mdc-icon-button material-icons" onclick="second_card_close()">clear</button>-->
             <p style="font-size: 2em; margin:0px">利用規約</p>
             <div id="concern_terms" hidden>
                 <p>
@@ -252,6 +256,7 @@
                     <span class="mdc-button__label">同意</span>
                 </button>
             </div>
+            <div id="second_ok" class="ok" hidden></div>
         </div>
         <button id="third_fab" class="mdc-fab mdc-fab--extended" style="display: none" onclick="the_third()" >
             <span id="third_icon" class="mdc-fab__icon material-icons home">done</span>
@@ -261,7 +266,9 @@
         <!--ログインカード-->
         <div id="how_to_login" style="height: 100%; width: 100%; position: fixed; left: 0px; text-align: center">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" style="position: absolute; top: 0px;left: 0px" onclick="how_to_login_close()">clear</button>
-            <img id="google_login_img" src="img/btn_google_signin_light_normal_web.png" onclick="google_login()">
+            <a href="" onclick="google_login();return false">
+                <img id="google_login_img" src="img/btn_google_signin_light_normal_web.png">
+            </a>
             <br>
             <button class="mdc-button mdc-button--outlined" onclick="log_out()">
                 <div class="mdc-button__ripple"></div>
@@ -272,6 +279,10 @@
 
         <!--利用規約カード-->
         <div id="terms_of_service" style="height: 100%; width: 100%; position: fixed; left: 0px;">
+            <button onclick="terms_of_service()" class="mdc-button" style="color: #000033;">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">閉じる</span>
+            </button>
             <div>
                 <h1>
                     利用規約
@@ -430,11 +441,18 @@
                     以上
                 </p>
             </div>
-            <button onclick="terms_of_service()">閉じる</button>
+            <button onclick="terms_of_service()" class="mdc-button" style="color: #000033;">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">閉じる</span>
+            </button>
         </div>
 
         <!--プライバシーポリシーカード-->
         <div id="privacy_policy" style="height: 100%; width: 100%; position: fixed; left: 0px;">
+            <button onclick="privacy_policy()" class="mdc-button" style="color: #000033;">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">閉じる</span>
+            </button>
             <div>
                 <h1>
                     プライバシーポリシー
@@ -547,14 +565,17 @@
                     以上                    
                 </p>
             </div>
-            <button onclick="privacy_policy()">閉じる</button>
+            <button onclick="privacy_policy()" class="mdc-button" style="color: #000033;">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">閉じる</span>
+            </button>
         </div>
 
         <header id="the_header" class="mdc-top-app-bar">
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.2</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.3</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>

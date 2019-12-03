@@ -37,15 +37,31 @@
     -webkit-overflow-scrolling: touch;
 }
 
+/*
 #second_card_back{
     display: none;
 }#second_card_back.display{
     display: block;
 }
+*/
 #second_card_approval{
     display: none;
 }#second_card_approval.display{
     display: block;
+}
+
+/* チェックマークをつける */
+.ok{
+    border-left:20px solid #0066ff;
+	border-bottom:20px solid #0066ff;
+	width:60px;
+	height:30px;
+	-webkit-transform:rotate(-45deg);
+	transform:rotate(-45deg);
+	left:calc(50% - 40px);
+    top:calc(50% - 30px);
+    content:"";
+    position: absolute;
 }
 
 

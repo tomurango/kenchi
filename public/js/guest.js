@@ -71,16 +71,15 @@ function first_card_close(){
         //なんか間を置かないと暴発して全然戻らない
         first_card.onclick = function(){first_card_display()};
     },500);
+    //okマークつける
+    document.getElementById("first_ok").hidden = false;
 }
 
 //about second card
 function second_card_display(){
     var second_card = document.querySelector('#second_card');
-    var second_card_back = document.querySelector('#second_card_back');
     //表示拡大をする
     second_card.classList.add("display");
-    //戻るボタンを表示する
-    second_card_back.classList.add("display");
     //同意ボタンを表示する
     document.querySelector("#second_card_approval").classList.add("display");
     //onclickをなくす
@@ -92,13 +91,10 @@ function second_card_display(){
 }//second_card_back
 function second_card_close(){
     var second_card = document.querySelector('#second_card');
-    var second_card_back = document.querySelector('#second_card_back');
     //スクロールを初期位置にする
     document.getElementById("second_card").scrollTop = 0;
     //表示縮小をする
     second_card.classList.remove("display");
-    //戻るボタンを非表示にする
-    second_card_back.classList.remove("display");
     //同意ボタンを非表示にする
     document.querySelector("#second_card_approval").classList.remove("display");
     //rippleをもどす
@@ -117,6 +113,8 @@ function tutorial_approval(){
     second_card_close();
     //fab を表示する
     document.getElementById("third_fab").style.display = "flex";
+    //okマークつける
+    document.getElementById("second_ok").hidden = false;
 }
 
 //はじまりのおわり

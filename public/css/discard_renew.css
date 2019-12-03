@@ -24,6 +24,7 @@
     padding: 70px 8px 70px 8px;
     box-sizing: border-box;
     overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 #terms_of_service.display{
     top: 0px !important;
@@ -37,6 +38,7 @@
     padding: 70px 8px 70px 8px;
     box-sizing: border-box;
     overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 #privacy_policy.display{
     top: 0px !important;
