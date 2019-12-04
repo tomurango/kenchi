@@ -107,17 +107,8 @@ function count_number_display(){
 function send_work(){
     //終わった時間（今の時間）を取得
     var end_time = new Date();
-    //doc.data().job_name;
-    //documentのidを指定できるようにする。//やっぱ固有IDのほうがわかりやすいかも2019/12/01
-    /*
-    var year = String(end_time.getFullYear());
-    var month = String(end_time.getMonth() + 1);
-    var date = String(end_time.getDate());
-    var hours = String(end_time.getHours());
-    var minites = String(end_time.getMinutes());
-    var time = String(end_time.getSeconds());
-    var work_id = year + "-" + month + "-" + date + "-" + hours + "-" + minites + "-" + time;
-    */
+    //テキストを取得する
+    var work_text = document.getElementById("work_text_input").value;
     db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).collection("works").add({
         time: number_counted,
         start: start_time,
@@ -125,7 +116,8 @@ function send_work(){
         userName: user_info_global.displayName,
         userIcon: user_info_global.photoURL,
         jobName: user_job_global.name,
-        jobLevel: level_info_global[user_doc_global.job].level
+        jobLevel: level_info_global[user_doc_global.job].level,
+        text: work_text
     })
     .then(function() {
         //get カウント サーバー側でget 1 ,write 1
@@ -139,9 +131,16 @@ function send_work(){
         calc_level_info(number_counted);
         //画面の表示、カウント含めてもろとも終了させるやつ
         finish_pushed();
+        //work_textの中身を空にする
+        document.getElementById("work_text_input").value = "";
     })
     .catch(function(error) {
         console.error("Error writing document: ", error);
     });
 }
 
+//文字を入力させる関数
+function work_text(){
+    //ダイアログを開くのみ
+    work_text_dialog.open();
+}

@@ -107,10 +107,10 @@ function insert_work(work_id, work_doc){
     console.log(work_id, " work => ", work_doc);
     var time_list = fire_time_normalization(work_doc.finish);
     var exp_list = exp_to_time(work_doc.time);
-    var work_icon = '<img src="' + work_doc.userIcon + '" height="40px" width="40px">';
-    var user_info_div = '<div style="position: absolute; left: 72px;"><p style="font-size: 0.7em; color: #595959">' + work_doc.userName + '/ Lv' + work_doc.jobLevel + work_doc.jobName + '/' + time_list[2] + ':' + time_list[3] + '</p></div>';
-    var time_info_tag = '<p style="text-align: center;"><span style="font-size: 2em">'+ exp_list[0] +'</span>' + exp_list[1] + '</p>';
-    var insert_element = '<div class="mdc-layout-grid__cell"><div id="workcard_' + work_id + '" class="mdc-card" style="position:relative">'+ work_icon + user_info_div + time_info_tag +'</div></div>';
+    var work_icon = '<div class="mdc-card__media mdc-card__media--16-9 work_media" style="background-image: url(' +"'"+ work_doc.userIcon +"'"+');"></div>';
+    var time_info_tag = '<p style="text-align: center; margin: 16px 0px 0px 0px"><span style="font-size: 2em">'+ exp_list[0] +'</span>' + exp_list[1] + "　" + '<span style="font-size: 2em">'+ work_doc.text +'</span></p>';//テキスト情報を追加しました。2019/12/04
+    var user_info_tag = '<p style="text-align: center; font-size: 0.7em; color: #595959; margin: 8px auto 16px auto;">' + work_doc.userName + ' / Lv' + work_doc.jobLevel + work_doc.jobName + ' / ' + time_list[2] + ':' + time_list[3] + '</p>';
+    var insert_element = '<div class="mdc-layout-grid__cell"><div id="workcard_' + work_id + '" class="mdc-card" style="position:relative; padding: 0px;"><div class="mdc-card__primary-action demo-card__primary-action" tabindex="0">'+ work_icon + time_info_tag + user_info_tag + '</div></div></div>';
     document.getElementById('work_line_inner').insertAdjacentHTML('afterbegin', insert_element);
     //挿入後に検証してしまう(未検証)191112
     check_work_isornot();

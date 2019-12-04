@@ -67,7 +67,7 @@
             <button id="back_timer_screen" class="mdc-icon-button material-icons" onclick="the_dialog_open()">clear</button>
             <!--<button onclick="finish_pushed()">おわり</button>-->
             <p id="count_number">00:00</p>
-            <button id="timer_button" onclick="send_work()" class="mdc-button mdc-button--unelevated" style="background-color: #ffffff; color: #0066ff; position:absolute; width:40vw; height:10vh; bottom:25vh; left:30vw;">
+            <button id="timer_button" onclick="work_text()" class="mdc-button mdc-button--unelevated" style="background-color: #ffffff; color: #0066ff; position:absolute; width:40vw; height:10vh; bottom:25vh; left:30vw;">
                 <span class="mdc-button__label">おわり</span>
             </button>
         </div>
@@ -266,7 +266,7 @@
         <!--ログインカード-->
         <div id="how_to_login" style="height: 100%; width: 100%; position: fixed; left: 0px; text-align: center">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" style="position: absolute; top: 0px;left: 0px" onclick="how_to_login_close()">clear</button>
-            <a href="" onclick="google_login();return false">
+            <a href="" onclick="google_login();return false" style="text-decoration: none">
                 <img id="google_login_img" style="height: 40px; width: auto" src="img/btn_google_light_normal_ios_maked.svg">
             </a>
             <br>
@@ -575,7 +575,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.4</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.5</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1150,6 +1150,19 @@
                     <footer class="mdc-dialog__actions">
                         <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
                         <button id="nagare_delete_send_button" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="comment_div_while_back()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">破棄する</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="work_text_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="work_text_description" class="mdc-dialog__content"><input id="work_text_input" type="text" maxlength="5" placeholder="コメント五文字まで" style="border: none; font-size: 20px;"></section>
+                    <footer class="mdc-dialog__actions">
+                        <button id="work_send_button" type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" onclick="send_work()" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">完了</button>
                     </footer>
                 </div>
             </div>

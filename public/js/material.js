@@ -262,6 +262,9 @@ var nagare_delete_dialog = new mdc.dialog.MDCDialog(document.querySelector('#nag
 
 var irai_caution_dialog = new mdc.dialog.MDCDialog(document.querySelector('#irai_caution_dialog'));
 
+var work_text_dialog = new mdc.dialog.MDCDialog(document.querySelector('#work_text_dialog'));
+work_text_dialog.scrimClickAction = "";
+
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 

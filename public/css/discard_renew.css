@@ -43,3 +43,7 @@
 #privacy_policy.display{
     top: 0px !important;
 }
+
+.work_media::before{
+    margin-top: 20% !important;
+}

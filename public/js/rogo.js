@@ -16,7 +16,7 @@ function openpage(){
     //記述を変えてアニメーションできるようにする
     document.getElementById("rogo_screen").classList.add('end');
     document.getElementById("rogo").classList.add('end');
-    setTimeout(display_hidden, 550);
+    setTimeout(display_hidden, 300);
 }
 
 function display_hidden(){
