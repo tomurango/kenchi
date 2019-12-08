@@ -40,7 +40,8 @@ var work_listener;
 var one_date_ago_trend = new Date();
 one_date_ago_trend.setDate(one_date_ago_trend.getDate() - 1);
 var work_timestamp = firebase.firestore.Timestamp.fromDate(one_date_ago_trend);
-var work_library = [];
+var work_library = [];//idの文字列を格納する為だけのlist
+var global_work_dictionary = {};//onclickの時、詳細を閲覧するために格納しておくためのリスト
 function work_get(){
     //1日以内のものを取得する
     db.collectionGroup('works').where('finish', '>' , work_timestamp).orderBy("finish", "desc").limit(10).get().then(function (querySnapshot) {
@@ -85,7 +86,7 @@ function work_get(){
                         console.log("重複取得");
                         work_insert_flag_listen = 1;
                         break
-                    }    
+                    }
                 }
                 if(work_insert_flag_listen == 0){
                     work_library.push(listen_doc.id);
@@ -107,13 +108,22 @@ function insert_work(work_id, work_doc){
     console.log(work_id, " work => ", work_doc);
     var time_list = fire_time_normalization(work_doc.finish);
     var exp_list = exp_to_time(work_doc.time);
-    var work_icon = '<div class="mdc-card__media mdc-card__media--16-9 work_media" style="background-image: url(' +"'"+ work_doc.userIcon +"'"+');"></div>';
-    var time_info_tag = '<p style="text-align: center; margin: 16px 0px 0px 0px"><span style="font-size: 2em">'+ exp_list[0] +'</span>' + exp_list[1] + "　" + '<span style="font-size: 2em">'+ work_doc.text +'</span></p>';//テキスト情報を追加しました。2019/12/04
-    var user_info_tag = '<p style="text-align: center; font-size: 0.7em; color: #595959; margin: 8px auto 16px auto;">' + work_doc.userName + ' / Lv' + work_doc.jobLevel + work_doc.jobName + ' / ' + time_list[2] + ':' + time_list[3] + '</p>';
-    var insert_element = '<div class="mdc-layout-grid__cell"><div id="workcard_' + work_id + '" class="mdc-card" style="position:relative; padding: 0px;"><div class="mdc-card__primary-action demo-card__primary-action" tabindex="0">'+ work_icon + time_info_tag + user_info_tag + '</div></div></div>';
+    var work_icon = '<div class="mdc-card__media mdc-card__media--square work_media" style="background-image: url(' +"'"+ work_doc.userIcon +"'"+');"></div>';
+    var time_info_tag = '<p style="margin: 16px 16px 8px 16px"><span style="font-size: 1.5em">'+ exp_list[0] +'</span>' + exp_list[1] + "　" + '<span style="font-size: 1.5em">'+ work_doc.text +'</span></p>';//テキスト情報を追加しました。2019/12/04
+    var user_info_tag = '<p style="font-size: 0.7em; color: #595959; margin:8px 16px 16px 16px;">' + work_doc.userName + ' ・ ' + time_list[2] + ' : ' + time_list[3] + '<br>Lv' + work_doc.jobLevel + ' ' + work_doc.jobName + '</p>';
+    var text_div = '<div class="work_text">' + time_info_tag + user_info_tag + '</div>';
+    var action_area = '<div class="mdc-card__actions"><div class="mdc-card__action-icons"><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">thumb_up</button><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">share</button><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="More options">more_vert</button></div></div>';
+    var insert_element = '<div class="mdc-layout-grid__cell"><div id="workcard_' + work_id + '" class="mdc-card" style="position:relative; padding: 0px;"><div onclick="work_detail_display(this)" class="mdc-card__primary-action work_action" tabindex="0">'+ work_icon + text_div + '</div>' + action_area + '</div></div>';
     document.getElementById('work_line_inner').insertAdjacentHTML('afterbegin', insert_element);
     //挿入後に検証してしまう(未検証)191112
     check_work_isornot();
+    //ワークカードonclickで引き出せるように辞書を作成する
+    make_work_dictionary(work_id, work_doc);
+    //rippleさせる
+    var selector_text = "#workcard_" + work_id + " .work_action";
+    var ripple_selector = document.querySelector(selector_text)
+    //親要素を指定してその子要素のwork_actionクラスにリップルさせる処理
+    do_ripple(ripple_selector);
 }
 
 function exp_to_time(exp){
@@ -224,4 +234,99 @@ function check_work_isornot(){
         //中身なし
         document.getElementById("no_work_div").hidden = false;
     }
+}
+
+//global_work_dictionaryにworkの情報を記録するための関数。workカードのonclickで情報を閲覧するための関数
+function make_work_dictionary(work_id, work_doc){
+    //ユーザーidレベルの存在確認
+    global_work_dictionary[work_id] = work_doc;
+}
+
+function han_to_zen(str){
+    //10進数の場合
+    str.replace(/[0-9]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) + 65248);
+    });
+}
+
+//work_cardから詳細を閲覧するためのonclick関数
+function work_detail_display(clicked_element){
+    //console.log(clicked_element);
+    //ワーク普通のカード
+    var work_normal = clicked_element.parentNode;
+    //ワークdetailのカード
+    var work_card = document.getElementById("work_detail");
+    //高さと位置を揃えて
+    plasize_copy(work_normal, work_card);
+    //トランジションをきれいに見せるためのdiv
+    var work_card_bluff = document.getElementById("work_bluff_erea");
+    //console.log(clicked_element.innerHTML);
+    work_card_bluff.innerHTML = clicked_element.innerHTML;
+    var work_card_display = document.getElementById("work_display_erea");
+    //アニメーションのための布石
+    work_card_bluff.style.display = "flex";
+    work_card_display.style.display = "none";
+    work_card.style.display = "flex";
+    //rippleアニメーションを見るためのタイムアウト
+    setTimeout(function(){
+        //cardの出現
+        work_card.style.zIndex = 5;
+        setTimeout(function(){
+            //bluffトランジション
+            work_card_bluff.classList.add("tosee");
+            //detail全体トランジション
+            work_card.classList.add("display");
+            //トランジション調整
+            setTimeout(function(){
+                work_card_bluff.style.display = "none";
+            },145);
+            setTimeout(function(){
+                //displayereaトランジション
+                work_card_display.classList.add("tosee");
+                work_card_display.style.display = "flex";
+            },150);
+        }, 100);
+    }, 100);
+}
+function work_detail_display_back(){
+    //fixedのworkdetailってやつ
+    var work_card = document.getElementById("work_detail");
+    //トランジションをきれいに見せるためのdiv
+    var work_card_bluff = document.getElementById("work_bluff_erea");
+    //detail閲覧のためのdiv
+    var work_card_display = document.getElementById("work_display_erea");
+    //全体のアニメーション
+    work_card.classList.remove("display");
+    //displayereaトランジション
+    work_card_display.classList.remove("tosee");
+    setTimeout(function(){
+        //トランジション調整
+        work_card_display.style.display = "none";
+        work_card_bluff.style.display = "flex";
+        //bluffトランジション
+        setTimeout(function(){   
+            work_card_bluff.classList.remove("tosee");
+            setTimeout(function(){
+                work_card.style.zIndex = 0;
+                work_card.style.display = "none";
+            }, 150)
+        }, 10);
+    }, 150);
+}
+
+
+function plasize_copy(info_element, next_element){
+    //クリックした要素の情報を取得
+    var rect = info_element.getBoundingClientRect();
+    var left = rect.left;// + window.pageXOffset;
+    var top = rect.top;// + window.pageYOffset;
+    var width = rect.width;
+    var height = rect.height;
+    //console.log("left", left, "top", top, "width", width, "height", height);
+    //隠し話題に適用
+    next_element.hidden = false;
+    next_element.style.top = String(top) + "px";
+    next_element.style.left = String(left) + "px";
+    next_element.style.height = String(height) + "px";
+    next_element.style.width = String(width) + "px";
 }

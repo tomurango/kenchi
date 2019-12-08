@@ -99,7 +99,7 @@
             <p style="font-size: 2em; margin:0px">利用規約</p>
             <div id="concern_terms" hidden>
                 <p>
-                    この利用規約（以下，「本規約」といいます。）は，経験値（以下，「当社」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
+                    この利用規約（以下，「本規約」といいます。）は，当サイト運営（以下，「当社」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
                 </p>
                 
                 <h2>
@@ -248,8 +248,14 @@
                     本規約の解釈にあたっては，日本法を準拠法とします。
                     本サービスに関して紛争が生じた場合には，当社の本店所在地を管轄する裁判所を専属的合意管轄とします。
                 </p>
+                <h2>
+                    第17条（分離可能性）
+                </h2>
                 <p>
-                    以上
+                    本規約のいずれかの条項またはその一部が、消費者契約法その他の法令等により無効または執行不能と判断された場合であっても、本規約の残りの規定及び一部が無効または執行不能と判断された規定の残りの部分は、継続して完全に効力を有するものとします。
+                </p>
+                <p>
+                    （2019年12月05日制定）
                 </p>
                 <button id="second_card_approval" onclick="tutorial_approval()" class="mdc-button">
                     <div class="mdc-button__ripple"></div>
@@ -267,7 +273,7 @@
         <div id="how_to_login" style="height: 100%; width: 100%; position: fixed; left: 0px; text-align: center">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" style="position: absolute; top: 0px;left: 0px" onclick="how_to_login_close()">clear</button>
             <a href="" onclick="google_login();return false" style="text-decoration: none">
-                <img id="google_login_img" style="height: 40px; width: auto" src="img/btn_google_light_normal_ios_maked.svg">
+                <img id="google_login_img" style="height: 45px; width: auto" src="img/btn_google_light_normal_ios_maked.svg">
             </a>
             <br>
             <button class="mdc-button mdc-button--outlined" onclick="log_out()">
@@ -288,7 +294,7 @@
                     利用規約
                 </h1>
                 <p>
-                    この利用規約（以下，「本規約」といいます。）は，経験値（以下，「当社」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
+                    この利用規約（以下，「本規約」といいます。）は，当サイト運営（以下，「当社」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
                 </p>
                 
                 <h2>
@@ -437,8 +443,14 @@
                     本規約の解釈にあたっては，日本法を準拠法とします。
                     本サービスに関して紛争が生じた場合には，当社の本店所在地を管轄する裁判所を専属的合意管轄とします。
                 </p>
+                <h2>
+                    第17条（分離可能性）
+                </h2>
                 <p>
-                    以上
+                    本規約のいずれかの条項またはその一部が、消費者契約法その他の法令等により無効または執行不能と判断された場合であっても、本規約の残りの規定及び一部が無効または執行不能と判断された規定の残りの部分は、継続して完全に効力を有するものとします。
+                </p>
+                <p>
+                    （2019年12月05日制定）
                 </p>
             </div>
             <button onclick="terms_of_service()" class="mdc-button" style="color: #000033;">
@@ -575,7 +587,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.5</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.7</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1017,6 +1029,23 @@
             <span id="fab_icon" class="mdc-fab__icon material-icons">emoji_people</span>
             <span id="fab_text" class="mdc-fab__label">ハロー</span>
         </button>
+
+        <div id="work_detail" class="mdc-card" hidden>
+            <div id="work_bluff_erea"></div>
+            <div id="work_display_erea">
+                <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share" onclick="work_detail_display_back()">clear</button>
+                <div>
+                    詳細を表示
+                </div>
+            </div>
+            <div class="mdc-card__actions" style="position: absolute; bottom: 0px; width: 100%">
+                <div class="mdc-card__action-icons">
+                    <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">thumb_up</button>
+                    <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">share</button>
+                    <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="More options">more_vert</button>
+                </div>
+            </div>
+        </div>
 
         <div id="timer_delete_alert_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
             <div class="mdc-dialog__container">

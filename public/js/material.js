@@ -232,7 +232,9 @@ function card_ripple_re(){
     }
 }
 
-
+function do_ripple(selector){
+    new mdc.ripple.MDCRipple(selector);
+}
 
 //dialog timer_delete_alert_dialog
 var timer_delete_alert_dialog = new mdc.dialog.MDCDialog(document.querySelector('#timer_delete_alert_dialog'));
