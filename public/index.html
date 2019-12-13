@@ -587,7 +587,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.7</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.0.8</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -600,7 +600,7 @@
                             <div id="nagares_navi" class="mdc-tab-scroller__scroll-content">
                                 <button class="mdc-tab" role="tab" aria-selected="false" tabindex="-1">
                                     <span class="mdc-tab__content">
-                                        <span class="mdc-tab__text-label nagare_part">トレンド</span>
+                                        <span class="mdc-tab__text-label nagare_part">おすすめ</span>
                                     </span>
                                     <span class="mdc-tab__ripple nagare_part"></span>
                                     <span class="mdc-tab-indicator">
@@ -662,6 +662,10 @@
                         <p class="card_subtitle">コミュニティ</p>
                         <p id="user_community_display_renew" class="card_contents">参加していない</p>
                     </div>
+                    <div id="dash_display_message" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;"  onclick="display_card_message()">
+                        <p class="card_subtitle">お知らせ</p>
+                        <p id="user_message_display_renew" class="card_contents">開発・運営より</p>
+                    </div>
                     <!--
                     <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
                         <p class="card_subtitle">ユーザランク</p>
@@ -687,18 +691,14 @@
                             <canvas id="myChart" height="100%" width="100%"></canvas>
                         </div>
                     </div>
-                    <div id="dash_display_message" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;"  onclick="display_card_message()">
-                        <p class="card_subtitle">お知らせ</p>
-                        <p id="user_message_display_renew" class="card_contents">開発・運営より</p>
+                    <div id="dash_display_ranking" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;"  onclick="display_card_ranking()">
+                        <p class="card_subtitle">ランキング</p>
+                        <p id="user_ranking_display_renew" class="card_contents">1位</p>
                     </div>
                     <!--
                     <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
                         <p class="card_subtitle">スキル</p>
                         <p class="card_contents"><span style="font-size: 2em">２</span>ポイント所持</p>
-                    </div>
-                    <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
-                        <p class="card_subtitle">お知らせ</p>
-                        <p class="card_contents"><span>１</span>件の新着情報があります</p>
                     </div>
                     -->
                 </div>
@@ -865,6 +865,22 @@
             <p>
                 ここにレベルの詳細を表示する
             </p>
+        </div>
+
+        <div id="dash_ranking" class="mdc-card dash-card" style="display: none;">
+            <button class="mdc-icon-button material-icons back" onclick="display_card_ranking_back()">keyboard_arrow_down</button>
+            <p class="card_subtitle">ランキング</p>
+            <ul id="ranking_information" class="mdc-list">
+                <li class="mdc-list-item" tabindex="0">
+                    <span class="mdc-list-item__text">Single-line item</span>
+                </li>
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__text">Single-line item</span>
+                </li>
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__text">Single-line item</span>
+                </li>
+            </ul>
         </div>
 
         <div id="dash_community" class="mdc-card dash-card" style="display: none;">

@@ -51,6 +51,7 @@ function work_get(){
         //カウントを表示
         console.log("read_one", firestore_get_count);
         var works_reverse = querySnapshot.docs.reverse();
+        //console.log(works_reverse);
         works_reverse.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots
             var work_insert_flag = 0;

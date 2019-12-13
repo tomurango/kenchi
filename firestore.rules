@@ -91,6 +91,11 @@ service cloud.firestore {
       allow read: if request.auth.uid != null;
     }
 
+    //このルールはランキングで使います。
+    match /{path=**}/levinfo/{jobId} {
+      allow read: if request.auth.uid != null;
+    }
+
     //依頼のルール
     match /irais/{iraiId} {
       allow read: if true;

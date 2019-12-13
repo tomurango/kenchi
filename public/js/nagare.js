@@ -19,10 +19,10 @@ function insert_communities_navi(){
     nagare_global = all_user_communities;
     //community_state_change で一度の実行にする
     if(community_change_state){
-        //navigationの中身をトレンドだけにする
-        document.getElementById("nagares_navi").innerHTML = '<button id="community_navi_trend" class="mdc-tab" role="tab" aria-selected="true" tabindex="0"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">トレンド</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>';
-        //トレンドのナガレはここで作る
-        document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><h1>トレンド（未実装）</h1><div>';
+        //navigationの中身をおすすめだけにする
+        document.getElementById("nagares_navi").innerHTML = '<button id="community_navi_trend" class="mdc-tab" role="tab" aria-selected="true" tabindex="0"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">おすすめ</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>';
+        //おすすめのナガレはここで作る
+        document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><h1>おすすめ（未実装）</h1><div>';
         for(var i= 0; i<all_user_communities.length; i++ ){
             //コミュニティをTopAppBarにぶち込んでく
             var one_c = all_user_communities[i];
@@ -61,7 +61,7 @@ function re_register_tab_event(){
     },{ once: true});
 }
 function nagare_change(nec_index){
-    //ナガレのindex変化前をトレンドから取得するかな
+    //ナガレのindex変化前をおすすめから取得するかな
     var pre_index = Number(document.getElementById("nagare_trend").className.slice(-1));
     console.log(pre_index, '=>', nec_index);
     var nagare_array = document.getElementsByClassName("nagare_page");
@@ -82,7 +82,7 @@ function nagare_change(nec_index){
     if(nec_index == trend_num){
         //buttonを非表示にする
         document.getElementById("start_fab").style.display = "none";
-        //これトレンドの処理だね guestに合わせるために、一度トレンドの中身を非表示というか、クリアしてからの代入になるが、正直非効率的な気がする 今はいいが要修正
+        //これおすすめの処理だね guestに合わせるために、一度おすすめの中身を非表示というか、クリアしてからの代入になるが、正直非効率的な気がする 今はいいが要修正
         //document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><div>';
         document.getElementById("nagare_trend").innerHTML = "";//中身を空にする
         get_trend();
@@ -180,9 +180,9 @@ function send_nagare_to_com_try(){
 function send_nagare_to_com(){
     var community_icon_create = document.getElementById("comment_div_while_image").value.split('.');
     var result = con_file_ext(community_icon_create[community_icon_create.length - 1].toLowerCase());
-    //ナガレのindex変化前をトレンドから取得する
+    //ナガレのindex変化前をおすすめから取得する
     var now_index = Number(document.getElementById("nagare_trend").className.slice(-1));
-    //トレンドで反応することがない前提の処理
+    //おすすめで反応することがない前提の処理
     var community_doc_id = nagare_global[now_index];
     //テキストエリアからテキストを取得する
     var new_text = document.getElementById("comment_div_while_textarea").value;
@@ -257,14 +257,14 @@ function send_nagare_to_com(){
     document.getElementById("comment_div_while_send").style.display = "none";
     //表示の切り替え
     setTimeout(function(){
-        //トレンドかそれ以外かを識別する
+        //おすすめかそれ以外かを識別する
         var now_now_index = Number(document.getElementById("nagare_trend").className.slice(-1));
         var trend_num = nagare_global.length;
         if(now_now_index == trend_num){
-            //トレンドに対する処理
+            //おすすめに対する処理
             document.getElementById("start_fab").style.display = "none";
         }else{
-            //トレンド以外に対する処理
+            //おすすめ以外に対する処理
             //fabを元に戻して表示
             document.getElementById("start_fab").style.display = "flex";
         }
@@ -383,12 +383,12 @@ function insert_nagare_list(nagare_id ,nagare_data, nagare_number, type){
 function re_define_nagare_height(com_index){
     var trend_num = nagare_global.length;
     if(com_index == trend_num){
-        //トレンドに対する処理
+        //おすすめに対する処理
         var height = document.getElementById("nagare_trend").clientHeight;
         document.getElementById("page_contain_com").style.height = String(height + 200) + "px";
         //console.log(300, 'px');
     }else{    
-        //トレンド以外に対する処理
+        //おすすめ以外に対する処理
         var nagare_element_id = 'nagare_' + nagare_global[com_index];
         //console.log(nagare_element_id);
         //console.log(document.getElementById(nagare_element_id));
@@ -564,14 +564,14 @@ function display_talk_back(){
             setTimeout(function(){
                 hidden_wadai.hidden = true;
                 //talkを取得して代入する            
-                //ナガレのindex変化前をトレンドから取得するかな(このライブラリの60からコピー)
+                //ナガレのindex変化前をおすすめから取得するかな(このライブラリの60からコピー)
                 var nagare_index_number = Number(document.getElementById("nagare_trend").className.slice(-1));
                 //console.log(nagare_index_number, typeof nagare_index_number);
                 document.getElementById("wadai_nagare_id_hidden").value = "";
                 if(nagare_global.length == nagare_index_number){
-                    //トレンドの時の処理
+                    //おすすめの時の処理
                     //get_trend();何もしないのが正解！？
-                    console.log("トレンドは何もしない");
+                    console.log("おすすめは何もしない");
                 }else{
                     //それ以外の処理
                     get_nagare(nagare_index_number);

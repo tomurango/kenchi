@@ -44,6 +44,24 @@
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
 
+#dash_ranking{
+    z-index: 5;
+    position: fixed;
+}#dash_ranking.active{
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border-radius: 0px;
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 5;
+    padding: 40px;
+    position: fixed;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+
 #dash_name{
     z-index: 5;
     position: fixed;

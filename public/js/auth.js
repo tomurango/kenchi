@@ -302,7 +302,8 @@ function job_update(name, job){
         //ついでjobの階層にもデータを登録するようにする
         db.collection("users").doc(user_info_global.uid).collection("jobs").add({
             name: job,
-            date: new Date()
+            date: new Date(),
+            img: user_info_global.photoURL
         }).then(function(docref_job) {
             //server側のoncreateでlevel info を作る
             firestore_write_count += 2;

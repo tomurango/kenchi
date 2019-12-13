@@ -67,6 +67,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         document.getElementById("dash_display_com").onclick = function(){display_card_com()};
         document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
         document.getElementById("dash_display_message").onclick = function(){display_card_message()};
+        document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
         //hederの非表示
         header.style.display = "none";
         nagare.classList.remove("active_page");
@@ -142,7 +143,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         }else{
             //匿名ユーザでないから dash を閉じる
             dash.classList.remove("active_page");
-            insert_communities_navi();//コミュニティに参加してない人はトレンドのみのタブは表示しないようにするから、その対応処理をかけるようにする        
+            insert_communities_navi();//コミュニティに参加してない人はおすすめのみのタブは表示しないようにするから、その対応処理をかけるようにする        
             //headerの表示
             header.style.display = "block";
         }
