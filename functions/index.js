@@ -237,6 +237,7 @@ exports.createJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
     var now_time = new Date();
     db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).set({
         level: 1,
+        user_id: snap.data().uid,
         job_name: snap.data().name,
         user_image: snap.data().img,
         total_time: 0,
@@ -257,8 +258,10 @@ exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/w
         //month_timeの追加実装 2019/12/12
         var month_time = level_info.month_time + time;
         //ランキングで画像を表示するために画像の仕組みを追加実装 2019/12/13
+        /*update関数なので記述が不要と判明 2019/12/15
         var user_image = level_info.user_image;
         var job_name = level_info.job_name;//こっちも同上で追加実装
+        */
         //差し引かれる前の残りの値
         var level_needed = level_exp_needed(level_info.level) - level_info.level_time;
         //取得した経験値との差を求める
@@ -300,8 +303,6 @@ exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/w
         //アップデートする変数の定義（status）
         var status ={
             level: new_level,
-            job_name: job_name,
-            user_image: user_image,
             timestamp: new_timestamp,
             total_time: new_total,
             today_time: new_today,
@@ -380,3 +381,23 @@ app.post('/sessionLogin', (req, res) => {
 var request = require('request');
 request.setHeader('Set-Cookie', 'SameSite=Lax');
 */
+
+
+//only blaze 定期処理
+exports.scheduledFunction = functions.pubsub.schedule('1 of month 00:00').timeZone('Asia/Tokyo').onRun((context) => {
+    console.log('This will be run every day 1');
+    //jobのランキングを初期化する関数を実行する
+    db.collectionGroup('levinfo').get().then(function (querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            update_month_time(doc.data().user_id, doc.id);
+        });
+    });
+    return null;
+});
+//月の時間を0にする関数 引数にuidとjobidをとる
+function update_month_time(user_id ,job_id){
+    db.collection("users").doc(user_id).collection("jobs").doc(job_id).collection("levinfo").doc(job_id).update({
+        month_time: 0
+    });
+    return null
+}

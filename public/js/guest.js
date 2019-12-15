@@ -174,7 +174,7 @@ function insert_guest_navi(){
     //trend だけ表示して、firestore で情報取得と挿入をしていく感じ
     header.style.display = "none";
     //今は試しに書き込んでる
-    //document.getElementById("page_contain_com").innerHTML = '<p style = "margin: 70px 20px 20px 20px; font-size:2em;">ここにfirestoreで取得したおすすめの話題を並べる</p>';
+    //document.getElementById("page_contain_com").innerHTML = '<p style = "margin: 70px 20px 20px 20px; font-size:2em;">ここにfirestoreで取得した最新の話題を並べる</p>';
     document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px;"><div>';
     get_trend();
 }
@@ -187,7 +187,7 @@ function get_trend(){
     //collectionGroup → _collectionGroup アンダーバー付けたら、funtion じゃないよエラーから、許可下りてませんよエラーになった。
     db.collectionGroup('nagare').where('date', '>' , nagare_timestamp_trend).orderBy("date", "desc").limit(10).get().then(function (querySnapshot) {
         //timestamp
-        //nagare_timestamp_trend = firebase.firestore.Timestamp.now();おすすめは常に最新のものを取得したいから、タイムスタンプは惜しませン
+        //nagare_timestamp_trend = firebase.firestore.Timestamp.now();最新は常に最新のものを取得したいから、タイムスタンプは惜しませン
         //get カウント
         if(querySnapshot.size == 0){
             firestore_get_count += 1;

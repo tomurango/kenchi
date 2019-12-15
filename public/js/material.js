@@ -143,7 +143,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         }else{
             //匿名ユーザでないから dash を閉じる
             dash.classList.remove("active_page");
-            insert_communities_navi();//コミュニティに参加してない人はおすすめのみのタブは表示しないようにするから、その対応処理をかけるようにする        
+            insert_communities_navi();//コミュニティに参加してない人は最新のみのタブは表示しないようにするから、その対応処理をかけるようにする        
             //headerの表示
             header.style.display = "block";
         }
