@@ -51,8 +51,9 @@ function work_get(){
         //カウントを表示
         console.log("read_one", firestore_get_count);
         var works_reverse = querySnapshot.docs.reverse();
-        //console.log(works_reverse);
+        console.log(works_reverse);
         works_reverse.forEach(function(doc) {
+            //console.log(doc.data(), "検証");
             // doc.data() is never undefined for query doc snapshots
             var work_insert_flag = 0;
             for(var i= 0; i < work_library.length; i++){
@@ -61,7 +62,7 @@ function work_get(){
                     console.log("重複取得");
                     work_insert_flag = 1;
                     break
-                }    
+                }
             }
             if(work_insert_flag == 0){
                 work_library.push(doc.id);
@@ -106,6 +107,8 @@ function work_get(){
 };
 
 function insert_work(work_id, work_doc){
+    //card_idは未定義だったらundefined_undefinedみたいになる
+    var card_id = work_doc.userId + "_" + work_doc.jobId + "_" + work_id;
     console.log(work_id, " work => ", work_doc);
     var time_list = fire_time_normalization(work_doc.finish);
     var exp_list = exp_to_time(work_doc.time);
@@ -113,15 +116,19 @@ function insert_work(work_id, work_doc){
     var time_info_tag = '<p style="margin: 16px 16px 8px 16px"><span style="font-size: 1.5em">'+ exp_list[0] +'</span>' + exp_list[1] + "　" + '<span style="font-size: 1.5em">'+ work_doc.text +'</span></p>';//テキスト情報を追加しました。2019/12/04
     var user_info_tag = '<p style="font-size: 0.7em; color: #595959; margin:8px 16px 16px 16px;">' + work_doc.userName + ' ・ ' + time_list[2] + ' : ' + time_list[3] + '<br>Lv' + work_doc.jobLevel + ' ' + work_doc.jobName + '</p>';
     var text_div = '<div class="work_text">' + time_info_tag + user_info_tag + '</div>';
-    var action_area = '<div class="mdc-card__actions"><div class="mdc-card__action-icons"><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">thumb_up</button><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">share</button><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="More options">more_vert</button></div></div>';
-    var insert_element = '<div class="mdc-layout-grid__cell"><div id="workcard_' + work_id + '" class="mdc-card" style="position:relative; padding: 0px;"><div onclick="work_detail_display(this)" class="mdc-card__primary-action work_action" tabindex="0">'+ work_icon + text_div + '</div>' + action_area + '</div></div>';
+    //<div class="goodcount">0</div>ボタンの左におくのはひとまずなしにしようか（workよりもワダイのほうが集合性つける感あるし,,,）まあわからんから保留2019/12/18
+    //すでにいいねしているかどうかの確認
+    var good_class = "";
+    if(already_good(work_id)){good_class = "good"}
+    var action_area = '<div class="mdc-card__actions"><div class="mdc-card__action-icons"><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon good_work_button ' + good_class + '" onclick="good_work(this);" title="Good">thumb_up</button><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">share</button><button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="More options">more_vert</button></div></div>';
+    var insert_element = '<div class="mdc-layout-grid__cell"><div id="workcard_' + card_id + '" class="mdc-card" style="position:relative; padding: 0px;"><div onclick="work_detail_display(this)" class="mdc-card__primary-action work_action" tabindex="0">'+ work_icon + text_div + '</div>' + action_area + '</div></div>';
     document.getElementById('work_line_inner').insertAdjacentHTML('afterbegin', insert_element);
     //挿入後に検証してしまう(未検証)191112
     check_work_isornot();
     //ワークカードonclickで引き出せるように辞書を作成する
     make_work_dictionary(work_id, work_doc);
     //rippleさせる
-    var selector_text = "#workcard_" + work_id + " .work_action";
+    var selector_text = "#workcard_" + card_id + " .work_action";
     var ripple_selector = document.querySelector(selector_text)
     //親要素を指定してその子要素のwork_actionクラスにリップルさせる処理
     do_ripple(ripple_selector);
@@ -330,4 +337,83 @@ function plasize_copy(info_element, next_element){
     next_element.style.left = String(left) + "px";
     next_element.style.height = String(height) + "px";
     next_element.style.width = String(width) + "px";
+}
+
+
+//goodwork機能追加
+function good_work(good){
+    id_card = good.parentNode.parentNode.parentNode.id;
+    //_で区切って分割する workcard userId jobId workId
+    var what_user_job_work = id_card.split('_');
+    //userがいいねしてるかどうか確認する
+    var number = 0;
+    if(already_good(what_user_job_work[3])){
+        //すでにグッドしてる グッドを取り消す
+        number = -1;
+        var type = "delete";
+        good.classList.remove("good");
+    }else{
+        //まだグッドしてない グッドをつける
+        number = 1;
+        var type = "add";
+        good.classList.add("good");
+    }
+    //とりあえず以下何もしない形でエラーの反応を見る
+    db.collection("users").doc(what_user_job_work[1]).collection("jobs").doc(what_user_job_work[2]).collection("works").doc(what_user_job_work[3]).update({
+        good: firebase.firestore.FieldValue.increment(number)
+    }).then(function(){
+        //write カウント
+        firestore_write_count += 1;
+        console.log("write", firestore_write_count);
+        //userのgoodも書き換える
+        update_user_good(type, what_user_job_work[3]);
+    }).catch(function(error){
+        console.log("error", error);
+    });
+}
+
+//すでにグッドしたものかどうかの確認
+function already_good(work_id){
+    for(var i=0; i< user_doc_global.good.length; i++){
+        if(user_doc_global.good[i] == work_id){
+            return true;
+        }
+    }
+    return false;
+}
+
+//userのgoodeのカラムを書き換える
+function update_user_good(type, work_id){
+    //global変数のほうを書き換える
+    if(type == "add"){
+        user_doc_global.good.push(work_id);
+    }else if(type == "delete"){
+        /*spliceだと最後の一つになったときに挙動が怪しい
+        for(var i=0; i<user_doc_global.good.length; i++){
+            if(user_doc_global.good[i] == work_id){
+                user_doc_global.good.splice(i, i);
+            }
+        }
+        */
+        user_doc_global.good = user_doc_global.good.filter(function( item ) {
+            return item !== work_id;
+        });
+    }
+    console.log( "update", type , work_id, user_doc_global.good );
+    //firestore のデータベースを書き換える
+    var change;
+    if(type == "add"){
+        change = firebase.firestore.FieldValue.arrayUnion(work_id);
+    }else if(type == "delete"){
+        change = firebase.firestore.FieldValue.arrayRemove(work_id);
+    }
+    db.collection("users").doc(user_info_global.uid).update({
+        good: change
+    }).then( function(){
+        //write カウント
+        firestore_write_count += 1;
+        console.log("write", firestore_write_count);
+    }).catch(function(error){
+        console.log("error => ", error)
+    })
 }

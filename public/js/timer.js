@@ -117,7 +117,11 @@ function send_work(){
         userIcon: user_info_global.photoURL,
         jobName: user_job_global.name,
         jobLevel: level_info_global[user_doc_global.job].level,
-        text: work_text
+        text: work_text,
+        //ここから下は言い値機能の実装のためのidと思ったがやはり不要では？wやっぱ必要ですgoodwork記録するのに使用します。
+        userId: user_info_global.uid,
+        jobId: user_doc_global.job,
+        goodWork: 0
     })
     .then(function() {
         //get カウント サーバー側でget 1 ,write 1

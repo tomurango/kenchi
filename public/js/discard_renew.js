@@ -323,8 +323,11 @@ function display_card_ranking_back(){
     },100);
 }
 
+var ranking_flag = 0;
 //ジョブを月ごとのランキングで取得するための関数
 function get_ranking(){
+    //一度取得していたら何もしないで終了させる
+    if(ranking_flag == 1){return};
     //とりあえず取得上限１０個
     db.collectionGroup('levinfo').orderBy("month_time", "desc").limit(10).get().then(function (querySnapshot) {
         //カウントを表示
@@ -341,6 +344,7 @@ function get_ranking(){
             //ひとつづつ下げてく
             rank_number -= 1;
         });
+        ranking_flag = 1;
     });
 }
 //ジョブをインサートしていく関数

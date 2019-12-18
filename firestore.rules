@@ -15,7 +15,9 @@ service cloud.firestore {
         match /works/{workId} {
           allow read, create: if request.auth.uid == userId;
           //こっちは管理者だけ（俺）が実行できるようにすればレベリングに関するセキュリティも扱えるはず
-          allow update, delete: if request.auth.token.admin == true;
+          //goodeworkのためにupdateは許可するが、セキュリティ面での見直しが必須に思われる
+          allow update: if request.auth.uid != null;
+          allow delete: if request.auth.token.admin == true;
         }
 
         match /levinfo/{infoId} {

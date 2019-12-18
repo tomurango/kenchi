@@ -178,7 +178,7 @@ $(document).ready(function(){
 });
 
 function insert_image_button(image){
-    var button_style = 'style="background-image:url(' + image + '); border:none; padding:0px; width:32px; height:32px; background-size: contain; border-radius:50%; margin:8px;"';
+    var button_style = 'style="background-color: #ff9900; background-image:url(' + image + '); border:none; padding:0px; width:32px; height:32px; background-size: contain; border-radius:50%; margin:8px;"';
     var button_tag = '<button class="mdc-top-app-bar__navigation-icon"'+ button_style +' onclick="how_to_login_open()"></button>';
     document.getElementById("user_login").innerHTML = button_tag;
     //console.log("user is signed in");''
@@ -285,6 +285,7 @@ function job_update(name, job){
         auth: [],
         join: [],
         model: [],
+        good: [],
         date: new Date()
     };
     db.collection("users").doc(user_info_global.uid).set(new_user).then(function(docref_user) {

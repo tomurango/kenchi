@@ -57,11 +57,13 @@
 }
 
 #work_detail{
+    visibility: hidden;
     position: fixed;
     padding: 0px;
     z-index: 0;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#work_detail.display{
+    visibility: visible;
     top: 0px !important;
     left: 0px !important;
     width: 100% !important;
@@ -81,4 +83,8 @@
     transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#work_display_erea.tosee{
     opacity: 1;
+}
+
+.good_work_button.good{
+    color: #0066ff;
 }
