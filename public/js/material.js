@@ -268,6 +268,9 @@ var irai_caution_dialog = new mdc.dialog.MDCDialog(document.querySelector('#irai
 var work_text_dialog = new mdc.dialog.MDCDialog(document.querySelector('#work_text_dialog'));
 work_text_dialog.scrimClickAction = "";
 
+var type_to_log_dialog = new mdc.dialog.MDCDialog(document.querySelector('#type_to_log_dialog'));
+type_to_log_dialog.scrimClickAction = "";
+
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 

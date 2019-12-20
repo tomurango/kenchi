@@ -290,8 +290,6 @@ function work_detail_display(clicked_element){
     setTimeout(function(){
         //cardの出現
         work_card.style.zIndex = 5;
-        //ワダイのカードを非表示にする
-        work_event_batton.style.visibility = "hidden";
         setTimeout(function(){
             //bluffトランジション
             work_card_bluff.classList.add("tosee");
@@ -305,6 +303,8 @@ function work_detail_display(clicked_element){
                 //displayereaトランジション
                 work_card_display.classList.add("tosee");
                 work_card_display.style.display = "flex";
+                //ワダイのカードを非表示にする
+                work_event_batton.style.visibility = "hidden";
             },150);
         }, 100);
     }, 100);

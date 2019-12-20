@@ -30,6 +30,7 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.26);
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#timer_div.open{
+    background-color: #ffffff;
     width: 100vw;
     height: 100%;
     border-radius: 0px;
@@ -40,21 +41,75 @@
 #back_timer_screen{
     transform: scale(0);
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
-    color: #ffffff;
+    color: #000000;
     position: absolute;
-    top: 40px;
-    left: 40px;
+    top: 0px;
+    left: 0px;
 }#back_timer_screen.open{
     transform: scale(1);
 }
+#timer_type_timer{
+    right: 48px;
+    top: 0px;
+    position: absolute;
+    transform: scale(0);
+    color: #000000;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#timer_type_timer.open{
+    transform: scale(1);
+}#timer_type_timer.open.thistype{
+    color: #0066ff
+}
+#timer_type_log{
+    right: 0px;
+    top: 0px;
+    position: absolute;
+    transform: scale(0);
+    color: #000000;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#timer_type_log.open{
+    transform: scale(1);
+}#timer_type_log.open.thistype{
+    color: #0066ff
+}
+.log_input{
+    font-size: 32px;
+    width: 40px;
+    border: none;
+    color: #003bcd;
+}
+#type_log_container{
+    margin-left: calc(50% - 69px);
+    margin-top: 30vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    transform: scale(0);
+    opacity: 0;
+    position: absolute;
+    justify-content: center;
+    transition: transform 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#type_log_container.open{
+    transform: scale(1);
+    opacity: 1;
+}
+
 
 #count_number{
+    margin-left: calc(50% - 40px);
     margin-top: 30vh;
-    color: #ffffff;
+    color: #003bcd;
     font-family: 'Noto Sans JP', sans-serif;
-    font-size: 2em;
+    font-size: 32px;
     transform: scale(0);
-    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    opacity: 0;
+    position: absolute;
+    justify-content: center;
+    transition: transform 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#count_number.open{
     transform: scale(1);
+    opacity: 1;
 }
+
