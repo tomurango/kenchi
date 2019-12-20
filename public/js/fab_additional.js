@@ -257,11 +257,22 @@ function han_to_zen(str){
     });
 }
 
+/*
+// スクロール禁止
+$("body").css('overflow','hidden');
+
+// スクロール禁止 解除
+$("body").css('overflow','auto');
+*/
+//ワークの表示イベントのためのバトン
+var work_event_batton;
 //work_cardから詳細を閲覧するためのonclick関数
 function work_detail_display(clicked_element){
     //console.log(clicked_element);
     //ワーク普通のカード
     var work_normal = clicked_element.parentNode;
+    //カードを非表示にするための記述
+    work_event_batton = work_normal;
     //ワークdetailのカード
     var work_card = document.getElementById("work_detail");
     //高さと位置を揃えて
@@ -279,6 +290,8 @@ function work_detail_display(clicked_element){
     setTimeout(function(){
         //cardの出現
         work_card.style.zIndex = 5;
+        //ワダイのカードを非表示にする
+        work_event_batton.style.visibility = "hidden";
         setTimeout(function(){
             //bluffトランジション
             work_card_bluff.classList.add("tosee");
@@ -297,6 +310,8 @@ function work_detail_display(clicked_element){
     }, 100);
 }
 function work_detail_display_back(){
+    //カードを表示する
+    work_event_batton.style.visibility = "visible";
     //fixedのworkdetailってやつ
     var work_card = document.getElementById("work_detail");
     //トランジションをきれいに見せるためのdiv
@@ -317,6 +332,8 @@ function work_detail_display_back(){
             setTimeout(function(){
                 work_card.style.zIndex = 0;
                 work_card.style.display = "none";
+                // スクロール解除
+                $("body").css('overflow','auto');
             }, 150)
         }, 10);
     }, 150);
@@ -324,6 +341,8 @@ function work_detail_display_back(){
 
 
 function plasize_copy(info_element, next_element){
+    // スクロール禁止
+    $("body").css('overflow','hidden');
     //クリックした要素の情報を取得
     var rect = info_element.getBoundingClientRect();
     var left = rect.left;// + window.pageXOffset;

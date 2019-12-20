@@ -10,6 +10,8 @@ function display_card_user(){
     var card = document.getElementById("dash_name");
     //拡大させるカードを償還する
     apper_card("dash_display_user", "dash_name");
+    //裏のvisibility を hidden にする
+    $("#dash_display_user").css('visibility','hidden');
     setTimeout(function(){
         //拡大させる
         card.classList.add("active");
@@ -18,9 +20,18 @@ function display_card_user(){
     },50);
 }
 
+/*
+// スクロール禁止
+$("body").css('overflow','hidden');
+
+// スクロール禁止 解除
+$("body").css('overflow','auto');
+*/
 //カードを指定された位置に召還して動かす スペル両方ミスってるっぽいなｗ 定義時も使用時も
 function apper_card(clicked_element_id, apper_element_id){
     console.log("appear card");
+    //スクロール停止
+    $("body").css('overflow','hidden');
     //それぞれエレメントを取得
     var clicked_element = document.getElementById(clicked_element_id);
     var apper_element = document.getElementById(apper_element_id);
@@ -40,6 +51,8 @@ function apper_card(clicked_element_id, apper_element_id){
 
 //nameを閉じるときの関数
 function display_card_user_back(){
+    //裏のvisibility を hidden にする
+    $("#dash_display_user").css('visibility','visible');
     console.log("back_user");
     //ボタンを押したときのエフェクトが実行されるためのタイムアウト
     setTimeout(function(){
@@ -50,6 +63,8 @@ function display_card_user_back(){
         //user card を縮小させる
         card.classList.remove("active");
         setTimeout(function(){
+            //スクロール回復
+            $("body").css('overflow','auto');
             //user card を非表示にする
             card.style.display = "none";
             //renew_card に onclickを代入する
@@ -75,6 +90,8 @@ function display_card_job(){
     var card = document.getElementById("dash_job");
     //拡大させるカードを償還する
     apper_card("dash_display_job", "dash_job");
+    //裏のvisibility を hidden にする
+    $("#dash_display_job").css('visibility','hidden');
     setTimeout(function(){
         //拡大させる
         card.classList.add("active");
@@ -85,6 +102,8 @@ function display_card_job(){
 
 //nameを閉じるときの関数
 function display_card_job_back(){
+    //裏のvisibility を hidden にする
+    $("#dash_display_job").css('visibility','visible');
     console.log("back_job");
     //ボタンを押したときのエフェクトが実行されるためのタイムアウト
     setTimeout(function(){
@@ -95,6 +114,8 @@ function display_card_job_back(){
         //user card を縮小させる
         card.classList.remove("active");
         setTimeout(function(){
+            //スクロール回復
+            $("body").css('overflow','auto');
             //user card を非表示にする
             card.style.display = "none";
             //renew_card に onclickを代入する
@@ -121,6 +142,8 @@ function display_card_com(){
     var card = document.getElementById("dash_community");
     //拡大させるカードを償還する
     apper_card("dash_display_com", "dash_community");
+    //裏のvisibility を hidden にする
+    $("#dash_display_com").css('visibility','hidden');
     setTimeout(function(){
         //拡大させる
         card.classList.add("active");
@@ -137,6 +160,8 @@ function display_card_com(){
 }
 
 function display_card_com_back(){
+    //裏のvisibility を hidden にする
+    $("#dash_display_com").css('visibility','visible');
     console.log("back_com");
     //ボタンを押したときのエフェクトが実行されるためのタイムアウト
     setTimeout(function(){
@@ -151,6 +176,8 @@ function display_card_com_back(){
         //user card を縮小させる
         card.classList.remove("active");
         setTimeout(function(){
+            //スクロール回復
+            $("body").css('overflow','auto');
             //user card を非表示にする
             card.style.display = "none";
             //renew_card に onclickを代入する
@@ -185,6 +212,8 @@ function display_card_greet(){
     var card = document.getElementById("dash_greet");
     //拡大させるカードを償還する
     apper_card("dash_display_greet", "dash_greet");
+    //裏のvisibility を hidden にする
+    $("#dash_display_greet").css('visibility','hidden');
     setTimeout(function(){
         //拡大させる
         card.classList.add("active");
@@ -196,6 +225,8 @@ function display_card_greet(){
 }
 //greetを閉じるときの関数
 function display_card_greet_back(){
+    //裏のvisibility を hidden にする
+    $("#dash_display_greet").css('visibility','visible');
     console.log("back_greet");
     //ボタンを押したときのエフェクトが実行されるためのタイムアウト
     setTimeout(function(){
@@ -208,6 +239,8 @@ function display_card_greet_back(){
         //user card を縮小させる
         card.classList.remove("active");
         setTimeout(function(){
+            //スクロール回復
+            $("body").css('overflow','auto');
             //user card を非表示にする
             card.style.display = "none";
             //renew_card に onclickを代入する
@@ -233,6 +266,8 @@ function display_card_message(){
     var card = document.getElementById("dash_message");
     //拡大させるカードを償還する
     apper_card("dash_display_message", "dash_message");
+    //裏のvisibility を hidden にする
+    $("#dash_display_message").css('visibility','hidden');
     setTimeout(function(){
         //拡大させる
         card.classList.add("active");
@@ -244,6 +279,8 @@ function display_card_message(){
 }
 //greetを閉じるときの関数
 function display_card_message_back(){
+    //裏のvisibility を hidden にする
+    $("#dash_display_message").css('visibility','visible');
     console.log("back_message");
     //ボタンを押したときのエフェクトが実行されるためのタイムアウト
     setTimeout(function(){
@@ -256,6 +293,8 @@ function display_card_message_back(){
         //user card を縮小させる
         card.classList.remove("active");
         setTimeout(function(){
+            //スクロール回復
+            $("body").css('overflow','auto');
             //user card を非表示にする
             card.style.display = "none";
             //renew_card に onclickを代入する
@@ -280,7 +319,9 @@ function display_card_ranking(){
     //拡大して表示する旧来のやつ
     var card = document.getElementById("dash_ranking");
     //拡大させるカードを償還する
-    apper_card("dash_display_ranking", "dash_ranking");    
+    apper_card("dash_display_ranking", "dash_ranking");  
+    //裏のvisibility を hidden にする
+    $("#dash_display_ranking").css('visibility','hidden');  
     setTimeout(function(){
         //拡大させる
         card.classList.add("active");
@@ -296,6 +337,8 @@ function display_card_ranking(){
 }
 //rankingを閉じるときの関数
 function display_card_ranking_back(){
+    //裏のvisibility を hidden にする
+    $("#dash_display_ranking").css('visibility','visible');
     console.log("back_ranking");
     //ボタンを押したときのエフェクトが実行されるためのタイムアウト
     setTimeout(function(){
@@ -310,6 +353,8 @@ function display_card_ranking_back(){
         //user card を縮小させる
         card.classList.remove("active");
         setTimeout(function(){
+            //スクロール回復
+            $("body").css('overflow','auto');
             //user card を非表示にする
             card.style.display = "none";
             //renew_card に onclickを代入する

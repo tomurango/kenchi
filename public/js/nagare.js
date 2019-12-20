@@ -482,10 +482,20 @@ function fire_time_normalization(firestore_timestamp){
 }
 
 //裏のスクロールを調整して戻して表示するためのグローバル変数
-var window_y = window.pageYOffset;
+//var window_y = window.pageYOffset;bodyでスクロール調整ができると判明したので、置き換える2019/12/20
+/*
+// スクロール禁止
+$("body").css('overflow','hidden');
+
+// スクロール禁止 解除
+$("body").css('overflow','auto');
+*/
+//ワダイのイベントを閉じるときにつなぐための変数
+var wadai_event_batton;
 //wadai click で nagare display display_talk になってるがnagareとしていたものをwadaiにしたから、命名が複雑化
 function display_talk(wadai_element){
-    window_y = window.pageYOffset;
+    // スクロール禁止
+    $("body").css('overflow','hidden');
     var com_nag = wadai_element.id.split("_");
     document.getElementById("wadai_nagare_id_hidden").value = wadai_element.id;//コメントを送信するときに参照する
     //クリックした要素の情報を取得
@@ -509,6 +519,9 @@ function display_talk(wadai_element){
     hidden_wadai_mimic.innerHTML = wadai_element.innerHTML;
     var hidden_wadai_content = document.getElementById("hidden_wadai_content");//閲覧とかボタンとかのwadaiを見るときに表示するdiv
     var hidden_wadai_fixed = document.getElementById("hidden_wadai_fixed");
+    //裏がわを非表示
+    wadai_element.style.visibility = "hidden";
+    wadai_event_batton = wadai_element;
     setTimeout(function(){
         hidden_wadai.classList.add("being");
         setTimeout(function(){
@@ -547,7 +560,9 @@ function display_talk(wadai_element){
 function display_talk_back(){
     //裏を元に戻す
     document.getElementById("page_contain_com").hidden = false;
-    window.scrollTo( 0, window_y );
+    //裏がわを非表示 この上の行の書き換えが不要説出てる要検証2019/12/20本当は下の記述で試したいけど、id持ってこれないかん
+    wadai_event_batton.style.visibility = "visible";
+    //window.scrollTo( 0, window_y );
     //元に戻す処理を書く
     var hidden_wadai = document.getElementById("hidden_wadai");
     //var hidden_wadai_mimic = document.getElementById("hidden_wadai_mimic");//トランジションをきれいに見せるためのdiv
@@ -562,6 +577,8 @@ function display_talk_back(){
             hidden_wadai_content.hidden = true;
             //hidden_wadai_mimic.hidden = false;
             setTimeout(function(){
+                // スクロール禁止 解除
+                $("body").css('overflow','auto');
                 hidden_wadai.hidden = true;
                 //talkを取得して代入する            
                 //ナガレのindex変化前を最新から取得するかな(このライブラリの60からコピー)
