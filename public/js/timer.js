@@ -89,8 +89,10 @@ function count_number_display(){
     }else if(number_counted < 10){
         display_number ="00:0" + String(number_counted);
     }else if(number_counted < 60){
+        //重病経過
         display_number ="00:" + String(number_counted);
     }else if(number_counted < 600){
+        //一分経過
         if(number_counted % 60 <10){
             var sec = "0"+String(number_counted % 60);
         }else{
@@ -98,12 +100,34 @@ function count_number_display(){
         }
         display_number ="0" + String(Math.floor(number_counted / 60)) + ":" + sec;
     }else if(number_counted < 3600){
+        //十分経過
         if(number_counted % 60 <10){
             var sec = "0"+String(number_counted % 60);
         }else{
             var sec = String(number_counted % 60);
         }
         display_number = String(Math.floor(number_counted / 60)) + ":" + sec;
+    }else if(number_counted < 86400){
+        //一時間経過
+        var sec_num = number_counted % 60;
+        if(sec_num < 10){
+            var sec = "0"+String(sec_num);
+        }else{
+            var sec = String(sec_num);
+        }
+        var min_num = (number_counted - sec_num) % 3600 / 60;
+        if(min_num < 10){
+            var min = "0"+String(min_num);
+        }else{
+            var min = String(min_num);
+        }
+        var hour_num = Math.floor((number_counted - min_num -sec_num) / 3600);
+        var hour = String(hour_num);
+        display_number = hour + ":" + min + ":" + sec;
+        //24時間未満
+    }else{
+        //24時間経過
+        display_number = "24時間経過";
     }
     //一時間突破した後の分岐を書く ここまでで1時間分しかかけてない
     
