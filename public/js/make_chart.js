@@ -3,14 +3,16 @@
 
 //円グラフ作成代入の関数（あくまで、最初のページに関してのみの話である）
 var doughnut_chart;
+var doughnut_chart_detail;
 function insert_level_chart(exp_array){
-    //chart js のグラフが表示されない問題の解決のための検証
-    
+    //すでに描画されていたら書き換え
     if(doughnut_chart){doughnut_chart.destroy()};
+    //挿入値ログ
     console.log("exp_array =>", exp_array);
     var ctx = document.getElementById('myChart');//.getContext('2d');
     //データのセット
     var data = {
+        labels: ['昨日までの経験値', '今日のワークの経験値', '最新のワークの経験値', 'レベルアップまでの経験値'],
         datasets: [{
             data: exp_array,
             backgroundColor: ['#0066ff','#ff9800','#ff6900','#eeeeee']
@@ -19,7 +21,10 @@ function insert_level_chart(exp_array){
     //オプションのマップ
     var options = {
         cutoutPercentage: 80,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        legend:{
+            display: false
+        }
         //devicePixelRatio: window.devicePixelRatio 
     };//window.devicePixelRatio 
     // ドーナツチャート
@@ -28,16 +33,33 @@ function insert_level_chart(exp_array){
         data: data,
         options: options
     });
-
-    //コピペだが、高解像度のレンダリングに関しての対応策っぽい
-    /*var originalRetinaScale = doughnut_chart.helpers.retinaScale;
-    doughnut_chart.helpers.retinaScale = function(chart) {
-        if( !chart.options.responsive && !chart.options.maintainAspectRatio ){
-            return;
+    //ジョブの詳細を表示したときのほうのグラフ
+    if(doughnut_chart_detail){doughnut_chart_detail.destroy()};
+    //データのセットの更新
+    var data = {
+        labels: ['昨日までの経験値', '今日のワークの経験値', '最新のワークの経験値', 'レベルアップまでの経験値'],
+        datasets: [{
+            data: exp_array,
+            backgroundColor: ['#0066ff','#ff9800','#ff6900','#eeeeee']
+        }],
+    };
+    //オプションの更新
+    var options = {
+        cutoutPercentage: 80,
+        maintainAspectRatio: false,
+        legend:{
+            position: 'bottom',
+            labels:{
+                fontSize:16
+            }
         }
-        originalRetinaScale( chart );
-    };*/
-    
+    };
+    var doughnut_detail = document.getElementById("doughnut_detail");
+    doughnut_chart_detail = new Chart(doughnut_detail, {
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
 }
 
 var just_level_global = "測定不能";

@@ -88,3 +88,17 @@
 .good_work_button.good{
     color: #0066ff;
 }
+
+/* グラフに関してのＣＳＳ */
+#user_job_display{
+    text-align: center;
+}#user_job_level_display{
+    position: absolute;
+    bottom: auto;
+    top: calc(54px + 50vw);
+    text-align: center;
+    font-size: 3em;
+    left: 0;
+    right: 0;
+    margin: auto;
+}

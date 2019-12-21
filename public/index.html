@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.1.3</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.1.4</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -870,9 +870,15 @@
             <p class="card_subtitle">しごと</p>
             <p id="user_job_display" class="card_contents">職探しの民</p>
             <p id="user_job_level_display" class="card_contents">Lv 1</p>
-            <p>
-                ここにレベルの詳細を表示する
-            </p>
+            <div id="chart_container_detail" class="chart-container" style="width:100%; height: calc(100vw); position: relative; margin-bottom: 40px">
+                <canvas id="doughnut_detail" height="100%" width="100%"></canvas>
+            </div>
+            <button class="mdc-button" style="color: #0066ff" onclick="">
+                <span class="mdc-button__label">ジョブの情報</span>
+            </button>
+            <button class="mdc-button" style="color: #003dcb" onclick="">
+                <span class="mdc-button__label">ジョブをチェンジ</span>
+            </button>
         </div>
 
         <div id="dash_ranking" class="mdc-card dash-card" style="display: none;">
