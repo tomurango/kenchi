@@ -271,6 +271,8 @@ work_text_dialog.scrimClickAction = "";
 var type_to_log_dialog = new mdc.dialog.MDCDialog(document.querySelector('#type_to_log_dialog'));
 type_to_log_dialog.scrimClickAction = "";
 
+var job_name_dialog = new mdc.dialog.MDCDialog(document.querySelector('#job_name_dialog'));
+
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 

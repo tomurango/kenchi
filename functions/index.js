@@ -248,6 +248,17 @@ exports.createJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
     });
     return 0;
 });
+//ジョブの名前変更で稼働する関数 画像変更の未来も考えてそっちも可能にはしておく2019/12/26
+exports.updateJob = functions.firestore.document('users/{userID}/jobs/{jobID}').onUpdate((change, context) => {
+    var newValue = change.after.data();
+    db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).set({
+        job_name: newValue.name,
+        user_image: newValue.img
+    });
+    return 0;
+});
+
+
 //ワーク作成で動く関数 レベルの上下や経験値、タイムスタンプ等を判別して処理
 exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/works/{workID}').onCreate((snap, context) => {
     //基本の時間

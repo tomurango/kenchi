@@ -140,3 +140,31 @@ function calc_level_info(user_work_time){
     var new_array = [new_level_info.level_time - new_level_info.today_time, new_level_info.today_time - the_diff, the_diff, level_needed];
     insert_level_chart(new_array);
 }
+
+//ジョブの名前を変える関数
+function change_job_name(){
+    console.log("名前変える");
+    //変えたい名前を入力する
+    job_name_dialog.open();
+}
+function change_job_name_send(){
+    //ここで名前を変更して、送信する処理を行う
+    var new_job_name = document.getElementById("job_name_input").value;
+    console.log(new_job_name);
+    //ジョブドックとれべいんふぉの書き換えをするため、onupdateを設置する
+    db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).update({
+        name: new_job_name
+    }).then(function() {
+        //writeカウント
+        firestore_write_count +=2;
+        console.log("write", firestore_write_count);
+        //user_job_globalに代入
+        user_job_global["name"] = new_job_name;
+        update_job_display(user_job_global);
+    });
+}
+function update_job_display(job_doc){
+    console.log("ジョブの名前変更を見た目に反映する");
+    document.getElementById("user_job_display_renew").textContent = job_doc.name;
+    document.getElementById("user_job_display").textContent = job_doc.name;
+}
