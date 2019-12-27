@@ -263,8 +263,16 @@ function create_new_job_send(){
             total_time: 0,
             level_time: 0,
             today_time: 0,
-            timestamp: new Date()
+            month_time: 0,
+            timestamp: new Date(),
+            user_id: user_info_global.uid,
+            user_image: user_info_global.photoURL,
+            job_name: job
         }
+        //alljob_globalでも引用可能にする
+        user_alljob_global[docref_job.id] = docref_job.data();
+        //この行の追加で、作成が表示に反映されると思てたら、そしたら、したら、、ひ、、ひ、光の、、、2019/12/28
+        insert_job_to_list(docref_job.id, docref_job.data());
         //insert_level_info(docref_job.id, 0);表示を変える動作もしてしまうので、
         //メインジョブに変えてからその挙動をする
     });

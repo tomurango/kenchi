@@ -287,8 +287,8 @@ exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/w
         while (the_diff >= 0){
             //上がるレベルをカウントする
             level_result ++;
-            //上がったレベルの経験値を取得して評価する
-            level_needed = level_exp_needed(level_info.level);
+            //上がったレベルの経験値を取得して評価する +level_result以降を調整のために書き足し2019/12/28
+            level_needed = level_exp_needed(level_info.level + level_result);
             the_diff = the_diff - level_needed;
         }
         //差が負の値になったら、diffを一つ前に戻してその値を経験値のプラス値にする

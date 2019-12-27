@@ -334,7 +334,11 @@ function job_update(name, job){
                 total_time: 0,
                 level_time: 0,
                 today_time: 0,
-                timestamp: new Date()
+                month_time: 0,
+                timestamp: new Date(),
+                user_id: user_info_global.uid,
+                user_image: user_info_global.photoURL,
+                job_name: job
             }
             insert_level_info(docref_job.id, 0);
         });
