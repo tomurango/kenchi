@@ -1,4 +1,6 @@
-﻿//import { get } from "https";
+﻿import { create } from "domain";
+
+//import { get } from "https";
 //なんか気づいたら上の行のやつが書かれてたけど、よくわからん
 
 //円グラフ作成代入の関数（あくまで、最初のページに関してのみの話である）
@@ -12,7 +14,7 @@ function insert_level_chart(exp_array){
     var ctx = document.getElementById('myChart');//.getContext('2d');
     //データのセット
     var data = {
-        labels: ['昨日までの経験値', '今日のワークの経験値', '最新のワークの経験値', 'レベルアップまでの経験値'],
+        labels: ['昨日までの経験値', '今日のワークの経験値', '直近のワークの経験値', 'レベルアップまでの経験値'],
         datasets: [{
             data: exp_array,
             backgroundColor: ['#0066ff','#ff9800','#ff6900','#eeeeee']
@@ -37,7 +39,7 @@ function insert_level_chart(exp_array){
     if(doughnut_chart_detail){doughnut_chart_detail.destroy()};
     //データのセットの更新
     var data = {
-        labels: ['昨日までの経験値', '今日のワークの経験値', '最新のワークの経験値', 'レベルアップまでの経験値'],
+        labels: ['昨日までの経験値', '今日のワークの経験値', '直近のワークの経験値', 'レベルアップまでの経験値'],
         datasets: [{
             data: exp_array,
             backgroundColor: ['#0066ff','#ff9800','#ff6900','#eeeeee']
@@ -167,6 +169,7 @@ function update_job_display(job_doc){
     console.log("ジョブの名前変更を見た目に反映する");
     document.getElementById("user_job_display_renew").textContent = job_doc.name;
     document.getElementById("user_job_display").textContent = job_doc.name;
+    document.getElementById("main_job_label").textContent = job_doc.name;
 }
 
 //authでジョブを取得していたが、それはメインジョブに関するもののみだったので、
@@ -176,7 +179,7 @@ function get_all_jobs(){
     //flagで分岐
     if(alljob_getflag){
         //まだ取得してないから、取得する関数
-        console.log("全ジョブ取得");
+        //console.log("全ジョブ取得");
         db.collection('users').doc(user_info_global.uid).collection("jobs").where("main", "==", false)
         .get().then(function (querySnapshot) {
             //カウントを表示
@@ -184,17 +187,85 @@ function get_all_jobs(){
             if(querySnapshot.size == 0) {firestore_get_count += 1};
             console.log("read_one", firestore_get_count);
             querySnapshot.forEach(function(doc) {
-                console.log(doc.id ," => ", doc.data());
                 //グローバル変数に代入する
                 user_alljob_global[doc.id] = doc.data();
             }); 
             //リストに代入する関数
-            console.log("alljob => ",user_alljob_global);
+            insert_alljob();
         });
         alljob_getflag = false;
     }else{
         //すでに取得したので何もしない
-        console.log("ジョブをもう取ってこない");
+        //console.log("ジョブをもう取ってこない");
         return;
     }
+}
+
+function insert_alljob(){
+    for (key in user_alljob_global) {
+        //console.log('key:' + key + ' value:', user_alljob_global[key]);
+        insert_job_to_list(key, user_alljob_global[key]);
+    }
+}
+function insert_job_to_list(job_id, job_doc){
+    if(job_doc.main){
+        //メインジョブだった時
+        var the_list_pre = '<li class="mdc-list-item" role="radio" aria-checked="true" tabindex="0"><span class="mdc-list-item__graphic"><div class="mdc-radio"><input class="mdc-radio__native-control" id="job_list_' + job_id + '" type="radio" name="demo-list-radio-item-group" value="' + job_id + '" onchange="job_radio_change(this)" checked>';
+        var the_list_ante = '<div class="mdc-radio__background"><div class="mdc-radio__outer-circle"></div><div class="mdc-radio__inner-circle"></div></div></div></span><label id="main_job_label" class="mdc-list-item__text" for="job_list_' + job_doc + '">' + job_doc.name + '</label></li>';
+        document.getElementById("job_list").insertAdjacentHTML("afterbegin", the_list_pre + the_list_ante);
+    }else{
+        //メインジョブでないとき
+        var the_list_pre = '<li class="mdc-list-item" role="radio" aria-checked="true" tabindex="0"><span class="mdc-list-item__graphic"><div class="mdc-radio"><input class="mdc-radio__native-control" id="job_list_' + job_id + '" type="radio" name="demo-list-radio-item-group"value="' + job_id + '" onchange="job_radio_change(this)">';
+        var the_list_ante = '<div class="mdc-radio__background"><div class="mdc-radio__outer-circle"></div><div class="mdc-radio__inner-circle"></div></div></div></span><label class="mdc-list-item__text" for="job_list_' + job_doc + '">' + job_doc.name + '</label></li>';
+        document.getElementById("li_create_newjob").insertAdjacentHTML("beforebegin", the_list_pre + the_list_ante);
+    }
+}
+//ここで、レベルのドキュメントを取得したのちにグラフを書き換えるように実装する
+function job_radio_change(input){
+    console.log("job list => ", input.value);
+    if(input.value == "create_new_job"){
+        //新規作成の時
+        document.getElementById("job_change_button").style.display = "none";
+        document.getElementById("job_create_button").style.display = "flex";
+    }else if(input.value == user_doc_global.job){
+        //メインジョブの時
+        document.getElementById("job_change_button").style.display = "none";
+        document.getElementById("job_create_button").style.display = "none";
+    }else{
+        //サブジョブの時
+        document.getElementById("job_change_button").style.display = "flex";
+        document.getElementById("job_create_button").style.display = "none";
+    }
+}
+//新しくジョブを作成するときの関数
+function create_new_job_dialog_open(){
+    create_new_job_dialog.open();
+}
+function create_new_job_send(){
+    var create_job_name = document.getElementById("new_job_name_input").value;
+    console.log(create_job_name);
+    db.collection("users").doc(user_info_global.uid).collection("jobs").add({
+        name: create_job_name,
+        date: new Date(),
+        img: user_info_global.photoURL,
+        uid: user_info_global.uid,
+        main: false
+    }).then(function(docref_job) {
+        //server側のoncreateでlevel info を作る
+        firestore_write_count += 2;
+        console.log("write", firestore_write_count);
+        console.log("Document successfully written!");
+        //levinfoを作成して、グローバルに代入→グラフも表示する
+        //したかったが、初期値の変更をして書き換えることができそうなので却下
+        //そのかア割、グローバル変数に代入して、グラフを表示することに関しては賛成である
+        level_info_global[docref_job.id] = {
+            level: 1,
+            total_time: 0,
+            level_time: 0,
+            today_time: 0,
+            timestamp: new Date()
+        }
+        //insert_level_info(docref_job.id, 0);表示を変える動作もしてしまうので、
+        //メインジョブに変えてからその挙動をする
+    });
 }
