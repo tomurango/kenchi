@@ -257,7 +257,7 @@ exports.updateJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
         result.job_name = newValue.name;
     }
     //メインを変更した時の処理をのちに分岐して作成するかも2019/12/27
-    db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).set(
+    db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).update(
         result
     );
     return 0;

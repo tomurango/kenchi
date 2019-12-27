@@ -1,4 +1,4 @@
-﻿import { create } from "domain";
+﻿//import { create } from "domain";またなんか書かれてて草2019/12/28
 
 //import { get } from "https";
 //なんか気づいたら上の行のやつが書かれてたけど、よくわからん
