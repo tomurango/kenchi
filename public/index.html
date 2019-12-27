@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.1.5</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.1.6</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -867,15 +867,28 @@
 
         <div id="dash_job" class="mdc-card dash-card" style="display: none;">
             <button class="mdc-icon-button material-icons back" onclick="display_card_job_back()">keyboard_arrow_down</button>
-            <p class="card_subtitle">しごと</p>
+            <p class="card_subtitle" style="padding-left: 20px;">しごと</p>
             <p style="text-align: center"  onclick="change_job_name()"><span id="user_job_display" class="card_contents">職探しの民</span><span style="position: relative; top: 4px;" class="material-icons">edit</span></p>
             <p id="user_job_level_display" class="card_contents">Lv 1</p>
             <div id="chart_container_detail" class="chart-container" style="width:100%; height: calc(100vw); position: relative; margin-bottom: 40px">
                 <canvas id="doughnut_detail" height="100%" width="100%"></canvas>
             </div>
+            <!--
             <button class="mdc-button" style="color: #003dcb" onclick="">
                 <span class="mdc-button__label">ジョブを変える</span>
             </button>
+            -->
+            <ul id="job_list" class="mdc-list">
+                <li class="mdc-list-item" tabindex="0">
+                    <span class="mdc-list-item__text">Single-line item</span>
+                </li>
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__text">Single-line item</span>
+                </li>
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__text">Single-line item</span>
+                </li>
+            </ul>
         </div>
 
         <div id="dash_ranking" class="mdc-card dash-card" style="display: none;">

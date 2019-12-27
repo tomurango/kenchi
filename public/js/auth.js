@@ -12,6 +12,7 @@ var user_info_global;
 //dbの情報
 var user_doc_global;
 var user_job_global;
+var user_alljob_global = {};
 //var user_community_global;communityのリストは統一させて辞書でインデックスする感じでいいかも
 var community_list_global = {};
 
@@ -305,7 +306,8 @@ function job_update(name, job){
             name: job,
             date: new Date(),
             img: user_info_global.photoURL,
-            uid: user_info_global.uid
+            uid: user_info_global.uid,
+            main: true
         }).then(function(docref_job) {
             //server側のoncreateでlevel info を作る
             firestore_write_count += 2;
@@ -372,6 +374,8 @@ function user_job_data_get(user_info, job_name){
         //console.log("you got job data");
         //globalで利用可能にする
         user_job_global = doc.data();
+        //alljob_globalでも引用可能にする
+        user_alljob_global[doc.id] = doc.data();
         //levelの情報を取得
         db.collection("users").doc(user_info.uid).collection("jobs").doc(job_name).collection("levinfo").doc(job_name).get().then(function(doc){
             level_info_global[job_name] = doc.data();

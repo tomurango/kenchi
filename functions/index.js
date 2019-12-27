@@ -251,10 +251,15 @@ exports.createJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
 //ジョブの名前変更で稼働する関数 画像変更の未来も考えてそっちも可能にはしておく2019/12/26
 exports.updateJob = functions.firestore.document('users/{userID}/jobs/{jobID}').onUpdate((change, context) => {
     var newValue = change.after.data();
-    db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).set({
-        job_name: newValue.name,
-        user_image: newValue.img
-    });
+    var result = {};
+    if(newValue.name){
+        //名前変更の時
+        result.job_name = newValue.name;
+    }
+    //メインを変更した時の処理をのちに分岐して作成するかも2019/12/27
+    db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).set(
+        result
+    );
     return 0;
 });
 

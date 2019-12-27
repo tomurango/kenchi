@@ -168,3 +168,33 @@ function update_job_display(job_doc){
     document.getElementById("user_job_display_renew").textContent = job_doc.name;
     document.getElementById("user_job_display").textContent = job_doc.name;
 }
+
+//authでジョブを取得していたが、それはメインジョブに関するもののみだったので、
+//ジョブのカードを開くときに、メインジョブ以外のデータを取得してリストに挿入する関数を実装する2019/12/27
+var alljob_getflag = true;
+function get_all_jobs(){
+    //flagで分岐
+    if(alljob_getflag){
+        //まだ取得してないから、取得する関数
+        console.log("全ジョブ取得");
+        db.collection('users').doc(user_info_global.uid).collection("jobs").where("main", "==", false)
+        .get().then(function (querySnapshot) {
+            //カウントを表示
+            firestore_get_count += querySnapshot.size;
+            if(querySnapshot.size == 0) {firestore_get_count += 1};
+            console.log("read_one", firestore_get_count);
+            querySnapshot.forEach(function(doc) {
+                console.log(doc.id ," => ", doc.data());
+                //グローバル変数に代入する
+                user_alljob_global[doc.id] = doc.data();
+            }); 
+            //リストに代入する関数
+            console.log("alljob => ",user_alljob_global);
+        });
+        alljob_getflag = false;
+    }else{
+        //すでに取得したので何もしない
+        console.log("ジョブをもう取ってこない");
+        return;
+    }
+}

@@ -95,7 +95,7 @@
 }#user_job_level_display{
     position: absolute;
     bottom: auto;
-    top: calc(54px + 50vw);
+    top: calc(34px + 50vw);
     text-align: center;
     font-size: 3em;
     left: 0;

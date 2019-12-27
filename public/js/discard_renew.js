@@ -97,6 +97,8 @@ function display_card_job(){
         card.classList.add("active");
         //ボタンを表示させる
         card.firstElementChild.style.display = "block";
+        //ジョブを取得したのちにリストにぶち込む
+        get_all_jobs();
     },50);
 }
 
