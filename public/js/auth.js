@@ -413,3 +413,25 @@ function user_job_data_get(user_info, job_name){
         //document.getElementById("chart_contain").innerHTML = "error >" + String(error);
     });
 }
+
+function change_user_name_dialog(){
+    change_user_name_dialog.open();
+}
+function change_user_name_send(){
+    //firebase auth 書き換える
+    var new_user_name = document.getElementById("change_user_name_input").value;
+    name_update(new_user_name);
+    //データベースを書き換える
+    db.collection("users").doc(user_info_global.uid).update({
+        name: new_user_name
+    }).then(function(){
+        //書き換えカウント
+        firestore_write_count += 1;
+        console.log("write", firestore_write_count);
+        //グローバル変数を書き換える
+        user_doc_global["name"] = new_user_name;
+        //表示を変える
+        document.getElementById("user_name_display").textContent = new_user_name;
+        document.getElementById("user_name_display_renew").textContent = new_user_name;
+    });
+}

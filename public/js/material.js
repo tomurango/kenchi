@@ -275,6 +275,10 @@ var job_name_dialog = new mdc.dialog.MDCDialog(document.querySelector('#job_name
 
 var create_new_job_dialog = new mdc.dialog.MDCDialog(document.querySelector('#create_new_job_dialog'));
 
+var change_job_dialog = new mdc.dialog.MDCDialog(document.querySelector('#change_job_dialog'));
+
+var change_user_name_dialog = new mdc.dialog.MDCDialog(document.querySelector('#change_user_name_dialog'));
+
 
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));

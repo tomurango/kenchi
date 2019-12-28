@@ -210,18 +210,20 @@ function insert_alljob(){
 function insert_job_to_list(job_id, job_doc){
     if(job_doc.main){
         //メインジョブだった時
-        var the_list_pre = '<li class="mdc-list-item" role="radio" aria-checked="true" tabindex="0"><span class="mdc-list-item__graphic"><div class="mdc-radio"><input class="mdc-radio__native-control" id="job_list_' + job_id + '" type="radio" name="demo-list-radio-item-group" value="' + job_id + '" onchange="job_radio_change(this)" checked>';
-        var the_list_ante = '<div class="mdc-radio__background"><div class="mdc-radio__outer-circle"></div><div class="mdc-radio__inner-circle"></div></div></div></span><label id="main_job_label" class="mdc-list-item__text" for="job_list_' + job_doc + '">' + job_doc.name + '</label></li>';
+        var the_list_pre = '<li class="mdc-list-item user_job_list_item" role="radio" aria-checked="true" tabindex="0"><span class="mdc-list-item__graphic"><div class="mdc-radio"><input class="mdc-radio__native-control" id="job_list_' + job_id + '" type="radio" name="demo-list-radio-item-group" value="' + job_id + '" onchange="job_radio_change(this)" checked>';
+        var the_list_ante = '<div class="mdc-radio__background"><div class="mdc-radio__outer-circle"></div><div class="mdc-radio__inner-circle"></div></div></div></span><label id="main_job_label" class="mdc-list-item__text" for="job_list_' + job_id + '">' + job_doc.name + '</label><i class="material-icons" style="right: 16px; position: absolute;">done</i></li>';
         document.getElementById("job_list").insertAdjacentHTML("afterbegin", the_list_pre + the_list_ante);
     }else{
         //メインジョブでないとき
-        var the_list_pre = '<li class="mdc-list-item" role="radio" aria-checked="true" tabindex="0"><span class="mdc-list-item__graphic"><div class="mdc-radio"><input class="mdc-radio__native-control" id="job_list_' + job_id + '" type="radio" name="demo-list-radio-item-group"value="' + job_id + '" onchange="job_radio_change(this)">';
-        var the_list_ante = '<div class="mdc-radio__background"><div class="mdc-radio__outer-circle"></div><div class="mdc-radio__inner-circle"></div></div></div></span><label class="mdc-list-item__text" for="job_list_' + job_doc + '">' + job_doc.name + '</label></li>';
+        var the_list_pre = '<li class="mdc-list-item user_job_list_item" role="radio" aria-checked="true" tabindex="0"><span class="mdc-list-item__graphic"><div class="mdc-radio"><input class="mdc-radio__native-control" id="job_list_' + job_id + '" type="radio" name="demo-list-radio-item-group"value="' + job_id + '" onchange="job_radio_change(this)">';
+        var the_list_ante = '<div class="mdc-radio__background"><div class="mdc-radio__outer-circle"></div><div class="mdc-radio__inner-circle"></div></div></div></span><label class="mdc-list-item__text" for="job_list_' + job_id + '">' + job_doc.name + '</label></li>';
         document.getElementById("li_create_newjob").insertAdjacentHTML("beforebegin", the_list_pre + the_list_ante);
     }
 }
 //ここで、レベルのドキュメントを取得したのちにグラフを書き換えるように実装する
+var job_id_to_change;
 function job_radio_change(input){
+    job_id_to_change = input.value;
     console.log("job list => ", input.value);
     if(input.value == "create_new_job"){
         //新規作成の時
@@ -244,13 +246,16 @@ function create_new_job_dialog_open(){
 function create_new_job_send(){
     var create_job_name = document.getElementById("new_job_name_input").value;
     console.log(create_job_name);
-    db.collection("users").doc(user_info_global.uid).collection("jobs").add({
+    var new_job_result = {
         name: create_job_name,
         date: new Date(),
         img: user_info_global.photoURL,
         uid: user_info_global.uid,
         main: false
-    }).then(function(docref_job) {
+    };
+    db.collection("users").doc(user_info_global.uid).collection("jobs").add(
+        new_job_result
+    ).then(function(docref_job) {
         //server側のoncreateでlevel info を作る
         firestore_write_count += 2;
         console.log("write", firestore_write_count);
@@ -267,13 +272,91 @@ function create_new_job_send(){
             timestamp: new Date(),
             user_id: user_info_global.uid,
             user_image: user_info_global.photoURL,
-            job_name: job
+            job_name: create_job_name
         }
         //alljob_globalでも引用可能にする
-        user_alljob_global[docref_job.id] = docref_job.data();
+        user_alljob_global[docref_job.id] = new_job_result;
         //この行の追加で、作成が表示に反映されると思てたら、そしたら、したら、、ひ、、ひ、光の、、、2019/12/28
-        insert_job_to_list(docref_job.id, docref_job.data());
+        insert_job_to_list(docref_job.id, new_job_result);
         //insert_level_info(docref_job.id, 0);表示を変える動作もしてしまうので、
         //メインジョブに変えてからその挙動をする
+        //とりあえず、チェックの値をメインのジョブにする
+        var main_job_input_id = "#job_list_" + user_doc_global.job;
+        $(main_job_input_id).prop('checked', true);
+        //どうやら、ボタンの切り替えは手動で行う必要があるようです
+        document.getElementById("job_change_button").style.display = "none";
+        document.getElementById("job_create_button").style.display = "none";
     });
+}
+function change_job_dialog_open(){
+    var pre_job_main_id = user_doc_global.job;
+    var pre_job_main = user_alljob_global[pre_job_main_id];
+    var ante_job_main = user_alljob_global[job_id_to_change];
+    //console.log("変更します", pre_job_main ," => ", ante_job_main);
+    document.getElementById("change_job_description").innerHTML = pre_job_main.name + "<br>から<br>" + ante_job_main.name + "<br>に変更しますか?";
+    change_job_dialog.open();
+}
+function change_job_dialog_send(){
+    var pre_job_main_id = user_doc_global.job;
+    /*
+    var pre_job_main = user_alljob_global[pre_job_main_id];
+    var ante_job_main = user_alljob_global[job_id_to_change];
+    */
+    //console.log("変更します", pre_job_main ," => ", ante_job_main);
+    //firestore のユーザのjob fieldを書き換える
+    db.collection("users").doc(user_info_global.uid).update({
+        job: job_id_to_change
+    }).then(function() {
+        //次にジョブの main field を書き換える 今までメインだったものを取りやめる
+        db.collection("users").doc(user_info_global.uid).collection("jobs").doc(pre_job_main_id).update({
+            main: false 
+        }).then(function() {
+            //新しくメインにするものを書き換える
+            db.collection("users").doc(user_info_global.uid).collection("jobs").doc(job_id_to_change).update({
+                main: true
+            }).then(function(){
+                //書き換えカウント
+                firestore_write_count += 3;
+                console.log("write", firestore_write_count);
+                //global変数を書き換える
+                user_doc_global["job"] = job_id_to_change;
+                user_alljob_global[pre_job_main_id]["main"] = false;
+                user_alljob_global[job_id_to_change]["main"] = true;
+                user_job_global = user_alljob_global[job_id_to_change];
+                //表示を切り替える ジョブのリストを更新したのちに、グラフと名前などの情表示を変更する
+                after_job_change();
+            });
+        });
+    }).catch(function(error){
+        console.log("error => ", error);
+    })
+}
+//上の関数でメインジョブを書き換えた後に実行する記述
+function after_job_change(){
+    //削除する
+    var user_job_list_items = $('.user_job_list_item');
+    user_job_list_items.remove();
+    //リストに代入する関数
+    insert_alljob();
+    //levelinfoを今のジョブに対して所有していない場合、取得したのちにグラフを描画
+    if(level_info_global[user_doc_global.job]){
+        //情報がある場合
+        insert_level_info(user_doc_global.job, 0);
+    }else{
+        //情報がない場合
+        db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).collection("levinfo").doc(user_doc_global.job)
+        .get().then(function(doc) {
+            //get カウント
+            firestore_get_count += 1;
+            console.log("get", firestore_get_count);
+            //仕事の書き換え
+            document.getElementById("user_job_display").textContent = user_job_global.name;
+            document.getElementById("user_job_display_renew").textContent = user_job_global.name;
+            //グローバル変数にレベルの情報を写す
+            level_info_global[doc.id] = doc.data();
+            insert_level_info(user_doc_global.job, 0);
+        }).catch(function(error){
+            console.log("error => ", error);
+        })
+    }
 }

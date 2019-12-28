@@ -255,11 +255,13 @@ exports.updateJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
     if(newValue.name){
         //名前変更の時
         result.job_name = newValue.name;
+        //メインを変更した時の処理をのちに分岐して作成するかも2019/12/27
+        db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).update(
+            result
+        );
     }
-    //メインを変更した時の処理をのちに分岐して作成するかも2019/12/27
-    db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).update(
-        result
-    );
+    //メインジョブを切り替える時に余計なデータべース記録をしないようにする
+    //それでもcloudfunctionは呼び出されてしまうから、それに関する料金的な対策を講じることはできないだろうか？
     return 0;
 });
 

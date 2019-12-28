@@ -345,7 +345,7 @@ function change_role_send(send_button){
         uid: user_info_global.uid,
         cid: join_com_id,
         name: user_doc_global["name"],
-        job: user_doc_global["job"],
+        job: user_job_global["name"],
         date: new Date(),
         type: type,
         img: user_info_global.photoURL

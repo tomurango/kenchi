@@ -107,6 +107,12 @@ function display_card_job_back(){
     //裏のvisibility を hidden にする
     $("#dash_display_job").css('visibility','visible');
     console.log("back_job");
+    //とりあえず、チェックの値をメインのジョブにする 2019/12/28追記
+    var main_job_input_id = "#job_list_" + user_doc_global.job;
+    $(main_job_input_id).prop('checked', true);
+    //どうやら、ボタンの切り替えは手動で行う必要があるようです
+    document.getElementById("job_change_button").style.display = "none";
+    document.getElementById("job_create_button").style.display = "none";//ここまで2019/12/28
     //ボタンを押したときのエフェクトが実行されるためのタイムアウト
     setTimeout(function(){
         //縮小してしまうやつ
