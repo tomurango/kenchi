@@ -15,9 +15,14 @@ service cloud.firestore {
         match /works/{workId} {
           allow read, create: if request.auth.uid == userId;
           //こっちは管理者だけ（俺）が実行できるようにすればレベリングに関するセキュリティも扱えるはず
-          //goodeworkのためにupdateは許可するが、セキュリティ面での見直しが必須に思われる
+          //goodeworkのためにupdateは許可するが、セキュリティ面での見直しが必須に思われる(別のコレクションとして保存してしまうのが一番わかりやすいかな？2019/12/30)
           allow update: if request.auth.uid != null;
           allow delete: if request.auth.token.admin == true;
+
+          //ナガレ（ハナシ）のコメントと区別するためにコレクション名はwcommentsとしました
+          match /wcomments/{commentId} {
+            allow read, create: if request.auth.uid != null;
+          }
         }
 
         match /levinfo/{infoId} {

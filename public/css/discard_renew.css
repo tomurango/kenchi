@@ -88,6 +88,9 @@
 .good_work_button.good{
     color: #0066ff;
 }
+#good_work_on_detail.good{
+    color: #0066ff;
+}
 
 /* グラフに関してのＣＳＳ */
 #user_job_display{

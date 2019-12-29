@@ -270,14 +270,18 @@ var work_event_batton;
 var attension_work_id;
 //work_cardから詳細を閲覧するためのonclick関数
 function work_detail_display(clicked_element){
-    //console.log(clicked_element);
-    input_text_event("#comment_input_towork", "#work_comment_button")
     //ワーク普通のカード
     var work_normal = clicked_element.parentNode;
     //カードを非表示にするための記述
     work_event_batton = work_normal;
     //コメントやいいねなどの動作をとる時に参照するための変数
     attension_work_id = work_normal.id;
+    //console.log(clicked_element);
+    input_text_event("#comment_input_towork", "#work_comment_button");
+    //wcommentsの取得をしてのちに挿入する関数
+    get_wcomments();
+    //userがgoodしてたらdetailのボタンも青くするための関数
+    good_or_not_ondetail();
     //ワークdetailのカード
     var work_card = document.getElementById("work_detail");
     //高さと位置を揃えて
@@ -406,6 +410,7 @@ function good_work(good){
 function already_good(work_id){
     for(var i=0; i< user_doc_global.good.length; i++){
         if(user_doc_global.good[i] == work_id){
+            //すでにグッドしている
             return true;
         }
     }
@@ -445,15 +450,32 @@ function update_user_good(type, work_id){
         console.log("write", firestore_write_count);
     }).catch(function(error){
         console.log("error => ", error)
-    })
+    });
 }
 
 //ワークの応援コメントを送信するための関数
 function work_comment_send(){
     //応援コメントとワークのidを取得してコンソールで表示しましょう
     var comment_for_work = document.getElementById("comment_input_towork").value;
-    console.log("the element id => ", attension_work_id, "comment for the work", comment_for_work);
-    document.getElementById("work_comment_erea").insertAdjacentHTML("afterbegin","<p>" + comment_for_work + "</p>")
+    var ids = attension_work_id.split('_');
+    /*console.log("the element id => ", attension_work_id, "comment for the work", comment_for_work, "ids => ", ids);
+    console.log("user id => ", ids[1]);
+    console.log("job id => ", ids[2]);
+    console.log("work id => ", ids[3]);*/
+    //firestoreに記録する
+    db.collection("users").doc(ids[1]).collection("jobs").doc(ids[2]).collection("works").doc(ids[3]).collection("wcomments").add({
+        comment: comment_for_work
+    }).then( function(){
+        //自分で入力したコメントはここで反映させておく
+        insert_work_comment(comment_for_work);
+        //input タグの中身を空にする
+        document.getElementById("comment_input_towork").value = "";
+        //write カウント
+        firestore_write_count += 1;
+        console.log("write", firestore_write_count);
+    }).catch(function(error){
+        console.log("error => ", error)
+    });
 }
 
 //input とボタンの組み合わせを関数化しました。2019/12/29
@@ -487,4 +509,97 @@ function remove_text_event(input_query, button_query){
     var hidden_wadai_fixed_text_input = $(input_query);
     //このイベント投稿欄を閉じたときに停止させたりしたほうがいいとかあるかね？
     hidden_wadai_fixed_text_input.off('input');
+}
+
+//一度取得したコメントは記録しておくための変数
+var wcomments_global = {};
+function get_wcomments(){
+    //card_userid_jobid_workid
+    var id_list = attension_work_id.split('_');
+    var wcomments_id = id_list[1] + "_" + id_list[2] + "_" + id_list[3];
+    //すでに取得しているなら、もう取らない
+    if(wcomments_global[wcomments_id]){
+        console.log("もう取ってるので、挿入だけする");
+        for (key in wcomments_global[wcomments_id]) {
+            //console.log('key:' + key + ' value:', user_alljob_global[key]);
+            insert_work_comment(wcomments_global[wcomments_id][key]);
+        }
+        return
+    }else{
+        //まだとってなかったらトル今のままの処理だと中身がない時は永遠に取りに来ようとしてしまうので要修正2019/12/30
+        console.log("wコメントをとって代入");
+        db.collection("users").doc(id_list[1]).collection("jobs").doc(id_list[2]).collection("works").doc(id_list[3]).collection("wcomments").limit(5).get().then(function(comments){
+            wcomments_global[wcomments_id] = {};
+            //コメントごとに挿入していく処理
+            comments.forEach(function(comment){
+                //ここでglobal変数に格納する
+                wcomments_global[wcomments_id][comment.id] = comment.data();
+                //コメントを挿入していく関数
+                insert_work_comment(comment.data());
+            });
+            //一度取得したワークに対するコメントを記録しておく
+            //get カウント
+            if(comments.size == 0){
+                firestore_get_count += 1;    
+            }else{
+                firestore_get_count += comments.size;
+            }
+            console.log("read" ,firestore_get_count);
+        }).catch(function(error){
+            console.log("error => ", error)
+        });
+    }
+}
+
+function insert_work_comment(commentdoc){
+    //とりあえずの実装2019/12/30
+    document.getElementById("work_comment_erea").insertAdjacentHTML("afterbegin","<p>" + commentdoc.comment + "</p>");
+}
+
+function good_on_detail(){
+    console.log("いいね！");
+    var good = document.getElementById("good_work_on_detail");
+    //_で区切って分割する workcard userId jobId workId
+    var what_user_job_work = attension_work_id.split('_');
+    //userがいいねしてるかどうか確認する
+    var number = 0;
+    if(already_good(what_user_job_work[3])){
+        //すでにグッドしてる グッドを取り消す
+        number = -1;
+        var type = "delete";
+        good.classList.remove("good");
+        //いいねしたボタンのカードの裏のボタンの色を変える
+        document.getElementById(attension_work_id).getElementsByClassName("mdc-card__actions")[0].getElementsByClassName("mdc-card__action-icons")[0].getElementsByClassName("good_work_button")[0].classList.remove("good");
+    }else{
+        //まだグッドしてない グッドをつける
+        number = 1;
+        var type = "add";
+        good.classList.add("good");
+        //いいねしたボタンのカードの裏のボタンの色を変える
+        document.getElementById(attension_work_id).getElementsByClassName("mdc-card__actions")[0].getElementsByClassName("mdc-card__action-icons")[0].getElementsByClassName("good_work_button")[0].classList.add("good");
+    }
+    //とりあえず以下何もしない形でエラーの反応を見る
+    db.collection("users").doc(what_user_job_work[1]).collection("jobs").doc(what_user_job_work[2]).collection("works").doc(what_user_job_work[3]).update({
+        good: firebase.firestore.FieldValue.increment(number)
+    }).then(function(){
+        //write カウント
+        firestore_write_count += 1;
+        console.log("write", firestore_write_count);
+        //userのgoodも書き換える
+        update_user_good(type, what_user_job_work[3]);
+    }).catch(function(error){
+        console.log("error", error);
+    });
+}
+
+function good_or_not_ondetail(){
+    //_で区切って分割する workcard userId jobId workId
+    var work_id = attension_work_id.split('_')[3];
+    if(already_good(work_id)){
+        //すでにグッドしてる 青色にする
+        document.getElementById("good_work_on_detail").classList.add("good");
+    }else{
+        //まだグッドしてない 灰色にする
+        document.getElementById("good_work_on_detail").classList.remove("good");
+    }
 }
