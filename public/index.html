@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.2.0</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.2.1</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1085,10 +1085,9 @@
         <div id="work_detail" class="mdc-card" hidden>
             <div id="work_bluff_erea"></div>
             <div id="work_display_erea">
-                <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share" onclick="work_detail_display_back()">clear</button>
-                <div>
-                    詳細を表示
-                </div>
+                <button class="material-icons mdc-icon-button" style="color: rgba(0, 0, 0, 0.6)" title="back" onclick="work_detail_display_back()">clear</button>
+                <input type="text" style="font-size: 20px; border: none; height: 24px; padding: 12px; width: calc(100% - 96px);" placeholder="応援を入力">
+                <button class="material-icons mdc-icon-button" style="color: rgba(0, 0, 0, 0.6)">send</button>
             </div>
             <div class="mdc-card__actions" style="position: absolute; bottom: 0px; width: 100%">
                 <div class="mdc-card__action-icons">
@@ -1310,7 +1309,7 @@
             </div>
         </div>
 
-        <div id="change_user_name_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+        <div id="change_username_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
             <div class="mdc-dialog__container">
                 <div class="mdc-dialog__surface">
                     <section id="change_user_name_description" class="mdc-dialog__content"><input id="change_user_name_input" type="text" maxlength="10" placeholder="新しい名前を入力" style="border: none; font-size: 20px;"></section>

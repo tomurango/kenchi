@@ -156,12 +156,14 @@ function change_job_name_send(){
     //ジョブドックとれべいんふぉの書き換えをするため、onupdateを設置する
     db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).update({
         name: new_job_name
-    }).then(function() {
+    }).then(function(doc) {
         //writeカウント
         firestore_write_count +=2;
         console.log("write", firestore_write_count);
         //user_job_globalに代入
         user_job_global["name"] = new_job_name;
+        //user_alljob_globalの変更したジョブの名前を変更する
+        user_alljob_global[doc.id]["name"] = new_job_name;
         update_job_display(user_job_global);
     });
 }
@@ -333,6 +335,9 @@ function change_job_dialog_send(){
 }
 //上の関数でメインジョブを書き換えた後に実行する記述
 function after_job_change(){
+    //ボタンの切り替えは手動で行う必要があるようです
+    document.getElementById("job_change_button").style.display = "none";
+    document.getElementById("job_create_button").style.display = "none";
     //削除する
     var user_job_list_items = $('.user_job_list_item');
     user_job_list_items.remove();
@@ -341,6 +346,10 @@ function after_job_change(){
     //levelinfoを今のジョブに対して所有していない場合、取得したのちにグラフを描画
     if(level_info_global[user_doc_global.job]){
         //情報がある場合
+        //仕事の書き換え
+        document.getElementById("user_job_display").textContent = user_job_global.name;
+        document.getElementById("user_job_display_renew").textContent = user_job_global.name;
+        //グラフ描画等
         insert_level_info(user_doc_global.job, 0);
     }else{
         //情報がない場合

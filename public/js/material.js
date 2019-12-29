@@ -277,7 +277,7 @@ var create_new_job_dialog = new mdc.dialog.MDCDialog(document.querySelector('#cr
 
 var change_job_dialog = new mdc.dialog.MDCDialog(document.querySelector('#change_job_dialog'));
 
-var change_user_name_dialog = new mdc.dialog.MDCDialog(document.querySelector('#change_user_name_dialog'));
+var change_username_dialog = new mdc.dialog.MDCDialog(document.querySelector('#change_username_dialog'));
 
 
 //snakebar

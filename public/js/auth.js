@@ -415,7 +415,10 @@ function user_job_data_get(user_info, job_name){
 }
 
 function change_user_name_dialog(){
-    change_user_name_dialog.open();
+    console.log("あけあけあけあけごま")
+    //change_user_name_dialog.open();
+    //change_job_dialog.open();
+    change_username_dialog.open();
 }
 function change_user_name_send(){
     //firebase auth 書き換える
