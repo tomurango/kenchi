@@ -266,13 +266,18 @@ $("body").css('overflow','auto');
 */
 //ワークの表示イベントのためのバトン
 var work_event_batton;
+//ワークの応援コメントを送信するための変数
+var attension_work_id;
 //work_cardから詳細を閲覧するためのonclick関数
 function work_detail_display(clicked_element){
     //console.log(clicked_element);
+    input_text_event("#comment_input_towork", "#work_comment_button")
     //ワーク普通のカード
     var work_normal = clicked_element.parentNode;
     //カードを非表示にするための記述
     work_event_batton = work_normal;
+    //コメントやいいねなどの動作をとる時に参照するための変数
+    attension_work_id = work_normal.id;
     //ワークdetailのカード
     var work_card = document.getElementById("work_detail");
     //高さと位置を揃えて
@@ -302,7 +307,7 @@ function work_detail_display(clicked_element){
             setTimeout(function(){
                 //displayereaトランジション
                 work_card_display.classList.add("tosee");
-                work_card_display.style.display = "flex";
+                work_card_display.style.display = "block";
                 //ワダイのカードを非表示にする
                 work_event_batton.style.visibility = "hidden";
             },150);
@@ -310,6 +315,12 @@ function work_detail_display(clicked_element){
     }, 100);
 }
 function work_detail_display_back(){
+    //イベントトル
+    remove_text_event("#comment_input_towork", "#work_comment_button");
+    //中身を空にする
+    attension_work_id = "";
+    document.getElementById("comment_input_towork").value = "";
+    document.getElementById("work_comment_erea").innerHTML = "";
     //カードを表示する
     work_event_batton.style.visibility = "visible";
     //fixedのworkdetailってやつ
@@ -435,4 +446,45 @@ function update_user_good(type, work_id){
     }).catch(function(error){
         console.log("error => ", error)
     })
+}
+
+//ワークの応援コメントを送信するための関数
+function work_comment_send(){
+    //応援コメントとワークのidを取得してコンソールで表示しましょう
+    var comment_for_work = document.getElementById("comment_input_towork").value;
+    console.log("the element id => ", attension_work_id, "comment for the work", comment_for_work);
+    document.getElementById("work_comment_erea").insertAdjacentHTML("afterbegin","<p>" + comment_for_work + "</p>")
+}
+
+//input とボタンの組み合わせを関数化しました。2019/12/29
+function input_text_event(input_query, button_query){
+    //buttonの#絵お消して、ドキュメント選択に対応する
+    var button_query_no_sharp = button_query.slice( 1 ) ;
+    //textarea に対してイベントを指定する
+    var hidden_wadai_fixed_text_input = $(input_query);
+    //このイベント投稿欄を閉じたときに停止させたりしたほうがいいとかあるかね？
+    hidden_wadai_fixed_text_input.on('input', function(event) {
+        var value = hidden_wadai_fixed_text_input.val();
+        //console.log(value, event);
+        if(value == ""){
+            //無効か
+            $(button_query).attr('disabled', true);
+            document.getElementById(button_query_no_sharp).style.color = "#595959";
+        }else{
+            // 有効化
+            $(button_query).attr('disabled', false);
+            document.getElementById(button_query_no_sharp).style.color = "#0066ff";
+        }
+    });
+}
+function remove_text_event(input_query, button_query){
+    //buttonの#絵お消して、ドキュメント選択に対応する
+    var button_query_no_sharp = button_query.slice(1);
+    //無効か
+    $(button_query).attr('disabled', true);
+    document.getElementById(button_query_no_sharp).style.color = "#595959";
+    //イベント無効か
+    var hidden_wadai_fixed_text_input = $(input_query);
+    //このイベント投稿欄を閉じたときに停止させたりしたほうがいいとかあるかね？
+    hidden_wadai_fixed_text_input.off('input');
 }
