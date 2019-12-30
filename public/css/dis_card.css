@@ -21,8 +21,9 @@
     top: 0px !important;
     left: 0px !important;
     z-index: 5;
-    padding: 40px;
+    padding: none;
     position: fixed;
+    overflow-y: scroll;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
 

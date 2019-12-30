@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.2.4</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.2.5</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -660,7 +660,7 @@
                 <div id="dash_left" class="dash_column">
                     <div id="dash_display_greet" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;" onclick="display_card_greet()">
                         <p class="card_subtitle">あいさつ</p>
-                        <p style="text-align: center"><span id="sirasu_count" style="font-size: 2em">0</span> ハロー</p>
+                        <p style="text-align: left"><span id="sirasu_count" style="font-size: 2em">0</span> ハロー</p>
                     </div>
                     <div id="dash_display_user" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" onclick="display_card_user()">
                         <p class="card_subtitle">なまえ</p>
@@ -801,9 +801,11 @@
         <!--discard renew 関連のelement-->
         <div id="dash_greet" class="mdc-card dash-card" style="display: none;">
             <button class="mdc-icon-button material-icons back" onclick="display_card_greet_back()">keyboard_arrow_down</button>
-            <p class="card_subtitle">あいさつ</p>
-            <p class="card_contents"><span id="sirasu_count_another" style="font-size: 2em">0</span> ハロー</p>
+            <p class="card_subtitle" style="padding-left: 20px;">あいさつ</p>
+            <p class="card_contents" style="padding-left: 20px;"><span id="sirasu_count_another" style="font-size: 2em">0</span> ハロー</p>
             <div id="greet_text" hidden>
+
+                <!--2019/12/30
                 <p>
                     あいさつは大切
                 </p>
@@ -815,6 +817,7 @@
                     <br>
                     2019/11/30
                 </p>
+                -->
             </div>
         </div>
 

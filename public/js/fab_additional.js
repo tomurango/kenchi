@@ -1,7 +1,16 @@
 ﻿function sirasu(){
     //firestore
+    //firestore timestamp 型はupdateとかsetの関数内で使用する必要があるようです
+    var user_item = {
+        time: new Date(),
+        name: user_doc_global.name,
+        job: user_job_global.name,
+        icon: user_info_global.photoURL
+    }
+    //今はとりあえず付け足すだけにしているが、とても長くなってしまう可能性を考えると、定期処理減らすなりクリアするなどの工夫が必要であると考える2019/12/30 要はなくしてもいいじゃねってこと？
     db.collection("sirasu").doc("6WrFkQ2L0tuoatHbw4Qj").update({
-        count :firebase.firestore.FieldValue.increment(1)
+        count :firebase.firestore.FieldValue.increment(1),
+        users: firebase.firestore.FieldValue.arrayUnion(user_item)
     });
     firestore_write_count += 1;
     //カウントを表示
@@ -17,7 +26,10 @@ function sirasu_get(){
         var the_count = doc.data().count;
         document.getElementById("sirasu_count").textContent = the_count;
         document.getElementById("sirasu_count_another").textContent = the_count;
+        //insert_aisatu
+        insert_aisatu(doc.data());
         //リスナの設置 //いずれは課金上限に最も届きやすそうなので、リスナは控える感じで行くかもしれない2019/12/30
+        /*ひとまずなしにする2019/12/30
         sirasu_listener = db.collection("sirasu").doc("6WrFkQ2L0tuoatHbw4Qj").onSnapshot(function(doc) {
             firestore_get_count += 1;
             //カウントを表示
@@ -26,7 +38,10 @@ function sirasu_get(){
             var the_count = doc.data().count;
             document.getElementById("sirasu_count").textContent = the_count;
             document.getElementById("sirasu_count_another").textContent = the_count;
+            //insert_aisatu
+            insert_aisatu(doc.data());
         });
+        */
     }).catch(function(error){
         console.log("error → ", error);
     });
@@ -645,4 +660,22 @@ function insert_work_good_number(){
     var good_count = global_work_dictionary[work_id]["goodWork"];
     var insert_text = '<p><span id="'+ work_id +'_good_count_ondetail">' + good_count + '<span>グッド</p>'
     document.getElementById("work_comment_erea").insertAdjacentHTML("afterbegin", insert_text);
+}
+
+function insert_aisatu(aisatu_doc){
+    for(var i= 0; i< aisatu_doc.users.length ; i++){
+        //usedoc ごとに処理する
+        var a_user = aisatu_doc.users[i];
+        //js date を配列に変換して持ってくる
+        var time_list = fire_time_normalization(a_user.time);
+        var time_text = time_list[0] + "月" + time_list[1] + "日" + time_list[2] + "時" ;//+ time_list[3] + "分";分までやるとなんか追跡されてる感ありそうだから、せいぜい何時までにする
+        var the_name = '<span class="mdc-list-item__secondary-text" style="position: absolute; top: 32px; left: 72px">'+ a_user.name + '<span>(' + a_user.job + ')</span></span>';
+        var the_time = '<span class="mdc-list-item__primary-text" style="position: absolute; top: 0px; left: 72px">'+ time_text +'</span>';
+        var the_image = '<img src="'+ a_user.icon +'" style="height: 40px; width:40px; object-fit: cover; border-radius: 50%; margin-right: 16px;">';
+        var the_list = '<li class="mdc-list-item" style="height: 72px">' + the_image + the_time + the_name + '</li>';
+        document.getElementById("greet_text").insertAdjacentHTML("afterbegin", the_list);
+        //console.log("time", typeof a_user.time);
+    }
+    //console.log(aisatu_doc);
+    //console.log(job_id, " => ", job_doc);
 }
