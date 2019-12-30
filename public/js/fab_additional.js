@@ -17,7 +17,7 @@ function sirasu_get(){
         var the_count = doc.data().count;
         document.getElementById("sirasu_count").textContent = the_count;
         document.getElementById("sirasu_count_another").textContent = the_count;
-        //リスナの設置
+        //リスナの設置 //いずれは課金上限に最も届きやすそうなので、リスナは控える感じで行くかもしれない2019/12/30
         sirasu_listener = db.collection("sirasu").doc("6WrFkQ2L0tuoatHbw4Qj").onSnapshot(function(doc) {
             firestore_get_count += 1;
             //カウントを表示
@@ -282,6 +282,8 @@ function work_detail_display(clicked_element){
     get_wcomments();
     //userがgoodしてたらdetailのボタンも青くするための関数
     good_or_not_ondetail();
+    //goodの数を挿入する
+    insert_work_good_number();
     //ワークdetailのカード
     var work_card = document.getElementById("work_detail");
     //高さと位置を揃えて
@@ -394,13 +396,15 @@ function good_work(good){
     }
     //とりあえず以下何もしない形でエラーの反応を見る
     db.collection("users").doc(what_user_job_work[1]).collection("jobs").doc(what_user_job_work[2]).collection("works").doc(what_user_job_work[3]).update({
-        good: firebase.firestore.FieldValue.increment(number)
+        goodWork: firebase.firestore.FieldValue.increment(number)
     }).then(function(){
         //write カウント
         firestore_write_count += 1;
         console.log("write", firestore_write_count);
         //userのgoodも書き換える
         update_user_good(type, what_user_job_work[3]);
+        //global変数の中身を書き換える
+        global_work_dictionary[what_user_job_work[3]]["goodWork"] += number;
     }).catch(function(error){
         console.log("error", error);
     });
@@ -463,11 +467,27 @@ function work_comment_send(){
     console.log("job id => ", ids[2]);
     console.log("work id => ", ids[3]);*/
     //firestoreに記録する
-    db.collection("users").doc(ids[1]).collection("jobs").doc(ids[2]).collection("works").doc(ids[3]).collection("wcomments").add({
-        comment: comment_for_work
-    }).then( function(){
+    var created_doc = {
+        comment: comment_for_work,
+        userid: user_info_global.uid
+    }
+    db.collection("users").doc(ids[1]).collection("jobs").doc(ids[2]).collection("works").doc(ids[3]).collection("wcomments").add(
+        created_doc
+    ).then( function(doc){
         //自分で入力したコメントはここで反映させておく
-        insert_work_comment(comment_for_work);
+        console.log(doc.id);
+        insert_work_comment(created_doc);
+        //辞書にぶち込む
+        //為の変数 2019/12/30 に追記したが、ドキュメント読み込みとの兼ね合いを考えれてないので、グローバル変数の代入あたりで不具合の可能性がありそう
+        var wcomments_id = ids[1] + "_" + ids[2] + "_" + ids[3];
+        if(wcomments_global[wcomments_id]){
+            //すでにあるので、その階層で代入
+            wcomments_global[wcomments_id][doc.id] = created_doc;
+        }else{
+            //新しく生成するので、したの階層で作成したのちに
+            wcomments_global[wcomments_id] = {};
+            wcomments_global[wcomments_id][doc.id] = created_doc;
+        }
         //input タグの中身を空にする
         document.getElementById("comment_input_towork").value = "";
         //write カウント
@@ -540,7 +560,10 @@ function get_wcomments(){
             //一度取得したワークに対するコメントを記録しておく
             //get カウント
             if(comments.size == 0){
-                firestore_get_count += 1;    
+                firestore_get_count += 1;
+                //グローバル変数の中身を確認したのちに、empty messageの挿入はぜんぜんできそうでは！？
+                //いや、その必要はないかも兼ね合いせずとも、一度からのwcomments取ってきても取得した判定になってる
+                console.log("取ってきたコメントはなし");
             }else{
                 firestore_get_count += comments.size;
             }
@@ -553,6 +576,7 @@ function get_wcomments(){
 
 function insert_work_comment(commentdoc){
     //とりあえずの実装2019/12/30
+    //console.log(commentdoc);
     document.getElementById("work_comment_erea").insertAdjacentHTML("afterbegin","<p>" + commentdoc.comment + "</p>");
 }
 
@@ -580,13 +604,24 @@ function good_on_detail(){
     }
     //とりあえず以下何もしない形でエラーの反応を見る
     db.collection("users").doc(what_user_job_work[1]).collection("jobs").doc(what_user_job_work[2]).collection("works").doc(what_user_job_work[3]).update({
-        good: firebase.firestore.FieldValue.increment(number)
+        goodWork: firebase.firestore.FieldValue.increment(number)
     }).then(function(){
         //write カウント
         firestore_write_count += 1;
         console.log("write", firestore_write_count);
         //userのgoodも書き換える
         update_user_good(type, what_user_job_work[3]);
+        //global変数の中身を書き換える
+        global_work_dictionary[what_user_job_work[3]]["goodWork"] += number;
+        //ondetailなので、表示も切り替える
+        try{
+            var count_tag_id = what_user_job_work[3] + "_good_count_ondetail"
+            //console.log(count_tag_id);
+            document.getElementById(count_tag_id).textContent = global_work_dictionary[what_user_job_work[3]]["goodWork"];
+        }catch(error){
+            //表示を閉じながら押したときの対策にトライエラーを設置
+            console.log("error => ", error);
+        }
     }).catch(function(error){
         console.log("error", error);
     });
@@ -602,4 +637,12 @@ function good_or_not_ondetail(){
         //まだグッドしてない 灰色にする
         document.getElementById("good_work_on_detail").classList.remove("good");
     }
+}
+
+//goodの数を挿入する
+function insert_work_good_number(){
+    var work_id = attension_work_id.split('_')[3];
+    var good_count = global_work_dictionary[work_id]["goodWork"];
+    var insert_text = '<p><span id="'+ work_id +'_good_count_ondetail">' + good_count + '<span>グッド</p>'
+    document.getElementById("work_comment_erea").insertAdjacentHTML("afterbegin", insert_text);
 }
