@@ -297,7 +297,8 @@ exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/w
         the_diff = the_diff + level_needed;
         //statusを決める
         var new_level = level_info.level + level_result;
-        var new_total = level_info.total_time + the_diff;
+        //var new_total = level_info.total_time + the_diff;
+        var new_total = level_info.total_time + the_diff;//総合地にするべきだと考えたので、一個上の行から書き換えたけど、不具合はないだろうか2019/12/31
         //レベルが上がったかどうかで分岐する
         if(level_result == 0){
             //レベルは上がらないので加算して記録する

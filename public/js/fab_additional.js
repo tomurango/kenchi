@@ -663,6 +663,8 @@ function insert_work_good_number(){
 }
 
 function insert_aisatu(aisatu_doc){
+    //取ってきたごとに中身を空にしてから挿入する
+    document.getElementById("greet_text").innerHTML = "";
     for(var i= 0; i< aisatu_doc.users.length ; i++){
         //usedoc ごとに処理する
         var a_user = aisatu_doc.users[i];
