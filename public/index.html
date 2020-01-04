@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.2.6</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.2.7</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -703,6 +703,10 @@
                         <p class="card_subtitle">ランキング</p>
                         <p id="user_ranking_display_renew" class="card_contents">上位を表示</p>
                     </div>
+                    <div id="dash_display_plan" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;"  onclick="display_card_plan()">
+                        <p class="card_subtitle">プラン</p>
+                        <p id="user_plan_display_renew" class="card_contents">ノーマルプラン</p>
+                    </div>
                     <!--
                     <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 2vw 0px 1vw;">
                         <p class="card_subtitle">スキル</p>
@@ -725,7 +729,7 @@
             </div>
 
             <!--wadaiのページ-->
-            <div id="page_contain_com" style="width: 100%; overflow: hidden;" hidden>
+            <div id="page_contain_com" class="mdc-layout-grid" style="width: 100%; overflow: hidden;" hidden>
             </div>
 
             <!--iraiのページ-->
@@ -823,9 +827,9 @@
 
         <div id="dash_message" class="mdc-card dash-card" style="display: none;">
             <button class="mdc-icon-button material-icons back" onclick="display_card_message_back()">keyboard_arrow_down</button>
-            <p class="card_subtitle">お知らせ</p>
-            <p class="card_contents">開発・運営より</p>
-            <div id="message_text" hidden>
+            <p class="card_subtitle" style="margin-left: 20px">お知らせ</p>
+            <p class="card_contents" style="margin-left: 20px">開発・運営より</p>
+            <div id="message_text" style="margin: 20px" hidden>
                 <p>
                     2019/12/01
                 </p>
@@ -861,8 +865,8 @@
 
         <div id="dash_name" class="mdc-card dash-card" style="display: none;">
             <button class="mdc-icon-button material-icons back" onclick="display_card_user_back()">keyboard_arrow_down</button>
-            <p class="card_subtitle">なまえ</p>
-            <p onclick="change_user_name_dialog()">
+            <p class="card_subtitle" style="margin-left: 20px">なまえ</p>
+            <p style="margin-left: 20px" onclick="change_user_name_dialog()">
                 <span id="user_name_display" class="card_contents">ゲストユーザ</span>
                 <span style="position: relative; top: 4px;" class="material-icons">edit</span>
             </p>
@@ -908,7 +912,7 @@
 
         <div id="dash_ranking" class="mdc-card dash-card" style="display: none;">
             <button class="mdc-icon-button material-icons back" onclick="display_card_ranking_back()">keyboard_arrow_down</button>
-            <p class="card_subtitle">今月ランキング</p>
+            <p class="card_subtitle" style="margin-left: 20px">今月ランキング</p>
             <ul id="ranking_information" class="mdc-list">
                 <li class="mdc-list-item" tabindex="0">
                     <span class="mdc-list-item__text">Single-line item</span>
@@ -922,11 +926,36 @@
             </ul>
         </div>
 
+        <div id="dash_plan" class="mdc-card dash-card" style="display: none;">
+            <button class="mdc-icon-button material-icons back" onclick="display_card_plan_back()">keyboard_arrow_down</button>
+            <p class="card_subtitle" style="margin-left: 20px">プラン</p>
+            <p id="user_plan_display" class="card_contents" style="margin: 20px">ノーマルプラン</p>
+            <p style="margin: 20px">
+                ５００円で、機能制限なしに使用できるようになる予定です。
+            </p>
+            <!--レスポンスのスクリプトはフォーム作成の前に読み込む必要があるらしいです-->
+            <script src="js/subscription.js"></script>
+            <form action="https://us-central1-keikenchi-cf891.cloudfunctions.net/purchasePlan" method="POST" target="send_target">
+                <script
+                    type="text/javascript"
+                    src="https://checkout.pay.jp/"
+                    class="payjp-button"
+                    data-key="pk_test_9fd0175be5f918882aa96643"
+                    data-on-created="onCreated"
+                    data-on-failed="onFailed"
+                    data-text="プラン500を購入"
+                    data-submit-text="プラン500を購入">
+                </script>
+            </form>
+            <!--iframe を target にすることで画面遷移することなくふぉーっむ送信できるらしい-->
+            <iframe name="send_target" style="width:0px;height:0px;border:0px;"></iframe>
+        </div>
+
         <div id="dash_community" class="mdc-card dash-card" style="display: none;">
             <div id="dash_community_first_div">
                 <button id="community_back" class="mdc-icon-button material-icons back" onclick="display_card_com_back()">keyboard_arrow_down</button>
-                <p class="card_subtitle">コミュニティ</p>
-                <p id="user_community_display" class="card_contents">参加していない</p>
+                <p class="card_subtitle" style="margin-left: 20px">コミュニティ</p>
+                <p id="user_community_display" class="card_contents" style="margin-left: 20px">参加していない</p>
             </div>
             <div id="user_join_list_div" class="community_list_container_indscommunity" hidden>
                 <ul id="communities_ul_user_joined" class="mdc-list">
@@ -1065,16 +1094,16 @@
             <div id="hidden_wadai_mimic">
             <!--こっちのdivはクリックしたときの表示をマネしてトランジションの演出をする-->
             </div>
-            <div id="hidden_wadai_content" style="padding-bottom: 72px" hidden>
-            </div>
             <div id="hidden_wadai_fixed" hidden>
             <!--こっちのdivは返信の表示や入力などアクションとか利用時に使う-->
-                <button class="mdc-icon-button material-icons back" onclick="display_talk_back()" style="position: fixed; top:40px; left:40px;">clear</button>
-                <div style="position: fixed; bottom: 0px; left: 0px; height: 72px; width: 100%; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.26);">
+                <button class="mdc-icon-button material-icons back" onclick="display_talk_back()" style="position: fixed; top:0px; left:0px;">clear</button>
+                <div style="position: relative; left: 0px; height: 72px; width: 100%; background-color: #ffffff; box-shadow: 0 2px 2px rgba(0,0,0,0.26);">
                     <img id="hidden_wadai_fixed_uicon" src="img/account_circle-24px.svg" width="40px" height="40px" style="position: absolute; border-radius: 50%; object-fit: cover; left: 16px; top: 16px">
                     <input id="hidden_wadai_fixed_text" type="text" style="position: absolute; font-size: 18px; width: calc(100% - 156px) ; border: none; left: 72px; top: 20px; height: 26px;" placeholder="コメントを入力、、、">
                     <button id="hidden_wadai_fixed_send" class="mdc-icon-button material-icons" style="position: absolute; right: 10px; bottom: 10px; color: #595959" onclick="send_reply()" disabled = "true">send</button>
                 </div>
+            </div>
+            <div id="hidden_wadai_content" hidden>
             </div>
         </div>
 
@@ -1382,6 +1411,8 @@
         <!-- Initialize Firebase -->
         <script src="/__/firebase/init.js"></script>
         
+        <!--to get token payjpからstripeに方針転換 やっぱりpayjp  -->
+        <!--<script type="text/javascript" src="https://js.pay.jp/"></script>-->
         
         <!-- Firebase auth js-->
         <script src="js/auth.js"></script>
@@ -1407,5 +1438,7 @@
         <script src="js/guest.js"></script>
         <!--fab additional-->
         <script src="js/fab_additional.js"></script>
+        <!-- for pay jp -->
+        <!--<script src="js/subscription.js"></script>-->
     </body>
 </html>

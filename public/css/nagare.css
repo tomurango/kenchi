@@ -109,7 +109,7 @@
 }
 
 #hidden_wadai{
-    overflow-y: scroll;
+    overflow: hidden;
     position: fixed;
     z-index: 5;
     background-color: #ffffff;
@@ -119,4 +119,13 @@
     width: 100% !important;
     top: 0px !important;
     left: 0px !important;
+}
+
+#hidden_wadai_content{
+    overflow-y: scroll;
+    height: 322px;
+}
+#hidden_wadai_mimic{
+    overflow: hidden;
+    max-height: 250px;
 }

@@ -21,7 +21,7 @@
     top: 0px !important;
     left: 0px !important;
     z-index: 5;
-    padding: none;
+    padding: 0px;
     position: fixed;
     overflow-y: scroll;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
@@ -38,7 +38,7 @@
     top: 0px !important;
     left: 0px !important;
     z-index: 5;
-    padding: 40px;
+    padding: 0px;
     position: fixed;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
@@ -56,7 +56,7 @@
     top: 0px !important;
     left: 0px !important;
     z-index: 5;
-    padding: 40px;
+    padding: 0px;
     position: fixed;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
@@ -74,7 +74,7 @@
     top: 0px !important;
     left: 0px !important;
     z-index: 5;
-    padding: 40px;
+    padding: 0px;
     position: fixed;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
@@ -105,7 +105,7 @@
     top: 0px !important;
     left: 0px !important;
     z-index: 5;
-    padding: 40px;
+    padding: 0px;
     position: fixed;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#dash_community.active.create{
@@ -128,6 +128,22 @@
     left: 102vw;
 }#create_community_card.active{
     left: 0px;
+}
+#dash_plan{
+    z-index: 5;
+    position: fixed;
+}#dash_plan.active{
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0px !important;
+    border-radius: 0px;
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 5;
+    padding: 0px;
+    position: fixed;
+    overflow-y: scroll;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
 
 #preview{

@@ -175,7 +175,7 @@ function insert_guest_navi(){
     header.style.display = "none";
     //今は試しに書き込んでる
     //document.getElementById("page_contain_com").innerHTML = '<p style = "margin: 70px 20px 20px 20px; font-size:2em;">ここにfirestoreで取得した最新の話題を並べる</p>';
-    document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px;"><div>';
+    document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page mdc-layout-grid__inner index_0" style="top: 106px;"><div>';
     get_trend();
 }
 
@@ -226,7 +226,7 @@ function insert_to_trend(doc_id , doc_data){
         var card_height = 'height: calc(82.84vw - 33.14px);';
     }
     //trendをぶち込んでくelement
-    var wadai_card = '<div id="' + doc_data.communityId + '_' + doc_id +'" class="nagare_ripple mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 20px 20px; border-radius:5px; position: relative; background-color: #ffffff;' + card_height + ' overflow: hidden">' + wadai_card_img + wadai_time + wadai_text + '</div>';
+    var wadai_card = '<div id="' + doc_data.communityId + '_' + doc_id +'" class="nagare_ripple mdc-layout-grid__cell mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 0px 20px; border-radius:5px; position: relative; background-color: #ffffff;' + card_height + ' overflow: hidden">' + wadai_card_img + wadai_time + wadai_text + '</div>';
     document.getElementById("nagare_trend").insertAdjacentHTML("afterbegin", wadai_card);
     //高さ調節
     var height = document.getElementById("nagare_trend").clientHeight;

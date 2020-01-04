@@ -74,6 +74,7 @@ function display_card_user_back(){
             document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
             document.getElementById("dash_display_message").onclick = function(){display_card_message()};
             document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
+            document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
         },300);
     },100);
 }
@@ -133,6 +134,7 @@ function display_card_job_back(){
             document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
             document.getElementById("dash_display_message").onclick = function(){display_card_message()};
             document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
+            document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
         },300);
     },100);
 }
@@ -195,6 +197,7 @@ function display_card_com_back(){
             document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
             document.getElementById("dash_display_message").onclick = function(){display_card_message()};
             document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
+            document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
         },300);
     },100);
 }
@@ -258,6 +261,7 @@ function display_card_greet_back(){
             document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
             document.getElementById("dash_display_message").onclick = function(){display_card_message()};
             document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
+            document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
         },300);
     },100);
 }
@@ -312,6 +316,7 @@ function display_card_message_back(){
             document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
             document.getElementById("dash_display_message").onclick = function(){display_card_message()};
             document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
+            document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
         },300);
     },100);
 }
@@ -372,6 +377,7 @@ function display_card_ranking_back(){
             document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
             document.getElementById("dash_display_message").onclick = function(){display_card_message()};
             document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
+            document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
         },300);
     },100);
 }
@@ -411,3 +417,55 @@ function insert_ranking(job_id, job_doc, rank_number){
 }
 
 
+//ランキング
+function display_card_plan(){
+    console.log("display_plan");
+    //他の動作と被らないようにonclickを消す
+    var cards = document.querySelectorAll('.dash-card_renew');
+    for(var i = 0; i<cards.length; i++){
+        cards[i].onclick="";
+    }
+    //拡大して表示する旧来のやつ
+    var card = document.getElementById("dash_plan");
+    //拡大させるカードを償還する
+    apper_card("dash_display_plan", "dash_plan");  
+    //裏のvisibility を hidden にする
+    $("#dash_display_plan").css('visibility','hidden');  
+    setTimeout(function(){
+        //拡大させる
+        card.classList.add("active");
+        //ボタンを表示させる
+        card.firstElementChild.style.display = "block";
+    },50);
+}
+//rankingを閉じるときの関数
+function display_card_plan_back(){
+    //裏のvisibility を visible にする
+    $("#dash_display_plan").css('visibility','visible');
+    console.log("back_plan");
+    //ボタンを押したときのエフェクトが実行されるためのタイムアウト
+    setTimeout(function(){
+        //縮小してしまうやつ
+        var card = document.getElementById("dash_plan");
+        
+        //ボタンを非表示にする
+        card.firstElementChild.style.display = "none";
+        
+        //user card を縮小させる
+        card.classList.remove("active");
+        setTimeout(function(){
+            //スクロール回復
+            $("body").css('overflow','auto');
+            //user card を非表示にする
+            card.style.display = "none";
+            //renew_card に onclickを代入する
+            document.getElementById("dash_display_user").onclick = function(){display_card_user()};
+            document.getElementById("dash_display_job").onclick= function(){display_card_job()};
+            document.getElementById("dash_display_com").onclick = function(){display_card_com()};
+            document.getElementById("dash_display_greet").onclick = function(){display_card_greet()};
+            document.getElementById("dash_display_message").onclick = function(){display_card_message()};
+            document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
+            document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
+        },300);
+    },100);
+}

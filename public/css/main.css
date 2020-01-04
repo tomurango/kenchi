@@ -60,6 +60,7 @@ main{
     opacity: 0;
     z-index: 0;
     transform-origin:center center;
+    min-height: 100%;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
 

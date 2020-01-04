@@ -420,3 +420,36 @@ function update_month_time(user_id ,job_id){
     });
     return null
 }
+
+//2020/01/04
+//課金要素の関数の記述
+
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const payjp = require('payjp')('sk_test_9857ef35032b1ba64aacec2b');
+
+// Automatically allow cross-origin requests
+app.use(cors({ origin: true }));
+
+app.post('/',(req,res)=>{
+    
+    /*
+    console.log("http request は届いてる感じだよログ");
+    console.log(req.params);
+    console.log(req.body);
+    console.log(req.body["payjp-token"]);
+    */
+   
+    payjp.charges.create({
+        amount: 500,
+        currency: 'jpy',
+        card: req.body["payjp-token"]
+    }).then(console.log).catch(console.error);
+    return null
+    
+});
+
+// Expose Express API as a single Cloud Function:
+exports.purchasePlan = functions.https.onRequest(app);
+

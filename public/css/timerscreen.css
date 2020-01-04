@@ -79,37 +79,37 @@
     color: #003bcd;
 }
 #type_log_container{
-    margin-left: calc(50% - 69px);
-    margin-top: 30vh;
+    top: 40%;
+    left: 50%;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    transform: scale(0);
+    transform: scale(0) translateY(-50%) translateX(-50%); 
     opacity: 0;
     position: absolute;
     justify-content: center;
     transition: transform 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
     transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#type_log_container.open{
-    transform: scale(1);
+    transform: scale(1) translateY(-50%) translateX(-50%); ;
     opacity: 1;
 }
 
 
 #count_number{
-    margin-left: calc(50% - 40px);
-    margin-top: 30vh;
+    top: 35%;
+    left: 50%;
     color: #003bcd;
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 32px;
-    transform: scale(0);
+    transform: scale(0) translateY(-50%) translateX(-50%); 
     opacity: 0;
     position: absolute;
     justify-content: center;
     transition: transform 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
     transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }#count_number.open{
-    transform: scale(1);
+    transform: scale(1) translateY(-50%) translateX(-50%);
     opacity: 1;
 }
 

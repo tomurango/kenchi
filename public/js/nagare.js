@@ -8,6 +8,7 @@ var nagare_timestamp = [];
 var community_change_state = true;
 //var all_user_communities;//84行目で再利用するため。ひっどいコードになってきたｗ
 //auth 56 から飛んで処理
+var once_tab = true;
 function insert_communities_navi(){
     //snedに自分の画像を代入する
     //それはなしでdocument.getElementById("comment_div_while_img").src = user_info_global.photoURL;
@@ -22,7 +23,7 @@ function insert_communities_navi(){
         //navigationの中身を最新だけにする
         document.getElementById("nagares_navi").innerHTML = '<button id="community_navi_trend" class="mdc-tab" role="tab" aria-selected="true" tabindex="0"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">最新</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>';
         //最新のナガレはここで作る
-        document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><h1>最新（未実装）</h1><div>';
+        document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page mdc-layout-grid__inner index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><h1>最新（未実装）</h1><div>';
         for(var i= 0; i<all_user_communities.length; i++ ){
             //コミュニティをTopAppBarにぶち込んでく
             var one_c = all_user_communities[i];
@@ -30,7 +31,7 @@ function insert_communities_navi(){
             wadai_nagare_glbal[one_c] = {};
             document.getElementById("community_navi_trend").insertAdjacentHTML("beforebegin", '<button id="community_navi_'+ one_c +'" class="mdc-tab" role="tab" aria-selected="false" tabindex="-1"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">'+ community_list_global[one_c].name +'</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>')
             //コミュニティごとにナガレを生成する
-            document.getElementById("nagare_trend").insertAdjacentHTML("beforebegin", '<div id="nagare_'+ one_c +'" class="nagare_page index_0" style="top: 106px; left:'+ String(i*102) +'vw; min-height: 100vh; "></div>');
+            document.getElementById("nagare_trend").insertAdjacentHTML("beforebegin", '<div id="nagare_'+ one_c +'" class="nagare_page mdc-layout-grid__inner index_0" style="top: 106px; left:'+ String(i*102) +'vw; min-height: 100vh; "></div>');
             //empty state を挿入
             insert_no_wadai(document.getElementById( 'nagare_' + nagare_global[i]));
             //timestampに１週間まえの日付をぶち込む コミュニティが変更等されない限りは一度の実行 ここのifは書き換え
@@ -47,7 +48,11 @@ function insert_communities_navi(){
     //tab bar
     header_tabBar = new mdc.tabBar.MDCTabBar(document.querySelector('#community_bar'));
     //ページ切り替えのデフォルトタブの設定
-    header_tabBar.activateTab(0);
+    if(once_tab){
+        once_tab = false;
+        header_tabBar.activateTab(0);//余計な挙動に感じたので撤廃できるかお試し2020/01/04が一度は機能させないと、最初の挙動がわかりにくくなる
+    }
+
 }
 function re_register_tab_event(){
     header_tabBar.listen('MDCTabBar:activated',function(event){
@@ -346,7 +351,7 @@ function insert_nagare_list(nagare_id ,nagare_data, nagare_number, type){
         var nagare_container = document.getElementById("nagare_" + nagare_global[nagare_number]);
         var nagare_time = '<p style="position: relative; color: #606060; font-size: 0.8em; margin-left: 20px; margin-top: 26px; margin-right: 48px;">' + time_record +'</p>';
         var nagare_text = '<p style="position: relative; margin: 0px 0px 0px 20px; font-size: 2em;">'+ nagare_data.text +'</p>';
-        nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 20px 20px; border-radius:5px; position: relative; background-color: #ffffff; height: calc(41.42vw - 16.57px); overflow: hidden">' + nagare_time + nagare_text +'</div>');
+        nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-layout-grid__cell mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 0px 20px; border-radius:5px; position: relative; background-color: #ffffff; height: calc(41.42vw - 16.57px); overflow: hidden">' + nagare_time + nagare_text +'</div>');
     }else{//画像とテキストが両方入力されてるときの処理
         console.log("画像は入力されてるはず");
         //時間を求める
@@ -358,7 +363,7 @@ function insert_nagare_list(nagare_id ,nagare_data, nagare_number, type){
         var nagare_content_image = '<img src="' + nagare_data.contentImage + '" style="height: calc(41.42vw - 16.57px); width: 100%; object-fit: cover;">';
         var nagare_time = '<p style="position: relative; color: #606060; font-size: 0.8em; margin-left: 20px; margin-right: 48px; margin-top: 26px;">' + time_record +'</p>';
         var nagare_text = '<p style="position: relative; margin: 0px 0px 0px 20px; font-size: 2em;">'+ nagare_data.text +'</p>';
-        nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 20px 20px; border-radius:5px; position: relative; background-color: #ffffff; height: calc(82.84vw - 33.14px); overflow: hidden">' + nagare_content_image + nagare_time + nagare_text +'</div>');
+        nagare_container.insertAdjacentHTML(type, '<div id="'+ nagare_global[nagare_number] + '_' + nagare_id +'" class="nagare_ripple mdc-layout-grid__cell mdc-ripple-surface mdc-card" onclick="display_talk(this)" style="padding: 0px; margin: 20px 20px 0px 20px; border-radius:5px; position: relative; background-color: #ffffff; height: calc(82.84vw - 33.14px); overflow: hidden">' + nagare_content_image + nagare_time + nagare_text +'</div>');
     }
     //あとでtalkを開くときのためにタイムスタンプを押すwadai_nagare_global 安定の一週間前デフォルト
     var one_week_ago = new Date();
@@ -494,6 +499,8 @@ $("body").css('overflow','auto');
 var wadai_event_batton;
 //wadai click で nagare display display_talk になってるがnagareとしていたものをwadaiにしたから、命名が複雑化
 function display_talk(wadai_element){
+    //画像付きなのかそうでないかで、中身のコメントの高さを調整することで、スクロールを最大までできるようにする
+    text_content_height(wadai_element);
     // スクロール禁止
     $("body").css('overflow','hidden');
     var com_nag = wadai_element.id.split("_");
@@ -531,7 +538,7 @@ function display_talk(wadai_element){
             setTimeout(function(){
                 hidden_wadai_fixed.hidden = false;
                 //裏ですくろーできないように
-                document.getElementById("page_contain_com").hidden = true;
+                //document.getElementById("page_contain_com").hidden = true;
             }, 150);
         },150);
     },100);
@@ -559,7 +566,7 @@ function display_talk(wadai_element){
 
 function display_talk_back(){
     //裏を元に戻す
-    document.getElementById("page_contain_com").hidden = false;
+    //document.getElementById("page_contain_com").hidden = false;この行は右文$("body").css('overflow','auto');で代用するので、使用取りやめ
     //裏がわを非表示 この上の行の書き換えが不要説出てる要検証2019/12/20本当は下の記述で試したいけど、id持ってこれないかん
     wadai_event_batton.style.visibility = "visible";
     //window.scrollTo( 0, window_y );
@@ -710,18 +717,30 @@ function insert_talk_content(comment_doc){
     var comment_content = '<p style="position: relative; left: 72px; font-size: 18px; width: calc(100vw - 88px)">' + comment_doc.comment + '</p>';
     var comment_name = '<p style="position: relative; left: 72px; top: 16px;color: #606060; font-size: 0.8em; margin: 0px">'+ comment_doc.name + '・' + comment_time + '</p>';
     var comment_list = document.getElementById("hidden_wadai_content");
-    comment_list.insertAdjacentHTML("beforeend", '<div style="position: relative; overflow: hidden">' + comment_icon + comment_name + comment_content + '</div>' );
+    comment_list.insertAdjacentHTML("afterbegin", '<div style="position: relative; overflow: hidden">' + comment_icon + comment_name + comment_content + '</div>' );
     // 現在の縦スクロール位置
     //var scrollPosition = document.getElementById("hidden_wadai_content").scrollTop;
     // スクロール要素の高さ
     //var scrollHeight = document.getElementById("hidden_wadai_content").scrollHeight;
-    document.getElementById("hidden_wadai").scrollTop = document.getElementById("hidden_wadai").scrollHeight;
+    //document.getElementById("hidden_wadai").scrollTop = document.getElementById("hidden_wadai").scrollHeight;
+    //カード全体のスクロールをやめたため、スクロールで位置調整を行うことを取りやめた。
 }
 
 //wadaiがない時に適宜挿入する
 function insert_no_wadai(div_element){
     //empty message
-    div_element.innerHTML = '<div id="' + div_element.id + '_no_wadai"><img src="img/no_wadai_03.svg" style="object-fit: cover;width: 80%;height: 80%; margin: 0px 10% 0px 10%;"><p style="font-size: 2em; text-align: center; margin: 0px">投稿はありません</p><p style="text-align: center; margin: 0px">投稿されたワダイが<br>ここに表示されます。</p></div>';
+    div_element.innerHTML = '<div id="' + div_element.id + '_no_wadai" class="mdc-layout-grid__cell"><img src="img/no_wadai_03.svg" style="object-fit: cover; margin: 0px 10% 0px 10%;"><p style="font-size: 2em; text-align: center; margin: 0px">投稿はありません</p><p style="text-align: center; margin: 0px">投稿されたワダイが<br>ここに表示されます。</p></div>';
     //高さ調整
     document.getElementById("page_contain_com").style.height = "100%";
+}
+
+//会話内容のスクロールを円滑にするための高さ調整のための関数
+function text_content_height(element){
+    if(element.children[0].tagName == "IMG"){
+        //画像ありの時の高さに調整する
+        document.getElementById("hidden_wadai_content").style.height = "calc(100% - 322px)";
+    }else if(element.children[0].tagName == "P"){
+        //画像なしの高さに調整する
+        document.getElementById("hidden_wadai_content").style.height = "calc(100% - 177px)";
+    }
 }

@@ -146,6 +146,7 @@ function send_work(){
     var work_text = document.getElementById("work_text_input").value;
     //worktypeがlogだったら、入力値から時間を算出
     if(work_type == "log"){
+        //ログの不正値を検出して引数として返却することも可能である
         number_counted = from_log();
     }
     db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).collection("works").add({
@@ -255,6 +256,13 @@ function not_to_log(){
 function from_log(){
     var hour_log = Number(document.getElementById("count_log_hour").value);
     var min_log = Number(document.getElementById("count_log_min").value);
+    //不正値はここで検出する
+    if(hour_log > 24){
+        hour_log = 0;
+    }
+    if(min_log>60){
+        min_log = 60;
+    }
     var result = hour_log*60*60 + min_log*60;
     return result;
 }

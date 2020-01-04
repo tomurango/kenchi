@@ -112,3 +112,15 @@
     border: none;
     border-bottom: solid 1px;
 }
+
+/* 支払いボタンのcss */
+#payjp_checkout_box{
+    position: relative;
+    left: 20px;
+    top: 20px;
+}
+/* 一応したのでボタンもいじれはする */
+/*#payjp_checkout_box input[type=button]{
+    
+}*/
+/* ただ、ここまでするなら、入力フォームとかトークン化は自分でするのもいいのでは？ */
