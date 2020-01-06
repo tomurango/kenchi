@@ -1,6 +1,8 @@
 ﻿.dash-card{
     /*position はデフォルトだと none js で切り替えるようになるだろうから、その時はdisplay は消す*/
     position: fixed;
+    /* スクロールを滑らかにする */
+    -webkit-overflow-scrolling: touch;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
 
