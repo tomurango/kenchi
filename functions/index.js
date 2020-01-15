@@ -425,7 +425,7 @@ function update_month_time(user_id ,job_id){
 //課金要素の関数の記述
 
 //秘密鍵の引用テスト
-import "key.js";
+//import "key.js";
 
 const express = require('express');
 const cors = require('cors');
