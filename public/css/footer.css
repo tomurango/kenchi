@@ -3,7 +3,8 @@
     background-color: #ffffff;
     width: 100vw;
     position: fixed;
-    top: calc(100% - 50px); 
+    /*top: calc(100% - 50px); */
+    bottom: 0px;
     padding: 0px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.26);
 }

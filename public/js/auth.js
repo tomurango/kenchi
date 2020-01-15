@@ -151,6 +151,8 @@ $(document).ready(function(){
                     //page_contain_guestを表示して、page_contain_dashをしまう
                     document.getElementById('page_contain_guest').hidden = false;
                     document.getElementById('page_contain_dash').hidden = true;
+                    //ログアウトボタンを非表示にする
+                    document.getElementById("logout").style.display = "none";
                 }else{
                     //匿名じゃない
                     user_info_global = user;
@@ -160,6 +162,8 @@ $(document).ready(function(){
                 // No user is signed in.
                 console.log("No user is signed in");
                 login_anonymously();
+                //ログアウトボタンを非表示にする
+                document.getElementById("logout").style.display = "none";
             }
         }
     }).catch(function(error) {
@@ -436,5 +440,25 @@ function change_user_name_send(){
         //表示を変える
         document.getElementById("user_name_display").textContent = new_user_name;
         document.getElementById("user_name_display_renew").textContent = new_user_name;
+    });
+}
+
+
+//googleログイン以外の処理を記述していく
+function mail_login(){
+    console.log("mail_transition");
+}
+
+function mail_login_send(){
+    //input tag から情報をそれぞれ取得する
+    var email;
+    var password;
+    //そのあとに送信する処理
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        console.log(errorCode, errorMessage);
     });
 }

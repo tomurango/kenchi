@@ -280,11 +280,16 @@
         <!--ログインカード-->
         <div id="how_to_login" style="height: 100%; width: 100%; position: fixed; left: 0px; text-align: center">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" style="position: absolute; top: 0px;left: 0px" onclick="how_to_login_close()">clear</button>
+
+            <button id="mail_pass_login" style="width: 207.25px; height: 43px; border: none; margin-bottom: 5px; box-shadow: 0 2px 1px rgba(0,0,0,0.26);" onclick="mail_login()">
+                <p style="margin: 0px; position: relative;"><span class="material-icons" style="position: absolute; left: 2px; top: -2px;">email</span><span>メールでログイン</span></p>
+            </button>
+            <br>
             <a href="" onclick="google_login();return false" style="text-decoration: none">
                 <img id="google_login_img" style="height: 45px; width: auto" src="img/btn_google_light_normal_ios_maked.svg">
             </a>
             <br>
-            <button class="mdc-button mdc-button--outlined" onclick="log_out()">
+            <button id="logout" class="mdc-button mdc-button--outlined" onclick="log_out()" style="width: 207.25px; height: 43px;">
                 <div class="mdc-button__ripple"></div>
                 <span class="mdc-button__label">ログアウト</span>
             </button>
