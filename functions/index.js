@@ -426,11 +426,12 @@ function update_month_time(user_id ,job_id){
 
 //秘密鍵の引用テスト
 //import "key.js";
+var keys = require('./key');
 
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const payjp = require('payjp')(paySecretKey);
+const payjp = require('payjp')(keys.value);
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
