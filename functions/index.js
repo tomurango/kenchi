@@ -424,10 +424,13 @@ function update_month_time(user_id ,job_id){
 //2020/01/04
 //課金要素の関数の記述
 
+//秘密鍵の引用テスト
+import "key.js";
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const payjp = require('payjp')('sk_test_9857ef35032b1ba64aacec2b');
+const payjp = require('payjp')(paySecretKey);
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
