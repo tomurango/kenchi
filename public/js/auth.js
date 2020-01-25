@@ -445,8 +445,40 @@ function change_user_name_send(){
 
 
 //googleログイン以外の処理を記述していく
-function mail_login(){
-    console.log("mail_transition");
+function mail_login(button_element){
+    //console.log("mail_transition", button_element.id);
+    apper_card(button_element.id, "mail_login_card");
+    var mail_login_card = document.getElementById("mail_login_card");
+    var mail_login_card_transition = document.getElementById("mail_login_transion");
+    var mail_login_card_content = document.getElementById("mail_login_content");
+    setTimeout(function(){
+        //全体のtransition
+        mail_login_card.classList.add("active");
+        //変化をわかりやすくするためのtransition
+        mail_login_card_transition.classList.add("disactive");
+        mail_login_card_transition.style.display = "none";
+        setTimeout(function(){
+            mail_login_card_content.style.display = "block";
+            mail_login_card_content.classList.add("active");
+        }, 150);
+    },100);
+}
+function mail_login_back(){
+    var mail_login_card = document.getElementById("mail_login_card");
+    var mail_login_card_transition = document.getElementById("mail_login_transion");
+    var mail_login_card_content = document.getElementById("mail_login_content");
+    mail_login_card.classList.remove("active");
+    mail_login_card_content.classList.remove("active");
+    //transition 後に display none にする
+    setTimeout(function(){
+        mail_login_card_content.style.display = "none";
+        mail_login_card_transition.style.display = "inline-block";
+        mail_login_card_transition.classList.remove("disactive");
+        setTimeout(function(){
+            mail_login_card.style.display = "none";
+        }, 150);
+    }, 150);
+    
 }
 
 function mail_login_send(){

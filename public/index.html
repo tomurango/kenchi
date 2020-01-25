@@ -281,8 +281,8 @@
         <div id="how_to_login" style="height: 100%; width: 100%; position: fixed; left: 0px; text-align: center">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" style="position: absolute; top: 0px;left: 0px" onclick="how_to_login_close()">clear</button>
 
-            <button id="mail_pass_login" style="width: 207.25px; height: 43px; border: none; margin-bottom: 5px; box-shadow: 0 2px 1px rgba(0,0,0,0.26);" onclick="mail_login()">
-                <p style="margin: 0px; position: relative;"><span class="material-icons" style="position: absolute; left: 2px; top: -2px;">email</span><span>メールでログイン</span></p>
+            <button id="mail_pass_login" style="width: 207.25px; height: 43px; border: none; margin-bottom: 5px; box-shadow: 0 2px 1px rgba(0,0,0,0.26);" onclick="mail_login(this)">
+                <p style="margin: 0px; position: relative;"><span class="material-icons" style="position: absolute; left: 2px; top: -2px;">email</span><span style="font-size: 14px">メールでログイン</span></p>
             </button>
             <br>
             <a href="" onclick="google_login();return false" style="text-decoration: none">
@@ -600,7 +600,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.2.8</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.3.0</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1398,6 +1398,17 @@
             </div>
         </div>
         
+        <div id="mail_login_card" style="display: none;">
+            <div id="mail_login_transion" style="display: inline-block; position: relative ">
+                <p style="margin: 0px; position: relative;"><span class="material-icons" style="position: relative; top: 10px; left: 8px">email</span><span style="position: relative; top: 4px; left: 25px; font-size: 14px">メールでログイン</span></p>
+            </div>
+            <div id="mail_login_content" style="display: none">
+                <button class="material-icons mdc-icon-button" title="back" onclick="mail_login_back()">clear</button>
+                <input type="text" placeholder="メールアドレスを入力">
+                <input type="text" placeholder="パスワードを入力">
+                <button>ログイン</button>
+            </div>
+        </div>
 
 
 
