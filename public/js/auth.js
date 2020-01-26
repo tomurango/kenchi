@@ -483,8 +483,8 @@ function mail_login_back(){
 
 function mail_login_send(){
     //input tag から情報をそれぞれ取得する
-    var email;
-    var password;
+    var email = document.getElementById("mail_login_adress").value;
+    var password = document.getElementById("mail_login_pass").value;
     //そのあとに送信する処理
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
@@ -492,5 +492,16 @@ function mail_login_send(){
         var errorMessage = error.message;
         // ...
         console.log(errorCode, errorMessage);
+        // パスワードが間違えてるときの処理
+        if (errorCode === 'auth/wrong-password') {
+            //user登録してないときもこのエラーが出る
+            //パスワードを間違えてるとき及び、パスワードを所有していないときに発生するエラーだとされている
+            document.getElementById("error_for_mail").textContent = "";
+            document.getElementById("error_for_pass").textContent = "※パスワードが正しく入力されていません。";
+        } else if(errorCode === 'auth/invalid-email') {
+            //メールの形式がダメなときのエラー 例えば lgfilagfihkh とか送信したら帰ってくる
+            document.getElementById("error_for_mail").textContent = "※メールアドレスが正しく入力されていません。";
+            document.getElementById("error_for_pass").textContent = "";
+        }
     });
 }

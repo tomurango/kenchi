@@ -600,7 +600,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.3.0</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.3.1</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1402,11 +1402,28 @@
             <div id="mail_login_transion" style="display: inline-block; position: relative ">
                 <p style="margin: 0px; position: relative;"><span class="material-icons" style="position: relative; top: 10px; left: 8px">email</span><span style="position: relative; top: 4px; left: 25px; font-size: 14px">メールでログイン</span></p>
             </div>
-            <div id="mail_login_content" style="display: none">
+            <div id="mail_login_content" style="display: none; position: relative;">
                 <button class="material-icons mdc-icon-button" title="back" onclick="mail_login_back()">clear</button>
-                <input type="text" placeholder="メールアドレスを入力">
-                <input type="text" placeholder="パスワードを入力">
-                <button>ログイン</button>
+                <div style="padding-left: 12px">
+                    <p style="font-size: 10px">メールアドレス</p>
+                    <input id="mail_login_adress" type="text" placeholder="メールアドレスを入力" style="font-size: 20px; border: none">
+                    <p id="error_for_mail"></p>
+                    <br>
+                    <br>
+                    <p style="font-size: 10px">パスワード</p>
+                    <input id="mail_login_pass" type="text" placeholder="パスワードを入力" style="font-size: 20px; border: none">
+                    <p id="error_for_pass"></p>
+                    <br>
+                    <br>
+                    <button onclick="mail_login_send()">ログイン</button>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <button>初めてログインする方はこちら</button>
+                </div>
             </div>
         </div>
 

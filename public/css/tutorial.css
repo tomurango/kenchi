@@ -180,3 +180,12 @@
     opacity: 1;
     transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1) 0s;
 }
+
+#error_for_mail{
+    color: var(--mdc-theme-error);
+    font-size: 10px;
+}
+#error_for_error{
+    color: var(--mdc-theme-error);
+    font-size: 10px;
+}
