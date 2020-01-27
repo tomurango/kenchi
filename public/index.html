@@ -600,7 +600,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.3.1</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.3.2</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1404,7 +1404,8 @@
             </div>
             <div id="mail_login_content" style="display: none; position: relative;">
                 <button class="material-icons mdc-icon-button" title="back" onclick="mail_login_back()">clear</button>
-                <div style="padding-left: 12px">
+                <div id="div_for_mail_else" style="padding-left: 12px">
+                    <p style="position: absolute; top: -5px; left: 50px;">メールでログイン</p>
                     <p style="font-size: 10px">メールアドレス</p>
                     <input id="mail_login_adress" type="text" placeholder="メールアドレスを入力" style="font-size: 20px; border: none">
                     <p id="error_for_mail"></p>
@@ -1422,7 +1423,28 @@
                     <br>
                     <br>
                     <br>
-                    <button>初めてログインする方はこちら</button>
+                    <button onclick="mail_to_first()">ログインしたことがない方はこちら</button>
+                </div>
+                <div id="div_for_mail_first" style="padding-left: 12px; display: none">
+                    <p style="position: absolute; top: -5px; left: 50px;">メールで新規ユーザー登録</p>
+                    <p style="font-size: 10px">メールアドレス</p>
+                    <input id="mail_login_adress_create" type="text" placeholder="メールアドレスを入力" style="font-size: 20px; border: none">
+                    <p id="error_for_mail_create"></p>
+                    <br>
+                    <br>
+                    <p style="font-size: 10px">パスワード</p>
+                    <input id="mail_login_pass_create" type="text" placeholder="パスワードを入力" style="font-size: 20px; border: none">
+                    <p id="error_for_pass_create"></p>
+                    <br>
+                    <br>
+                    <button onclick="mail_login_create()">新規作成</button>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <button onclick="mail_to_else()">既存のアカウントでログインする方はこちら</button>
                 </div>
             </div>
         </div>

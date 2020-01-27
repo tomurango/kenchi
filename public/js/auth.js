@@ -505,3 +505,45 @@ function mail_login_send(){
         }
     });
 }
+
+function mail_to_first(){
+    document.getElementById("div_for_mail_else").style.display = "none";
+    document.getElementById("div_for_mail_first").style.display = "block";
+}
+
+function mail_to_else(){
+    document.getElementById("div_for_mail_first").style.display = "none";
+    document.getElementById("div_for_mail_else").style.display = "block";
+}
+
+function mail_login_create(){
+    //input tag から情報をそれぞれ取得する
+    var email = document.getElementById("mail_login_adress_create").value;
+    var password = document.getElementById("mail_login_pass_create").value;
+    //そのあとに送信する処理
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        console.log(errorCode, errorMessage);
+        // パスワードが間違えてるときの処理
+        if (errorCode === 'auth/email-already-in-use') {
+            //mail アドレスがすでに使われている
+            document.getElementById("error_for_mail_create").textContent = "※すでに使用されているアドレスです。";
+            document.getElementById("error_for_pass_create").textContent = "";
+        } else if(errorCode === 'auth/invalid-email') {
+            //メールの形式がダメなときのエラー 例えば lgfilagfihkh とか送信したら帰ってくる
+            document.getElementById("error_for_mail_create").textContent = "※メールアドレスが正しく入力されていません。";
+            document.getElementById("error_for_pass_create").textContent = "";
+        } else if(errorCode === 'auth/operation-not-allowed') {
+            //メールの形式がダメなときのエラー 例えば lgfilagfihkh とか送信したら帰ってくる
+            document.getElementById("error_for_mail_create").textContent = "※メールアドレスが正しく入力されていません。";
+            document.getElementById("error_for_pass_create").textContent = "";
+        } else if(errorCode === 'auth/weak-password') {
+            //メールの形式がダメなときのエラー 例えば lgfilagfihkh とか送信したら帰ってくる
+            document.getElementById("error_for_mail_create").textContent = "";
+            document.getElementById("error_for_pass_create").textContent = "※パスワードが脆弱です。より強固なものにしてください。";
+        }
+    });
+}

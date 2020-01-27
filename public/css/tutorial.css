@@ -185,7 +185,15 @@
     color: var(--mdc-theme-error);
     font-size: 10px;
 }
-#error_for_error{
+#error_for_pass{
+    color: var(--mdc-theme-error);
+    font-size: 10px;
+}
+#error_for_mail_create{
+    color: var(--mdc-theme-error);
+    font-size: 10px;
+}
+#error_for_pass_create{
     color: var(--mdc-theme-error);
     font-size: 10px;
 }
