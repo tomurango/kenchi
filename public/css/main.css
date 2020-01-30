@@ -53,6 +53,60 @@ main{
     opacity: 1;
     z-index: 1;
 }
+#placeholder_dash{
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background-color: #eeeeee;
+    position: absolute;
+    padding-top: 56px;
+    padding-bottom: 120px;
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+#placeholder_dash.delete{
+    opacity: 0;
+}
+#place_dash_left{
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+#place_dash_right{
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+.place_dash_card{
+    width: calc(100% - 3vw);
+    min-height: 50px;
+    border-radius: 4px;
+    overflow: hidden;
+    /*background: linear-gradient(#cccccc, #444444);*/
+    /* animation */
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderAnimation;
+    animation-timing-function: linear;
+    background: #ffffff;
+    background: linear-gradient(to right, #eee 8%, #ddd 18%, #eee 33%);
+    background-size: 800px 104px;
+    height: 135px;
+    position: relative;
+}
+@keyframes placeHolderAnimation{
+    0% {
+       background-position: -400px 0
+    }
+    100% {
+       background-position: 400px 0
+    }
+}
+.place_dummy_box{
+    position: absolute;
+    background-color: #ffffff;
+}
 
 #page_contain_com{
     position: absolute;
