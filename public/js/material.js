@@ -73,6 +73,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         header.style.display = "none";
         nagare.classList.remove("active_page");
         sirase.classList.remove("active_page");
+        document.getElementById("no_work_div").classList.remove("active_page");
         irai.classList.remove("active_page");
         //シラセの取得
         sirasu_get();
@@ -90,12 +91,15 @@ tabBar.listen('MDCTabBar:activated',function(event){
                 //home以外をhiddenにする
                 document.getElementById("page_contain_com").hidden = true;
                 irai.hidden = true;
-                sirase.hidden = true;
+                sirase.style.display = "none";
+                document.getElementById("no_work_div").style.display = "none";
             },300);
         },25);
     }else if(index == 1){
         //シラセの処理をここに記述する
-        document.getElementById("page_contain_sirase").hidden = false;//dash home の onclick 停止
+        //document.getElementById("page_contain_sirase").hidden = false;
+        check_work_isornot();
+        //dash home の onclick 停止
         var cards = document.querySelectorAll('.dash-card_renew');
         for(var i = 0; i<cards.length; i++){
             cards[i].onclick="";
@@ -111,6 +115,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         //シラセを有効化したい
         setTimeout(function(){
             sirase.classList.add("active_page");
+            document.getElementById("no_work_div").classList.add("active_page");
             fab_change(index);//ゲスト（コミュニティ未参加の時はそもそも表示しない処理に書き換えが必要）→取りま書き換えた
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
@@ -150,6 +155,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         }
         irai.classList.remove("active_page");
         sirase.classList.remove("active_page");
+        document.getElementById("no_work_div").classList.remove("active_page");
         //nagereのページ全体を有効化
         setTimeout(function(){
             nagare.classList.add("active_page");
@@ -157,7 +163,8 @@ tabBar.listen('MDCTabBar:activated',function(event){
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
                 //ナガレ以外を非表示にする これいらない記述か？
-                sirase.hidden = true;
+                sirase.style.display = "none";
+                document.getElementById("no_work_div").style.display = "none";
                 irai.hidden = true;
                 if(user.isAnonymous){
                     //匿名なので、ゲストを非表示
@@ -184,6 +191,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         guest.classList.remove("active_page");
         nagare.classList.remove("active_page");
         sirase.classList.remove("active_page");
+        document.getElementById("no_work_div").classList.remove("active_page");
         //iraiをとってくる
         get_irai();
         //iraiのページ全体を有効化
@@ -193,7 +201,8 @@ tabBar.listen('MDCTabBar:activated',function(event){
             //裏のページを確実にonclickできなくするためにhiddenする
             setTimeout(function(){
                 nagare.hidden = true;
-                sirase.hidden = true;
+                sirase.style.display = "none";
+                document.getElementById("no_work_div").style.display = "none";
                 if(user.isAnonymous){
                     //匿名なので、ゲストを非表示
                     guest.hidden = true;

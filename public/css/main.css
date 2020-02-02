@@ -108,6 +108,38 @@ main{
     background-color: #ffffff;
 }
 
+#no_work_div{
+    display: none;
+    transform: scale(0.95);
+    opacity: 0;
+    transform-origin:center center;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+#no_work_div.active_page{
+    transform: scale(1);
+    opacity: 1;
+    z-index: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+#work_loading_div{
+    position: absolute;
+    z-index: 2;
+    padding-top: 56px;
+    padding-bottom: 120px;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: #eeeeee;
+    display: none;
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+#work_loading_div.delete{
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
+
 #page_contain_com{
     position: absolute;
     transform: scale(0.95);
@@ -155,6 +187,7 @@ main{
 }
 
 #page_contain_sirase{
+    display: none;
     position: absolute;
     transform: scale(0.95);
     opacity: 0;
@@ -190,4 +223,22 @@ main{
 
 .noto_font{
     font-family: 'Noto Sans JP', sans-serif;   
+}
+
+.work_card_load{
+    height: 162px;
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    /*background: linear-gradient(#cccccc, #444444);*/
+    /* animation */
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderAnimation;
+    animation-timing-function: linear;
+    background: #ffffff;
+    background: linear-gradient(to right, #eee 8%, #ddd 18%, #eee 33%);
+    background-size: 800px 104px;
+    position: relative;
 }

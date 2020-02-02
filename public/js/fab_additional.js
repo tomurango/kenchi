@@ -249,13 +249,29 @@ function insert_irai(irai_id, irai_doc){
     document.getElementById("irai_inner").insertAdjacentHTML("afterbegin", irai_cell);
 }
 
+var onceworkflag = true;
 function check_work_isornot(){
+    /* アプリ起動中を通して一度だけplace holderを実行する感じでどうですかね */
+    if(onceworkflag){
+        document.getElementById("work_loading_div").style.display = "block";
+        onceworkflag = false;
+        
+        setTimeout(function(){
+            document.getElementById("work_loading_div").classList.add("delete");
+            setTimeout(function(){
+                document.getElementById("work_loading_div").style.display = "none";
+            },300);
+        },1000);
+        
+    }
     if(document.getElementById("work_line_inner").hasChildNodes()){
         //中身あり
-        document.getElementById("no_work_div").hidden = true;
+        document.getElementById("no_work_div").style.display = "none";
+        document.getElementById("page_contain_sirase").style.display = "block";
     }else{
         //中身なし
-        document.getElementById("no_work_div").hidden = false;
+        document.getElementById("no_work_div").style.display = "block";
+        document.getElementById("page_contain_sirase").style.display = "none";
     }
 }
 
