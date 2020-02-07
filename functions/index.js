@@ -252,6 +252,7 @@ exports.createJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
 exports.updateJob = functions.firestore.document('users/{userID}/jobs/{jobID}').onUpdate((change, context) => {
     var newValue = change.after.data();
     var result = {};
+    //ジョブを作成する過程で原因不明のエラーを感知2020/02/05
     if(newValue.name){
         //名前変更の時
         result.job_name = newValue.name;
@@ -268,6 +269,10 @@ exports.updateJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
 
 //ワーク作成で動く関数 レベルの上下や経験値、タイムスタンプ等を判別して処理
 exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/works/{workID}').onCreate((snap, context) => {
+    //limitに書き加える
+    db.collection("users").doc(context.params.userID).collection("limits").doc("day").update({
+        work: admin.firestore.FieldValue.increment(1),
+    });
     //基本の時間
     var time = snap.data().time;
     //ユーザのレベルの情報を取得して判断する
@@ -354,14 +359,31 @@ exports.logedNewdate = functions.firestore.document('users/{userID}/logindate/{l
     db.collection("users").doc(context.params.userID).get().then(function(doc){
         var job_id = doc.data().job;
         //ログインしたら、ユーザのlevinfoのタイムスタンプを書き換える
+        //この状態じゃ一つのジョブしかかけてないから、書き換えが必要では？2020/02/07
         db.collection("users").doc(context.params.userID).collection("jobs").doc(job_id).collection("levinfo").doc(job_id).update({
             today_time: 0,
             timestamp: change.after.data().loginTime
         });
-    })
+        //こっから下はlimitsに関しての更新
+        db.collection("users").doc(context.params.userID).collection("limits").doc("day").update({
+            hello: 0,
+            work: 0,
+            wadai: 0,
+        });        
+    });
     return 0;
 });
 
+//login date を作成した時の挙動 limitを作成するために設置します2020/02/07
+exports.createLimit = functions.firestore.document('users/{userID}/logindate/{loginID}').onCreate((change, context) => {
+    //limitsに関して
+    db.collection("users").doc(context.params.userID).collection("limits").doc("day").set({
+        hello: 0,
+        work: 0,
+        wadai: 0,
+    });        
+    return 0;
+});
 
 //cookieのsamesitecationに対抗するべく、firebaseのドキュメントをコピペしていじってきたコード
 //これも見直し、理解、再検証が明らかに必要である
@@ -457,3 +479,27 @@ app.post('/',(req,res)=>{
 // Expose Express API as a single Cloud Function:
 exports.purchasePlan = functions.https.onRequest(app);
 
+
+//wadai oncreate で 制限に書き込んでいく
+exports.wadaiLimit = functions.firestore.document('communities/{communityID}/nagare/{wadaiID}').onCreate((snap ,context) => {   
+    //limitに書き加える
+    db.collection("users").doc(snap.data().userId).collection("limits").doc("day").update({
+        wadai: admin.firestore.FieldValue.increment(1),
+    });
+    return 0;
+});
+
+//hello oncreate で制限に書き込んでいく
+exports.helloLimit = functions.firestore.document('sirasu/6WrFkQ2L0tuoatHbw4Qj').onUpdate((change ,context) => {
+    //日付変更でリセットされる場合の分岐処理を記述する2020/02/07じゃなきゃエラー吐くでしょｗ
+    
+
+    //limitに書き加える
+    //最後の数値のものが新しく生成されたものであるという考えで動くものである
+    var lastnumber = change.after.data().users.length - 1;
+    var user_id = change.after.data().users[lastnumber]["userid"];
+    db.collection("users").doc(user_id).collection("limits").doc("day").update({
+        hello: admin.firestore.FieldValue.increment(1),
+    });
+    return 0;
+});

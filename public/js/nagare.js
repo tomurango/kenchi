@@ -218,7 +218,8 @@ function send_nagare_to_com(){
                     contentImage: url,
                     communityId: community_doc_id,
                     replyCount: 0,
-                    replyText: ""
+                    replyText: "",
+                    userId: user_info_global.uid
                 }).then(function(){
                     console.log("画像含めてアップロード完了");            
                     //textareaの中身を空にする
@@ -256,7 +257,7 @@ function send_nagare_to_com(){
     firestore_write_count += 1;
     console.log("write", firestore_write_count);
     //rules count
-    firestore_extra_count += 3;
+    firestore_extra_count += 5;
     console.log("extra", firestore_extra_count);
     //送信ボタンを無力化する
     document.getElementById("comment_div_while_send").style.display = "none";

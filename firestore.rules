@@ -13,11 +13,12 @@ service cloud.firestore {
         allow read, write: if request.auth.uid == userId;
       
         match /works/{workId} {
-          allow read, create: if request.auth.uid == userId;
+          allow read: if request.auth.uid == userId;
           //こっちは管理者だけ（俺）が実行できるようにすればレベリングに関するセキュリティも扱えるはず
           //goodeworkのためにupdateは許可するが、セキュリティ面での見直しが必須に思われる(別のコレクションとして保存してしまうのが一番わかりやすいかな？2019/12/30)
           allow update: if request.auth.uid != null;
           allow delete: if request.auth.token.admin == true;
+          allow create: if request.auth.uid == userId && get(/databases/$(database)/documents/users/$(request.auth.uid)/limits/$("day")).data.work <= 3;
 
           //ナガレ（ハナシ）のコメントと区別するためにコレクション名はwcommentsとしました
           match /wcomments/{commentId} {
@@ -36,6 +37,11 @@ service cloud.firestore {
 
       match /logindate/{loginId} {
         allow write: if request.auth.uid == userId;
+      }
+
+      match /limits/{limitId} {
+        //cloudfunction で書き換えて、読み取りのみ許可します。
+        allow read: if request.auth.uid == userId;
       }
     }
 
@@ -71,7 +77,8 @@ service cloud.firestore {
       match /nagare/{nagareId} {
         allow read: if true;
         allow update, delete: if false;
-        allow create: if exists(/databases/$(database)/documents/communities/$(communityId)/joiner/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid));
+        //member のいずれかである()の後に、一日の上限に関する記述を追加2020/02/07
+        allow create: if (exists(/databases/$(database)/documents/communities/$(communityId)/joiner/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/modeler/$(request.auth.uid)) || exists(/databases/$(database)/documents/communities/$(communityId)/auther/$(request.auth.uid))) && get(/databases/$(database)/documents/users/$(request.auth.uid)/limits/$("day")).data.wadai == 0;
 
         match /comments/{commentId} {
           allow read: if true;
@@ -90,7 +97,8 @@ service cloud.firestore {
     }
 
     match /sirasu/{sirasuId} {
-      allow read, write: if request.auth.uid != null;
+      allow read: if request.auth.uid != null;
+      allow update: if get(/databases/$(database)/documents/users/$(request.auth.uid)/limits/$("day")).data.hello == 0;
     }
 
     //このルールはシラスのワークラインで使います。

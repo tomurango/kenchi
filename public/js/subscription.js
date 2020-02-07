@@ -11,3 +11,6 @@ function onCreated(res){
 function onFailed(res, error){
     console.log("失敗しましたよプラン", res, error);
 }
+
+//以下にサイト表示に関するエフェクトや条件分岐に動作管理の記述をする
+

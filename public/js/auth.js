@@ -284,6 +284,7 @@ function name_update(name){
 
 
 //userのdbも書き換えてるから、安易に利用するのは危ない
+//安易に利用してないよね逆に2020/02/07
 function job_update(name, job){
     var new_user = {
         name: name,

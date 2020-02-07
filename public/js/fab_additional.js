@@ -5,14 +5,15 @@
         time: new Date(),
         name: user_doc_global.name,
         job: user_job_global.name,
-        icon: user_info_global.photoURL
+        icon: user_info_global.photoURL,
+        userid: user_info_global.uid
     }
     //今はとりあえず付け足すだけにしているが、とても長くなってしまう可能性を考えると、定期処理減らすなりクリアするなどの工夫が必要であると考える2019/12/30 要はなくしてもいいじゃねってこと？
     db.collection("sirasu").doc("6WrFkQ2L0tuoatHbw4Qj").update({
         count :firebase.firestore.FieldValue.increment(1),
         users: firebase.firestore.FieldValue.arrayUnion(user_item)
     });
-    firestore_write_count += 1;
+    firestore_write_count += 2;
     //カウントを表示
     console.log("write_one", firestore_write_count);
 }

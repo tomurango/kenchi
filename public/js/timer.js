@@ -166,11 +166,11 @@ function send_work(){
         workType: work_type
     })
     .then(function() {
-        //get カウント サーバー側でget 1 ,write 1
-        firestore_get_count += 1;
+        //get カウント サーバー側でget 1 ,write 1 追加しました2020/02/07
+        firestore_get_count += 2;
         console.log("get", firestore_get_count);
         //write カウント
-        firestore_write_count += 2;
+        firestore_write_count += 3;
         console.log("write", firestore_write_count);
         console.log("Document successfully written!");
         //経験値の表示を変える関数
