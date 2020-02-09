@@ -221,6 +221,9 @@ function send_nagare_to_com(){
                     replyText: "",
                     userId: user_info_global.uid
                 }).then(function(){
+                    //グローバル変数に代入して制限をかける
+                    global_limits.wadai += 1;
+                    reflect_limits(2); 
                     console.log("画像含めてアップロード完了");            
                     //textareaの中身を空にする
                     document.getElementById("comment_div_while_textarea").value = "";

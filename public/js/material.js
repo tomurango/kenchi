@@ -289,6 +289,8 @@ var change_job_dialog = new mdc.dialog.MDCDialog(document.querySelector('#change
 
 var change_username_dialog = new mdc.dialog.MDCDialog(document.querySelector('#change_username_dialog'));
 
+var display_limit_dialog = new mdc.dialog.MDCDialog(document.querySelector('#display_limit_dialog'));
+
 
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
@@ -305,6 +307,8 @@ function fab_change(page_num){
     the_fab.onclick = "";
     var the_fab_icon = document.getElementById("fab_icon");
     var the_fab_text = document.getElementById("fab_text");
+    //制限をかける
+    reflect_limits(page_num);
     //シラスとワークスタートのボタンとページの組み合わせを切り替えたので、if の順番が崩れてます
     if(page_num == 1){
         //ホームのボタン

@@ -93,6 +93,8 @@ function check_db(user_info){
             notice_permission(user_doc_global);
             //sirasuを取得する
             sirasu_get();
+            //limits を取得する
+            get_limits(user_info.uid);
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");   

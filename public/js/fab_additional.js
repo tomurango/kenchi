@@ -12,6 +12,10 @@
     db.collection("sirasu").doc("6WrFkQ2L0tuoatHbw4Qj").update({
         count :firebase.firestore.FieldValue.increment(1),
         users: firebase.firestore.FieldValue.arrayUnion(user_item)
+    }).then(function(){
+        //グローバル変数に代入して制限をかける
+        global_limits.hello += 1;
+        reflect_limits(0); 
     });
     firestore_write_count += 2;
     //カウントを表示

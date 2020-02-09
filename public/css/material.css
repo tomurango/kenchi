@@ -47,6 +47,13 @@
     transform: scale(1);
     transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
 }
+#start_fab.limit{
+    background-color: #595959;
+    color: #ffffff;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
 
 /* card */
 .mdc-card{

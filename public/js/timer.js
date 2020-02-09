@@ -166,6 +166,9 @@ function send_work(){
         workType: work_type
     })
     .then(function() {
+        //グローバル変数に代入して制限をかける
+        global_limits.work += 1;
+        reflect_limits(1); 
         //get カウント サーバー側でget 1 ,write 1 追加しました2020/02/07
         firestore_get_count += 2;
         console.log("get", firestore_get_count);
