@@ -27,26 +27,41 @@ function sirasu_get(){
         firestore_get_count += 1;
         //カウントを表示
         console.log("read_one", firestore_get_count);
+        var precount = Number(document.getElementById("sirasu_count").textContent);
         //数値の書き換え
         var the_count = doc.data().count;
         document.getElementById("sirasu_count").textContent = the_count;
         document.getElementById("sirasu_count_another").textContent = the_count;
-        //insert_aisatu
+        //数値が異なる時だけ
+        if(precount != the_count){
+            //effectをつける
+            //console.log(precount, the_count);
+            effect_aisatu();
+        }
         insert_aisatu(doc.data());
+        //insert_aisatu
         //リスナの設置 //いずれは課金上限に最も届きやすそうなので、リスナは控える感じで行くかもしれない2019/12/30
-        /*ひとまずなしにする2019/12/30
+        //ひとまずなしにする2019/12/30
+        //インタラクションの挙動を考えて、再設置2020/02/15
         sirasu_listener = db.collection("sirasu").doc("6WrFkQ2L0tuoatHbw4Qj").onSnapshot(function(doc) {
             firestore_get_count += 1;
             //カウントを表示
             console.log("read_one", firestore_get_count);
+            var precount = Number(document.getElementById("sirasu_count").textContent);
             //数値の書き換え
             var the_count = doc.data().count;
             document.getElementById("sirasu_count").textContent = the_count;
             document.getElementById("sirasu_count_another").textContent = the_count;
+            //effectをつける
+            if(precount != the_count){
+                //effectをつける
+                //console.log(precount, the_count);
+                effect_aisatu();
+            }
             //insert_aisatu
             insert_aisatu(doc.data());
         });
-        */
+
     }).catch(function(error){
         console.log("error → ", error);
     });
@@ -701,4 +716,15 @@ function insert_aisatu(aisatu_doc){
     }
     //console.log(aisatu_doc);
     //console.log(job_id, " => ", job_doc);
+}
+
+//挨拶のカウントが変化した時にeffectを発生させるための関数
+function effect_aisatu(){
+    //cssのあるクラスを取り外して付けて外すのかばいいだけではないか？
+    document.getElementById("sirasu_count").classList.add("plus");
+    document.getElementById("sirasu_count_another").classList.add("plus");
+    setTimeout(function(){
+        document.getElementById("sirasu_count").classList.remove("plus");
+        document.getElementById("sirasu_count_another").classList.remove("plus");
+    }, 200);
 }

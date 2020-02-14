@@ -50,7 +50,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
     var header = document.getElementById("community_bar");
     //listener でタッチ もともとindex0 にだけ設置されていたが、共通にしちゃう。これはワダイのリスナを解除する処理で、未定義（そもそもリッスンしてない）の時出るエラーへの対処
     try{nagare_listener_global();}catch(error){console.log("error", error);};
-    //try{sirasu_listener();}catch(error){console.log("error", error);};
+    try{sirasu_listener();}catch(error){console.log("error", error);};
     try{irai_listener();}catch(error){console.log("error", error);};
     if(index == 0){
         //hiddenの解除

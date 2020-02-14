@@ -496,7 +496,7 @@ exports.helloLimit = functions.firestore.document('sirasu/6WrFkQ2L0tuoatHbw4Qj')
 
     //limitに書き加える
     //最後の数値のものが新しく生成されたものであるという考えで動くものである
-    var lastnumber = change.after.data().users.length - 1;
+    var lastnumber = Number(change.after.data().users.length) - 1;
     var user_id = change.after.data().users[lastnumber]["userid"];
     db.collection("users").doc(user_id).collection("limits").doc("day").update({
         hello: admin.firestore.FieldValue.increment(1),

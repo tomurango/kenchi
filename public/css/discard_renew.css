@@ -124,3 +124,24 @@
     
 }*/
 /* ただ、ここまでするなら、入力フォームとかトークン化は自分でするのもいいのでは？ */
+
+#sirasu_count{
+    font-size: 2em;
+    color: #000000;
+    transition: all 2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    margin: auto;
+}#sirasu_count.plus{
+    font-size: 2em;
+    color: #0066ff;
+    transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+    margin: auto;
+}
+#sirasu_count_another{
+    font-size: 2em;
+    color: #000000;
+    transition: all 2s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}#sirasu_count_another.plus{
+    font-size: 2em;
+    color: #0066ff;
+    transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) 0s ;
+}
