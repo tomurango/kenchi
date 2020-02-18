@@ -435,6 +435,19 @@ exports.scheduledFunction = functions.pubsub.schedule('1 of month 00:00').timeZo
     });
     return null;
 });
+
+//シラスを一日ごとにクリアするための記述
+exports.perdaysirasuFunction = functions.pubsub.schedule('every 24 hours').timeZone('Asia/Tokyo').onRun((context) => {
+    console.log('This will be run per a day');
+    //sirase の情報をクリアする記述
+    db.collection('sirasu').doc('6WrFkQ2L0tuoatHbw4Qj').update({
+        count: 0,
+        users: []
+    });
+    return null;
+});
+
+
 //月の時間を0にする関数 引数にuidとjobidをとる
 function update_month_time(user_id ,job_id){
     db.collection("users").doc(user_id).collection("jobs").doc(job_id).collection("levinfo").doc(job_id).update({
@@ -492,14 +505,16 @@ exports.wadaiLimit = functions.firestore.document('communities/{communityID}/nag
 //hello oncreate で制限に書き込んでいく
 exports.helloLimit = functions.firestore.document('sirasu/6WrFkQ2L0tuoatHbw4Qj').onUpdate((change ,context) => {
     //日付変更でリセットされる場合の分岐処理を記述する2020/02/07じゃなきゃエラー吐くでしょｗ
-    
-
-    //limitに書き加える
-    //最後の数値のものが新しく生成されたものであるという考えで動くものである
-    var lastnumber = Number(change.after.data().users.length) - 1;
-    var user_id = change.after.data().users[lastnumber]["userid"];
-    db.collection("users").doc(user_id).collection("limits").doc("day").update({
-        hello: admin.firestore.FieldValue.increment(1),
-    });
+    if(change.after.data().count != 0){
+        //limitに書き加える
+        //最後の数値のものが新しく生成されたものであるという考えで動くものである
+        var lastnumber = Number(change.after.data().users.length) - 1;
+        var user_id = change.after.data().users[lastnumber]["userid"];
+        db.collection("users").doc(user_id).collection("limits").doc("day").update({
+            hello: admin.firestore.FieldValue.increment(1),
+        });
+    }else{
+        //日付変更処理後
+    }
     return 0;
 });
