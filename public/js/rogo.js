@@ -2,6 +2,7 @@
     //console.log("ロゴを見えなくする処理をする");
     //早すぎるからタイムアウトさせる
     scrollTo(0,0);
+    document.getElementById("my_body").style.overflowY = "hidden";
     //document.getElementById("my_body").style.overflowY = "hidden";
     setTimeout(smallrogo, 3000);
 });
@@ -31,4 +32,8 @@ function display_hidden(){
 
 function placeholder_delete(){
     document.getElementById("placeholder_dash").style.display = "none";
+    //この時にbottom navigation bar 出して挙動管理する(placeholderの挙動をおかしくならないようにする)
+    document.getElementById("top_footer").classList.remove("loading");
+    //あとここで初めてスクロールできるようにする
+    document.getElementById("my_body").style.overflowY = "auto";
 }
