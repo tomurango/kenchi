@@ -95,6 +95,9 @@ tabBar.listen('MDCTabBar:activated',function(event){
                 document.getElementById("no_work_div").style.display = "none";
             },300);
         },25);
+        //history API を使用した挙動のための変数群
+        var title = "home";
+        var url = "home";
     }else if(index == 1){
         //シラセの処理をここに記述する
         //document.getElementById("page_contain_sirase").hidden = false;
@@ -131,6 +134,9 @@ tabBar.listen('MDCTabBar:activated',function(event){
                 }
             },300);
         },25);
+        //history API を使用した挙動のための変数群
+        var title = "work";
+        var url = "work";
     }else if(index == 2){
         //ワダイの処理をここに記述する
         //hiddenの解除
@@ -177,6 +183,9 @@ tabBar.listen('MDCTabBar:activated',function(event){
         },25);
         //nagareを取得
         //nagare_change(0);
+        //history API を使用した挙動のための変数群
+        var title = "wadai";
+        var url = "wadai";
     }else if(index == 3){
         //イライの記述をここにする
         irai.hidden = false;
@@ -212,6 +221,15 @@ tabBar.listen('MDCTabBar:activated',function(event){
                 }
             },300);
         },25);
+        //history API を使用した挙動のための変数群
+        var title = "irai";
+        var url = "irai";   
+    }
+    //historyAPIで戻るとかの挙動をあーだこーだする感じ
+    if( window.history && window.history.pushState ){
+        //historyAPIを利用したライブラリに対応しているときにこの挙動を許可する
+        var state = {type: "BottomAppBar", index: index};
+        window.history.pushState(state, title, url);
     }
 },false);
 
@@ -403,3 +421,15 @@ const drawer = new mdc.drawer.MDCDrawer(document.querySelector('.mdc-drawer'));
 function drawer_open(){
   drawer.open = !drawer.open;
 }
+
+//ついでにここで戻るとかの挙動も書き込んでしまう感じで行くか
+$(window).on('popstate', function(jqevent) {
+    var state = jqevent.originalEvent.state;
+    if (state) {
+        //とりあえずBottomAppBarを実装したけどどうだろうか
+        if(state.type == "BottomAppBar"){
+            var navnum = state.index;
+            tabBar.activateTab(navnum);
+        }
+    };
+});
