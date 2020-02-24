@@ -309,6 +309,14 @@ var change_username_dialog = new mdc.dialog.MDCDialog(document.querySelector('#c
 
 var display_limit_dialog = new mdc.dialog.MDCDialog(document.querySelector('#display_limit_dialog'));
 
+var tutorial_home_dialog = new mdc.dialog.MDCDialog(document.querySelector('#tutorial_home_dialog'));
+tutorial_home_dialog.scrimClickAction = "";
+
+var tutorial_work_dialog = new mdc.dialog.MDCDialog(document.querySelector('#tutorial_work_dialog'));
+tutorial_work_dialog.scrimClickAction = "";
+
+var tutorial_wadai_dialog = new mdc.dialog.MDCDialog(document.querySelector('#tutorial_wadai_dialog'));
+tutorial_wadai_dialog.scrimClickAction = "";
 
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));

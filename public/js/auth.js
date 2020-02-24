@@ -550,3 +550,16 @@ function mail_login_create(){
         }
     });
 }
+
+
+//チュートリアルのメッセージを表示する関数
+function tutorial_message(type){
+    if(type == "home"){
+        //最初の画面に表示される、アプリの概要若しくは、homeの使い方に関する記述かな？
+        tutorial_home_dialog.open();
+    }else if(type == "work"){
+        tutorial_work_dialog.open();
+    }else if(type == "wadai"){
+        tutorial_wadai_dialog.open();
+    }
+}
