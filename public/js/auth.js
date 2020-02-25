@@ -93,8 +93,10 @@ function check_db(user_info){
             notice_permission(user_doc_global);
             //sirasuを取得する
             sirasu_get();
-            //limits を取得する
+            //limits を取得する ここで一日の始めに挙動を分岐させて動作をしっかりできるようにする
             get_limits(user_info.uid);
+            //tutorial の挙動及び処理を実行する
+            tutorial_home();
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");   
@@ -554,12 +556,78 @@ function mail_login_create(){
 
 //チュートリアルのメッセージを表示する関数
 function tutorial_message(type){
-    if(type == "home"){
-        //最初の画面に表示される、アプリの概要若しくは、homeの使い方に関する記述かな？
-        tutorial_home_dialog.open();
-    }else if(type == "work"){
-        tutorial_work_dialog.open();
-    }else if(type == "wadai"){
-        tutorial_wadai_dialog.open();
+    setTimeout(function(){
+        if(type == "home"){
+            //最初の画面に表示される、アプリの概要若しくは、homeの使い方に関する記述かな？
+            tutorial_home_dialog.open();
+        }else if(type == "work"){
+            tutorial_work_dialog.open();
+        }else if(type == "wadai"){
+            tutorial_wadai_dialog.open();
+        }
+    },1000);
+}
+
+//homeのチューとリアルの時はドキュメントの存在が怪しい状況での実行になるので、他と異なるね恐らく
+//と思っていたが、あんま変わらないかもしれない
+function tutorial_home(){
+    //user doc global の tutorial が歩かないかの確認
+    if(user_doc_global.tutorialHome === undefined || user_doc_global.tutorialHome == false ){
+        //未定義の場合の処理
+        //message を表示
+        tutorial_message("home");
+        //firebase の上書き
+        db.collection("users").doc(user_info_global.uid).update({
+            tutorialHome: true 
+        }).then(function(){
+            //実行後はグローバル doc の書き換えを行う
+            user_doc_global.tutorialHome = true;
+        }).catch(function(e){
+            console.log("error => ", e);
+        });
+    }else if(user_doc_global.tutorialHome == true){
+        return
+    }
+}
+
+// work のチュートリアル
+function tutorial_work(){
+    //user doc global の tutorial が歩かないかの確認
+    if(user_doc_global.tutorialWork === undefined || user_doc_global.tutorialWork == false ){
+        //未定義の場合の処理
+        //message を表示
+        tutorial_message("work");
+        //firebase の上書き
+        db.collection("users").doc(user_info_global.uid).update({
+            tutorialWork: true 
+        }).then(function(){
+            //実行後はグローバル doc の書き換えを行う
+            user_doc_global.tutorialWork = true;
+        }).catch(function(e){
+            console.log("error => ", e);
+        });
+    }else if(user_doc_global.tutorialWork == true){
+        return
+    }
+}
+
+// wadai のチュートリアル
+function tutorial_wadai(){
+    //user doc global の tutorial が歩かないかの確認
+    if(user_doc_global.tutorialWadai === undefined || user_doc_global.tutorialWadai == false ){
+        //未定義の場合の処理
+        //message を表示
+        tutorial_message("wadai");
+        //firebase の上書き
+        db.collection("users").doc(user_info_global.uid).update({
+            tutorialWadai: true 
+        }).then(function(){
+            //実行後はグローバル doc の書き換えを行う
+            user_doc_global.tutorialWadai = true;
+        }).catch(function(e){
+            console.log("error => ", e);
+        });
+    }else if(user_doc_global.tutorialWadai == true){
+        return
     }
 }

@@ -99,6 +99,8 @@ tabBar.listen('MDCTabBar:activated',function(event){
         var title = "home";
         var url = "home";
     }else if(index == 1){
+        //work のチュートリアルの実行有無のかっくにん
+        tutorial_work();
         //シラセの処理をここに記述する
         //document.getElementById("page_contain_sirase").hidden = false;
         check_work_isornot();
@@ -139,6 +141,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         var url = "work";
     }else if(index == 2){
         //ワダイの処理をここに記述する
+        tutorial_wadai();
         //hiddenの解除
         document.getElementById("page_contain_com").hidden = false;
         //dash home の onclick 停止
