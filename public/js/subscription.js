@@ -14,16 +14,26 @@ function onFailed(res, error){
 
 //以下にサイト表示に関するエフェクトや条件分岐に動作管理の記述をする
 var global_limits;
-function get_limits(userid){
-    //制限に関する情報を取得してグローバル変数に代入する
-    db.collection('users').doc(userid).collection("limits").doc("day").get().then(function(doc){
-        //代入
-        global_limits = doc.data();
-        //console.log(global_limits);
+//日付更新であるか否かで処理を分岐（そうしなければ、日付更新処理とlimit処理がかみ合わないで、前日の制限がそのまま使用されてしまうから）
+function get_limits(userid, day_first){
+    if(day_first){
+        global_limits = {
+            hello: 0,
+            work: 0,
+            wadai: 0
+        };
         reflect_limits(0);
-    }).catch(function(error){
-        console.log("error", error);
-    });
+    }else{
+        //制限に関する情報を取得してグローバル変数に代入する
+        db.collection('users').doc(userid).collection("limits").doc("day").get().then(function(doc){
+            //代入
+            global_limits = doc.data();
+            //console.log(global_limits);
+            reflect_limits(0);
+        }).catch(function(error){
+            console.log("error", error);
+        });
+    }
 }
 
 //挙動制限にかかるボタンの識別と制限動作を行う関数、ナビゲーションでボタンを切り替える時も動かす

@@ -436,8 +436,8 @@ exports.scheduledFunction = functions.pubsub.schedule('1 of month 00:00').timeZo
     return null;
 });
 
-//シラスを一日ごとにクリアするための記述
-exports.perdaysirasuFunction = functions.pubsub.schedule('every 24 hours').timeZone('Asia/Tokyo').onRun((context) => {
+//シラスを一日ごとにクリアするための記述 //この書き方で0じ0分に毎日実行してくれるはずなのだが、どうだろうか2020/03/05追記
+exports.perdaysirasuFunction = functions.pubsub.schedule('0 0 * * *').timeZone('Asia/Tokyo').onRun((context) => {
     console.log('This will be run per a day');
     //sirase の情報をクリアする記述
     db.collection('sirasu').doc('6WrFkQ2L0tuoatHbw4Qj').update({

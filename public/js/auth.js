@@ -94,7 +94,7 @@ function check_db(user_info){
             //sirasuを取得する
             sirasu_get();
             //limits を取得する ここで一日の始めに挙動を分岐させて動作をしっかりできるようにする
-            get_limits(user_info.uid);
+            //get_limits(user_info.uid);ここではなく、job_data_get内の日付更新の位置で実行させる
             //tutorial の挙動及び処理を実行する
             tutorial_home();
         } else {
@@ -409,8 +409,12 @@ function user_job_data_get(user_info, job_name){
                     console.log("read", firestore_get_count);
                     insert_level_info(job_name, 0);
                 });
+                //日付が変わるのであれば、リミットはグローバル側を手動で入力
+                get_limits(user_info.uid, true);
             }else{
                 insert_level_info(job_name, 0);
+                //日付が変わらないのであれば、リミットは取得してきて反映する感じでいいですかね。
+                get_limits(user_info.uid, false);
             }
             //get カウント
             firestore_get_count += 1;
