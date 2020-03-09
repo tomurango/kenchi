@@ -1057,11 +1057,12 @@
             <p class="card_subtitle" style="margin-left: 20px">プラン</p>
             <p id="user_plan_display" class="card_contents" style="margin: 20px">ノーマルプラン</p>
             <p style="margin: 20px">
-                ５００円で、機能制限なしに使用できるようになる予定です。
+                １０００円で、機能制限なしに使用できるようになる予定です。
             </p>
             <!--レスポンスのスクリプトはフォーム作成の前に読み込む必要があるらしいです-->
             <script src="js/subscription.js"></script>
             <form action="https://us-central1-keikenchi-cf891.cloudfunctions.net/purchasePlan" method="POST" target="send_target">
+                <input type="hidden" value="" name="email" id="mail_for_subscription">
                 <script
                     type="text/javascript"
                     src="https://checkout.pay.jp/"
@@ -1069,8 +1070,8 @@
                     data-key="pk_test_9fd0175be5f918882aa96643"
                     data-on-created="onCreated"
                     data-on-failed="onFailed"
-                    data-text="プラン500を購入"
-                    data-submit-text="プラン500を購入">
+                    data-text="ワイワイプランを購入"
+                    data-submit-text="ワイワイプランを購入">
                 </script>
             </form>
             <!--iframe を target にすることで画面遷移することなくふぉーっむ送信できるらしい-->

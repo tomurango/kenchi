@@ -479,14 +479,43 @@ app.post('/',(req,res)=>{
     console.log(req.body);
     console.log(req.body["payjp-token"]);
     */
-   
+    
+    //顧客情報を作成
+    payjp.customers.create({
+        email: req.body["email"],
+        card: req.body["payjp-token"]
+    }).then(function(customer){
+
+        //サブすくを作成
+        payjp.subscriptions.create({
+            plan: 'pln_fa3c1942e33d4cb43bb6352d512b',
+            customer: customer.id
+        }).then(function(result_subscription){
+            console.log(result_subscription);
+
+            //ここでデータベースにユーザIDを書き足す感じの処理をする予定
+
+
+
+            //respons 恐らくここでは正しく処理が完了している ちなみにこのレスポンスの処理はコピペで全く理解してない
+            const formattedDate = moment().format(format);
+            console.log('Sending Formatted date:', formattedDate);
+            res.status(200).send(formattedDate);
+        });
+
+    }).catch(function(error){
+        console.log(error);
+    });
+    
+    /*
     payjp.charges.create({
-        amount: 500,
+        amount: 1000,
         currency: 'jpy',
         card: req.body["payjp-token"]
     }).then(console.log).catch(console.error);
-    return null
+    */
     
+    return null
 });
 
 // Expose Express API as a single Cloud Function:

@@ -419,6 +419,8 @@ function insert_ranking(job_id, job_doc, rank_number){
 
 //ランキング
 function display_card_plan(){
+    //formにemailを書き込む それはリクエストauth で対応するかもしれない
+    document.getElementById("mail_for_subscription").value = user_info_global.email;
     console.log("display_plan");
     //他の動作と被らないようにonclickを消す
     var cards = document.querySelectorAll('.dash-card_renew');
