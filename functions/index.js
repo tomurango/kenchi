@@ -493,14 +493,22 @@ app.post('/',(req,res)=>{
         }).then(function(result_subscription){
             console.log(result_subscription);
 
+            var waiwai_user = {
+                userId: req.body["uid"],
+                createdAt: firebase.firestore.Timestamp.now()
+            };
             //ここでデータベースにユーザIDを書き足す感じの処理をする予定
-
-
+            db.collection("waiwai_users").doc(req.body["uid"]).set(waiwai_user).then(function(){
+                //データベースに登録が完了したので、レスポンスを返す挙動を行う
+                res.status(200).send(waiwai_user);
+            });
 
             //respons 恐らくここでは正しく処理が完了している ちなみにこのレスポンスの処理はコピペで全く理解してない
+            /*エラー吐いたから、ここは一時隔離
             const formattedDate = moment().format(format);
             console.log('Sending Formatted date:', formattedDate);
             res.status(200).send(formattedDate);
+            */
         });
 
     }).catch(function(error){
@@ -520,7 +528,6 @@ app.post('/',(req,res)=>{
 
 // Expose Express API as a single Cloud Function:
 exports.purchasePlan = functions.https.onRequest(app);
-
 
 //wadai oncreate で 制限に書き込んでいく
 exports.wadaiLimit = functions.firestore.document('communities/{communityID}/nagare/{wadaiID}').onCreate((snap ,context) => {   
