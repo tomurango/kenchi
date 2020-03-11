@@ -95,3 +95,8 @@ function display_limit_message(actionName){
         display_limit_dialog.open();
     },500);
 }
+
+//subscription を開始した時のフィードバックをわかりやすくするような記述及び、アプリ起動時に登録ユーザーであったときに
+//それを反映する処理の記述を加える
+
+

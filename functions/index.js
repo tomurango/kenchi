@@ -495,7 +495,7 @@ app.post('/',(req,res)=>{
 
             var waiwai_user = {
                 userId: req.body["uid"],
-                createdAt: firebase.firestore.Timestamp.now()
+                createdAt: admin.firestore.FieldValue.serverTimestamp()
             };
             //ここでデータベースにユーザIDを書き足す感じの処理をする予定
             db.collection("waiwai_users").doc(req.body["uid"]).set(waiwai_user).then(function(){
