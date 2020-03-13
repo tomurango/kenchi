@@ -96,6 +96,11 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    //読み込みのみ許可を可能にしてセキュリティを強化したつもり
+    match /waiwai_users/{docId} {
+      allow read: if request.auth.uid != null;
+    }
+
     match /sirasu/{sirasuId} {
       allow read: if request.auth.uid != null;
       allow update: if get(/databases/$(database)/documents/users/$(request.auth.uid)/limits/$("day")).data.hello == 0;

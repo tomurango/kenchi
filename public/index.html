@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.6.9</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.7.0</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1056,12 +1056,12 @@
             <button class="mdc-icon-button material-icons back" onclick="display_card_plan_back()">keyboard_arrow_down</button>
             <p class="card_subtitle" style="margin-left: 20px">プラン</p>
             <p id="user_plan_display" class="card_contents" style="margin: 20px">ノーマルプラン</p>
-            <p style="margin: 20px">
+            <p id="plan_explaining" style="margin: 20px">
                 １０００円で、さらに広くアプリを利用することができるようになる予定です。
             </p>
             <!--レスポンスのスクリプトはフォーム作成の前に読み込む必要があるらしいです-->
             <script src="js/subscription.js"></script>
-            <form action="https://us-central1-keikenchi-cf891.cloudfunctions.net/purchasePlan" method="POST" target="send_target">
+            <form id="plan_purchase_form" action="https://us-central1-keikenchi-cf891.cloudfunctions.net/purchasePlan" method="POST" target="send_target">
                 <input type="hidden" value="" name="email" id="mail_for_subscription">
                 <input type="hidden" value="" name="uid" id="uid_for_subscription">
                 <script
@@ -1077,6 +1077,7 @@
             </form>
             <!--iframe を target にすることで画面遷移することなくふぉーっむ送信できるらしい-->
             <iframe name="send_target" style="width:0px;height:0px;border:0px;"></iframe>
+            <button id="plan_downgrade_form" class="mdc-button" style="display: none; margin: 20px">ノーマルプランに戻す</button>
         </div>
 
         <div id="dash_community" class="mdc-card dash-card" style="display: none;">

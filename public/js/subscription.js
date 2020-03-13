@@ -98,5 +98,25 @@ function display_limit_message(actionName){
 
 //subscription を開始した時のフィードバックをわかりやすくするような記述及び、アプリ起動時に登録ユーザーであったときに
 //それを反映する処理の記述を加える
-
-
+function if_waiwaiuser(){
+    db.collection("waiwai_users").doc(user_info_global.uid).get().then(function(doc) {
+        if (doc.exists) {
+            //存在するときの処理
+            console.log("Document data:", doc.data());
+            document.getElementById("user_plan_display_renew").textContent = "ワイワイプラン";
+            document.getElementById("user_plan_display").textContent = "ワイワイプラン";
+            document.getElementById("plan_explaining").textContent = "ワイワイプランであるときの説明がここに、、、";
+            //formをけす
+            document.getElementById("plan_purchase_form").remove();
+            //元に戻すボタンを取り付ける
+            document.getElementById("plan_downgrade_form").style.display = "flex";
+        } else {
+            // doc.data() will be undefined in this case
+            //この場合は特に何もしないでreturn
+            console.log("No such document!");
+            return
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+}

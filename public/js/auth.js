@@ -97,6 +97,8 @@ function check_db(user_info){
             //get_limits(user_info.uid);ここではなく、job_data_get内の日付更新の位置で実行させる
             //tutorial の挙動及び処理を実行する
             tutorial_home();
+            //ワイワイユーザか、ノーマルユーザなのかを判断して実行する処理
+            if_waiwaiuser();
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");   
@@ -487,7 +489,6 @@ function mail_login_back(){
             mail_login_card.style.display = "none";
         }, 150);
     }, 150);
-    
 }
 
 function mail_login_send(){
