@@ -1077,7 +1077,20 @@
             </form>
             <!--iframe を target にすることで画面遷移することなくふぉーっむ送信できるらしい-->
             <iframe name="send_target" style="width:0px;height:0px;border:0px;"></iframe>
-            <button id="plan_downgrade_form" class="mdc-button" style="display: none; margin: 20px">ノーマルプランに戻す</button>
+            <button id="plan_downgrade_form" style="display: none; margin: 20px; 
+                -webkit-appearance: none;
+                border-radius: 2px;
+                padding: .5em 1em;
+                font-size: 12px;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                cursor: pointer;
+                border: 1px solid #2FA0DC;
+                color: #fff;
+                background-color: #198fcc;">
+                ノーマルプランに戻す
+            </button>
         </div>
 
         <div id="dash_community" class="mdc-card dash-card" style="display: none;">
@@ -1551,6 +1564,21 @@
                         <p style="font-size: 2em">話そう</p>
                         <p>ワダイではコミュニティ上での会話をすることができます。</p>
                         <p>ホームでコミュニティに参加し、会話をしましょう。</p>
+                    </section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <div id="money_reload_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="money_reload_description" class="mdc-dialog__content">
+                        プランを反映するために、リロードをしてください。
                     </section>
                     <footer class="mdc-dialog__actions">
                         <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>

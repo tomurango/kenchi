@@ -110,13 +110,32 @@ function if_waiwaiuser(){
             document.getElementById("plan_purchase_form").remove();
             //元に戻すボタンを取り付ける
             document.getElementById("plan_downgrade_form").style.display = "flex";
+            //const waiwai = true;
+            define("waiwai",true);
+            return
         } else {
             // doc.data() will be undefined in this case
             //この場合は特に何もしないでreturn
             console.log("No such document!");
+            //const waiwai = false;
+            define("waiwai",false);
             return
         }
     }).catch(function(error) {
         console.log("Error getting document:", error);
+    });
+}
+
+/// グローバル定数を定義する ザッコピペ 不変なグローバル変数を作るために利用する
+function define(name, value){
+    Object.defineProperty(window, name, { 
+        get: function(){return value;},
+        set: function(){
+            //料金変更した時はこの変数再定義ができないので、
+            //ここでリロードしてくださいのダイアログを出力する
+            console.log("無理");
+            money_reload_dialog.open();
+            throw(name+' is already defined !!');
+        }
     });
 }

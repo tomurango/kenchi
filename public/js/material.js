@@ -321,6 +321,9 @@ tutorial_work_dialog.scrimClickAction = "";
 var tutorial_wadai_dialog = new mdc.dialog.MDCDialog(document.querySelector('#tutorial_wadai_dialog'));
 tutorial_wadai_dialog.scrimClickAction = "";
 
+var money_reload_dialog = new mdc.dialog.MDCDialog(document.querySelector('#money_reload_dialog'));
+money_reload_dialog.scrimClickAction = "";
+
 //snakebar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
