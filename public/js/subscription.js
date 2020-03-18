@@ -5,6 +5,9 @@
 //正常な申請の時に呼び出される関数
 function onCreated(res){
     console.log("成功したよ登録", res);
+    money_reload_dialog.open();
+    //今はめんどくさいから、分岐しないけど、レスポンスに応じて処理を変えていく感じにする必要があるならする
+
 }
 
 //error の時に実行される関数
@@ -55,8 +58,14 @@ function reflect_limits(navigation_number){
             document.getElementById("start_fab").classList.remove("limit");
         }
     }else if(navigation_number == 1){
-        //5に行った時にボタンを押せなくする、見た目も変える
-        if(global_limits.work > 4){
+        if(waiwai){
+            //ワイワイユーザは5回しようしたらもう使えない
+            var work_limit_count = 4;
+        }else{
+            //ノーマルユーザは2回使用したら使えない
+            var work_limit_count = 1;
+        }
+        if(global_limits.work > work_limit_count){
             document.getElementById("start_fab").disabled = "disabled";
             document.getElementById("start_fab").classList.add("limit");
             if(limit_display_count.work == 0){
@@ -68,8 +77,14 @@ function reflect_limits(navigation_number){
             document.getElementById("start_fab").classList.remove("limit");
         }
     }else if(navigation_number == 2){
-        //5に行った時にボタンを押せなくする、見た目も変える
-        if(global_limits.wadai > 1){
+        if(waiwai){
+            //ワイワイユーザは5回しようしたらもう使えない
+            var wadai_limit_count = 4;
+        }else{
+            //ノーマルユーザは1回使用したら使えない
+            var wadai_limit_count = 0;
+        }
+        if(global_limits.wadai > wadai_limit_count){
             document.getElementById("start_fab").disabled = "disabled";
             document.getElementById("start_fab").classList.add("limit");
             if(limit_display_count.wadai == 0){
@@ -81,6 +96,7 @@ function reflect_limits(navigation_number){
             document.getElementById("start_fab").classList.remove("limit");
         }
     }else{
+        //nvigation_number == 3 に対して以来を適用していく形になるのが理想なんだけどね
         console.log("イライに対する制限ものちに追加すると思うよ");
     }
 }
@@ -133,8 +149,9 @@ function define(name, value){
         set: function(){
             //料金変更した時はこの変数再定義ができないので、
             //ここでリロードしてくださいのダイアログを出力する
+            //それはレスポンスの関数で実行させます
             console.log("無理");
-            money_reload_dialog.open();
+            //money_reload_dialog.open();
             throw(name+' is already defined !!');
         }
     });
