@@ -420,13 +420,16 @@ function insert_ranking(job_id, job_doc, rank_number){
 //ランキング
 function display_card_plan(){
     //formにemailを書き込む それはリクエストauth で対応するかもしれない
-    try{
+    if(waiwai){
+        //ワイワイユーザの時はキャンセルのための入力が
+        document.getElementById("subscriptionid_for_cancel").value = waiwainformation.subscId;
+        document.getElementById("uid_for_cancel").value = user_info_global.uid;
+        console.log("waiwai user");
+    }else{
         //waiwai user だった時に、値の無いフォームに代入することはできず、エラーが発せられる
         document.getElementById("mail_for_subscription").value = user_info_global.email;
         document.getElementById("uid_for_subscription").value = user_info_global.uid;
         console.log("display_plan");
-    }catch(error){
-        console.log("waiwai user");
     }
     //他の動作と被らないようにonclickを消す
     var cards = document.querySelectorAll('.dash-card_renew');

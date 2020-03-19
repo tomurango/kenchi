@@ -466,10 +466,12 @@ var keys = require('./key');
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const appapp = express();//プランをキャンセルするために複製したけど挙動大丈夫かね？
 const payjp = require('payjp')(keys.value);
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
+appapp.use(cors({ origin: true }));
 
 app.post('/',(req,res)=>{
     
@@ -479,6 +481,18 @@ app.post('/',(req,res)=>{
     console.log(req.body);
     console.log(req.body["payjp-token"]);
     */
+
+    if(req.body["first_or_not"] == "not"){
+        //初めてではないので、トライアル期間は設けないです
+        var planId = "pln_ed64352bf2815c2c798919cf6483";
+    }else if(req.body["first_or_not"] == "first"){
+        //こっちがトライアル30日があるプランのほう
+        var planId = "pln_fa3c1942e33d4cb43bb6352d512b";
+    }else{
+        //挙動が不安なので、一応のトライアルプラン
+        var planId = "pln_fa3c1942e33d4cb43bb6352d512b";
+    }
+
     
     //顧客情報を作成
     payjp.customers.create({
@@ -488,16 +502,18 @@ app.post('/',(req,res)=>{
 
         //サブすくを作成
         payjp.subscriptions.create({
-            plan: 'pln_fa3c1942e33d4cb43bb6352d512b',
+            plan: planId,
             customer: customer.id
         }).then(function(result_subscription){
             console.log(result_subscription);
 
             var waiwai_user = {
                 userId: req.body["uid"],
-                createdAt: admin.firestore.FieldValue.serverTimestamp()
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+                subscId: result_subscription.id
             };
             //ここでデータベースにユーザIDを書き足す感じの処理をする予定
+            //今すぐワイワイプランの方もデータベースが上書きされるので、深い心配などは必要ないと考えられる
             db.collection("waiwai_users").doc(req.body["uid"]).set(waiwai_user).then(function(){
                 //データベースに登録が完了したので、レスポンスを返す挙動を行う
                 res.status(200).send(waiwai_user);
@@ -525,9 +541,28 @@ app.post('/',(req,res)=>{
     
     return null
 });
+appapp.post('/',(req,res)=>{
+    
+    payjp.subscriptions.cancel(
+        req.body["subid"]
+    ).then(function(cancelres){
+        console.log("キャンセルに対するレスポンス", cancelres);
+        //ここでサブすくを再開することなどを考えたデータベース管理をする
+        //updateしましょう
+        db.collection("waiwai_users").doc(req.body["uid"]).update({
+            cancel: true
+        }).then(function(){
+            //データベースに登録が完了したので、レスポンスを返す挙動を行う
+            res.status(200).send("キャンセルしましたよ-");
+        });
 
+    })
+    return null
+});
 // Expose Express API as a single Cloud Function:
 exports.purchasePlan = functions.https.onRequest(app);
+
+exports.stopwaiwaiPlan = functions.https.onRequest(appapp);
 
 //wadai oncreate で 制限に書き込んでいく
 exports.wadaiLimit = functions.firestore.document('communities/{communityID}/nagare/{wadaiID}').onCreate((snap ,context) => {   

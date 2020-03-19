@@ -1056,14 +1056,31 @@
             <button class="mdc-icon-button material-icons back" onclick="display_card_plan_back()">keyboard_arrow_down</button>
             <p class="card_subtitle" style="margin-left: 20px">プラン</p>
             <p id="user_plan_display" class="card_contents" style="margin: 20px">ノーマルプラン</p>
-            <p id="plan_explaining" style="margin: 20px">
-                １０００円で、さらに広くアプリを利用することができるようになる予定です。
-            </p>
+            <div id="plan_explaining" style="margin: 20px">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>ノーマルプラン</th>
+                        <th>ワイワイプラン</th>
+                    </tr>
+                    <tr>
+                        <td>ワーク数</td>
+                        <td>１回／日</td>
+                        <td>５回／日</td>
+                    </tr>
+                    <tr>
+                        <td>ワダイ数</td>
+                        <td>１回／日</td>
+                        <td>５回／日</td>
+                    </tr>
+                </table>
+            </div>
             <!--レスポンスのスクリプトはフォーム作成の前に読み込む必要があるらしいです-->
             <script src="js/subscription.js"></script>
             <form id="plan_purchase_form" action="https://us-central1-keikenchi-cf891.cloudfunctions.net/purchasePlan" method="POST" target="send_target">
                 <input type="hidden" value="" name="email" id="mail_for_subscription">
                 <input type="hidden" value="" name="uid" id="uid_for_subscription">
+                <input type="hidden" value="first" name="first_or_not" id="which_for_subscriptuon">
                 <script
                     type="text/javascript"
                     src="https://checkout.pay.jp/"
@@ -1077,20 +1094,23 @@
             </form>
             <!--iframe を target にすることで画面遷移することなくふぉーっむ送信できるらしい-->
             <iframe name="send_target" style="width:0px;height:0px;border:0px;"></iframe>
-            <button id="plan_downgrade_form" style="display: none; margin: 20px; 
-                -webkit-appearance: none;
-                border-radius: 2px;
-                padding: .5em 1em;
-                font-size: 12px;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                cursor: pointer;
-                border: 1px solid #2FA0DC;
-                color: #fff;
-                background-color: #198fcc;">
-                ノーマルプランに戻す
-            </button>
+            <form id="plan_downgrade_form"  action="https://us-central1-keikenchi-cf891.cloudfunctions.net/stopwaiwaiPlan" method="POST" target="send_target" style="display: none">
+                <input type="hidden" value="" name="subid" id="subscriptionid_for_cancel">
+                <input type="hidden" value="" name="uid" id="uid_for_cancel">
+                <input type="button" style="margin: 20px; 
+                    -webkit-appearance: none;
+                    border-radius: 2px;
+                    padding: .5em 1em;
+                    font-size: 12px;
+                    text-align: center;
+                    white-space: nowrap;
+                    vertical-align: middle;
+                    cursor: pointer;
+                    border: 1px solid #2FA0DC;
+                    color: #fff;
+                    background-color: #198fcc;"
+                value="ノーマルプランに戻す">
+            </form>
         </div>
 
         <div id="dash_community" class="mdc-card dash-card" style="display: none;">

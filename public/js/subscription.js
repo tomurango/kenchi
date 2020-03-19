@@ -62,8 +62,8 @@ function reflect_limits(navigation_number){
             //ワイワイユーザは5回しようしたらもう使えない
             var work_limit_count = 4;
         }else{
-            //ノーマルユーザは2回使用したら使えない
-            var work_limit_count = 1;
+            //ノーマルユーザは１回使用したら使えない
+            var work_limit_count = 0;
         }
         if(global_limits.work > work_limit_count){
             document.getElementById("start_fab").disabled = "disabled";
@@ -117,17 +117,28 @@ function display_limit_message(actionName){
 function if_waiwaiuser(){
     db.collection("waiwai_users").doc(user_info_global.uid).get().then(function(doc) {
         if (doc.exists) {
-            //存在するときの処理
-            console.log("Document data:", doc.data());
-            document.getElementById("user_plan_display_renew").textContent = "ワイワイプラン";
-            document.getElementById("user_plan_display").textContent = "ワイワイプラン";
-            document.getElementById("plan_explaining").textContent = "ワイワイプランであるときの説明がここに、、、";
-            //formをけす
-            document.getElementById("plan_purchase_form").remove();
-            //元に戻すボタンを取り付ける
-            document.getElementById("plan_downgrade_form").style.display = "flex";
-            //const waiwai = true;
-            define("waiwai",true);
+            if(doc.data().cancel == true){
+                //存在しても、停止しているときの処理。
+                define("waiwai",false);
+                //ワイワイユーザではないが、過去にそうであった経験がある場合の処理。
+                document.getElementById("which_for_subscriptuon").value = "not";
+            }else{
+                //存在するときの処理
+                console.log("Document data:", doc.data());
+                /*
+                document.getElementById("user_plan_display_renew").textContent = "ワイワイプラン";
+                document.getElementById("user_plan_display").textContent = "ワイワイプラン";
+                document.getElementById("plan_explaining").textContent = "ワイワイプランであるときの説明がここに、、、";
+                */
+                //formをけす
+                document.getElementById("plan_purchase_form").style.display = "none";
+                //元に戻すボタンを取り付ける
+                document.getElementById("plan_downgrade_form").style.display = "flex";
+                //const waiwai = true;
+                define("waiwai",true);
+            }
+            //存在すれば、どっちにしろ実効
+            define("waiwainformation",doc.data());
             return
         } else {
             // doc.data() will be undefined in this case
