@@ -125,9 +125,9 @@ function if_waiwaiuser(){
             }else{
                 //存在するときの処理
                 console.log("Document data:", doc.data());
-                /*
                 document.getElementById("user_plan_display_renew").textContent = "ワイワイプラン";
                 document.getElementById("user_plan_display").textContent = "ワイワイプラン";
+                /*
                 document.getElementById("plan_explaining").textContent = "ワイワイプランであるときの説明がここに、、、";
                 */
                 //formをけす
