@@ -428,7 +428,7 @@ request.setHeader('Set-Cookie', 'SameSite=Lax');
 exports.scheduledFunction = functions.pubsub.schedule('1 of month 00:00').timeZone('Asia/Tokyo').onRun((context) => {
     console.log('This will be run every day 1');
     //jobのランキングを初期化する関数を実行する
-    db.collectionGroup('levinfo').get().then(function (querySnapshot) {
+    db.collectionGroup('levinfo').where("month_time", ">", 0).get().then(function (querySnapshot) {
         querySnapshot.forEach(function(doc) {
             update_month_time(doc.data().user_id, doc.id);
         });
@@ -553,9 +553,8 @@ appapp.post('/',(req,res)=>{
             cancel: true
         }).then(function(){
             //データベースに登録が完了したので、レスポンスを返す挙動を行う
-            res.status(200).send("キャンセルしましたよ-");
+            res.status(200).send({message:"キャンセルしましたよ-"});
         });
-
     })
     return null
 });

@@ -388,17 +388,22 @@ function get_ranking(){
     //一度取得していたら何もしないで終了させる
     if(ranking_flag == 1){return};
     //とりあえず取得上限１０個
-    db.collectionGroup('levinfo').orderBy("month_time", "desc").limit(10).get().then(function (querySnapshot) {
+    db.collectionGroup('levinfo').orderBy("month_time", "desc").where("month_time", ">", 0).limit(10).get().then(function (querySnapshot) {
         //カウントを表示
+        document.getElementById("ranking_information").innerHTML = "";
         firestore_get_count += querySnapshot.size;
-        if(querySnapshot.size == 0) {firestore_get_count += 1};
+        if(querySnapshot.size == 0) {
+            firestore_get_count += 1;
+            document.getElementById("ranking_information").innerHTML = "ワークをお待ちしています！";
+        };
         console.log("read_one", firestore_get_count);
         var ranking_reverse = querySnapshot.docs.reverse();
         //console.log(ranking_reverse);
-        document.getElementById("ranking_information").innerHTML = "";
         //順位づけのための変数
         var rank_number = querySnapshot.size;
         ranking_reverse.forEach(function(doc) {
+            //もし、月の経験値が０だった場合は取り除く
+            console.log("levinfo => ", doc.data());
             insert_ranking(doc.id, doc.data(), rank_number);
             //ひとつづつ下げてく
             rank_number -= 1;
