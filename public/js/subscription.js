@@ -167,3 +167,43 @@ function define(name, value){
         }
     });
 }
+
+//ただリロードするためだけの関数
+function reload_right_now(){
+    location.reload();
+}
+
+//注意事項を表示するダイアログ
+function open_cancel_alert(){
+    money_cancel_dialog.open();
+}
+
+function send_cancel_form(){
+
+    /*
+    $.post( 'https://httpbin.org/post', 'name=taro' ).done(function( data ) {
+        
+        console.log( data.form );
+        
+    });
+    */
+
+    var obj = document.forms["plan_downgrade_form"];
+
+    document.getElementById("cancel_open_button").disabled = "disabled";
+
+    $.ajax({
+        url: "https://us-central1-keikenchi-cf891.cloudfunctions.net/stopwaiwaiPlan",
+        type: 'post',
+        data: $(obj).serialize(),
+        dataType: 'text'
+    }).done(function(data) {
+        console.log("成功", data);
+        money_canceled_dialog.open();
+    }).fail(function(data) {
+        console.log("失敗", data);
+        
+        document.getElementById("cancel_open_button").disabled = "false";
+    });
+}
+    

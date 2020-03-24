@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.7.2</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.7.3</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1107,10 +1107,11 @@
             </form>
             <!--iframe を target にすることで画面遷移することなくふぉーっむ送信できるらしい-->
             <iframe name="send_target" style="width:0px;height:0px;border:0px;"></iframe>
-            <form id="plan_downgrade_form"  action="https://us-central1-keikenchi-cf891.cloudfunctions.net/stopwaiwaiPlan" method="POST" target="send_target" style="display: none">
+            <iframe name="send_target_for_cancel" style="width:0px;height:0px;border:0px;"></iframe>
+            <form id="plan_downgrade_form"  action="https://us-central1-keikenchi-cf891.cloudfunctions.net/stopwaiwaiPlan" method="POST" target="send_target_for_cancel" style="display: none">
                 <input type="hidden" value="" name="subid" id="subscriptionid_for_cancel">
                 <input type="hidden" value="" name="uid" id="uid_for_cancel">
-                <input type="submit" style="margin: 20px; 
+                <input type="button" onclick="open_cancel_alert()" id="cancel_open_button" style="margin: 20px; 
                     -webkit-appearance: none;
                     border-radius: 2px;
                     padding: .5em 1em;
@@ -1611,10 +1612,57 @@
             <div class="mdc-dialog__container">
                 <div class="mdc-dialog__surface">
                     <section id="money_reload_description" class="mdc-dialog__content">
-                        プランを反映するために、リロードをしてください。
+                        プランを反映するために、リロードをします。
+                        <br>
+                        <br>
+                        <span style="font-size: 0.8em">※反映に時間がかかることがあります。</span>
                     </section>
                     <footer class="mdc-dialog__actions">
-                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" onclick="reload_right_now()" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <!--プラン変更に対する警告に使う想定-->
+        <div id="money_cancel_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="money_cancel_description" class="mdc-dialog__content">
+                        プランを変更します。
+                        <br>
+                        よろしいですね？
+                        <br>
+                        <br>
+                        <span style="font-size: 0.8em">
+                            ※一度ワイワイプランを利用停止にすると、トライアル期間の受け継ぎはできません。
+                            ご注意ください。
+                        </span>
+                    </section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="close" style="--mdc-ripple-fg-size:45px; --mdc-ripple-fg-scale:2.10168; --mdc-ripple-fg-translate-start:-2.32294px, 8px; --mdc-ripple-fg-translate-end:15.7656px, -4.5px;">キャンセル</button>
+                        <button type="button" onclick="send_cancel_form()" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>
+                    </footer>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim">
+            </div>
+        </div>
+
+        <!--キャンセルのコールバックに使う想定-->
+        <div id="money_canceled_dialog" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <section id="money_canceled_description" class="mdc-dialog__content">
+                        プランを反映するために、リロードをします。
+                        <br>
+                        <br>
+                        <span style="font-size: 0.8em">※反映に時間がかかることがあります。</span>
+                    </section>
+                    <footer class="mdc-dialog__actions">
+                        <button type="button" class="mdc-button mdc-dialog__button mdc-ripple-upgraded" onclick="reload_right_now()" data-mdc-dialog-action="accept" style="--mdc-ripple-fg-size:49px; --mdc-ripple-fg-scale:2.0438; --mdc-ripple-fg-translate-start:6.47913px, 6px; --mdc-ripple-fg-translate-end:16.8229px, -6.5px;">わかりました</button>
                     </footer>
                 </div>
             </div>

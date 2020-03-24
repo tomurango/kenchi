@@ -553,7 +553,7 @@ appapp.post('/',(req,res)=>{
             cancel: true
         }).then(function(){
             //データベースに登録が完了したので、レスポンスを返す挙動を行う
-            res.status(200).send({message:"キャンセルしましたよ-"});
+            res.status(200).send("キャンセルしましたよ-");
         });
     })
     return null
