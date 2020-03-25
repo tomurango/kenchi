@@ -159,6 +159,9 @@ $(document).ready(function(){
                     document.getElementById('page_contain_dash').hidden = true;
                     //ログアウトボタンを非表示にする
                     document.getElementById("logout").style.display = "none";
+                    //ワダイのinputタグを非表示にして、代替え文字の表示をする
+                    document.getElementById("hidden_wadai_fixed_text").hidden = true;
+                    document.getElementById("hidden_wadai_text_foranony").hidden = false;
                 }else{
                     //匿名じゃない
                     user_info_global = user;
@@ -170,6 +173,9 @@ $(document).ready(function(){
                 login_anonymously();
                 //ログアウトボタンを非表示にする
                 document.getElementById("logout").style.display = "none";
+                //ワダイのinputタグを非表示にして、代替え文字の表示をする
+                document.getElementById("hidden_wadai_fixed_text").hidden = true;
+                document.getElementById("hidden_wadai_text_foranony").hidden = false;
             }
         }
     }).catch(function(error) {
@@ -598,41 +604,50 @@ function tutorial_home(){
 // work のチュートリアル
 function tutorial_work(){
     //user doc global の tutorial が歩かないかの確認
-    if(user_doc_global.tutorialWork === undefined || user_doc_global.tutorialWork == false ){
-        //未定義の場合の処理
-        //message を表示
-        tutorial_message("work");
-        //firebase の上書き
-        db.collection("users").doc(user_info_global.uid).update({
-            tutorialWork: true 
-        }).then(function(){
-            //実行後はグローバル doc の書き換えを行う
-            user_doc_global.tutorialWork = true;
-        }).catch(function(e){
-            console.log("error => ", e);
-        });
-    }else if(user_doc_global.tutorialWork == true){
-        return
+    try{
+        if(user_doc_global.tutorialWork === undefined || user_doc_global.tutorialWork == false ){
+            //未定義の場合の処理
+            //message を表示
+            tutorial_message("work");
+            //firebase の上書き
+            db.collection("users").doc(user_info_global.uid).update({
+                tutorialWork: true 
+            }).then(function(){
+                //実行後はグローバル doc の書き換えを行う
+                user_doc_global.tutorialWork = true;
+            }).catch(function(e){
+                console.log("error => ", e);
+            });
+        }else if(user_doc_global.tutorialWork == true){
+            return
+        }
+    }catch(e){
+        //匿名ユーザであるときにエラーが出る→user_doc_globalが未定義なのに、その情報を引き出すことができないので出力
+        console.log("error", e);
     }
 }
 
 // wadai のチュートリアル
 function tutorial_wadai(){
     //user doc global の tutorial が歩かないかの確認
-    if(user_doc_global.tutorialWadai === undefined || user_doc_global.tutorialWadai == false ){
-        //未定義の場合の処理
-        //message を表示
-        tutorial_message("wadai");
-        //firebase の上書き
-        db.collection("users").doc(user_info_global.uid).update({
-            tutorialWadai: true 
-        }).then(function(){
-            //実行後はグローバル doc の書き換えを行う
-            user_doc_global.tutorialWadai = true;
-        }).catch(function(e){
-            console.log("error => ", e);
-        });
-    }else if(user_doc_global.tutorialWadai == true){
-        return
+    try{
+        if(user_doc_global.tutorialWadai === undefined || user_doc_global.tutorialWadai == false ){
+            //未定義の場合の処理
+            //message を表示
+            tutorial_message("wadai");
+            //firebase の上書き
+            db.collection("users").doc(user_info_global.uid).update({
+                tutorialWadai: true 
+            }).then(function(){
+                //実行後はグローバル doc の書き換えを行う
+                user_doc_global.tutorialWadai = true;
+            }).catch(function(e){
+                console.log("error => ", e);
+            });
+        }else if(user_doc_global.tutorialWadai == true){
+            return
+        }
+    }catch(e){
+        console.log("error", e);
     }
 }

@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.7.3</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.7.4</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -1275,7 +1275,8 @@
                 <button class="mdc-icon-button material-icons back" onclick="display_talk_back()" style="position: fixed; top:0px; left:0px;">clear</button>
                 <div style="position: relative; left: 0px; height: 72px; width: 100%; background-color: #ffffff; box-shadow: 0 2px 2px rgba(0,0,0,0.26);">
                     <img id="hidden_wadai_fixed_uicon" src="img/account_circle-24px.svg" width="40px" height="40px" style="position: absolute; border-radius: 50%; object-fit: cover; left: 16px; top: 16px">
-                    <input id="hidden_wadai_fixed_text" type="text" style="position: absolute; font-size: 18px; width: calc(100% - 156px) ; border: none; left: 72px; top: 20px; height: 26px;" placeholder="コメントを入力、、、">
+                    <p id="hidden_wadai_text_foranony" style="position: absolute; font-size: 16px; margin: 0px; color: #595959; width: calc(100% - 156px) ; border: none; left: 72px; top: 20px; height: 26px;" hidden>ログインしてコメントしよう</p>
+                    <input id="hidden_wadai_fixed_text" type="text" style="position: absolute; font-size: 18px; width: calc(100% - 156px) ; border: none; left: 72px; top: 23px; height: 26px;" placeholder="コメントを入力、、、">
                     <button id="hidden_wadai_fixed_send" class="mdc-icon-button material-icons" style="position: absolute; right: 10px; bottom: 10px; color: #595959" onclick="send_reply()" disabled = "true">send</button>
                 </div>
             </div>
