@@ -369,19 +369,36 @@ exports.logedNewdate = functions.firestore.document('users/{userID}/logindate/{l
             hello: 0,
             work: 0,
             wadai: 0,
-        });        
+        });
+        // 以下month の作成
+        if(change.before.data().loginTime.toDate().getFullYear() != change.after.data().loginTime.toDate().getFullYear()){
+            //新しいとしになったら
+            db.collection("users").doc(context.params.userID).collection("limits").doc("month").update({
+                text_num: 0,
+            });
+        }else if(change.before.data().loginTime.toDate().getMonth() != change.after.data().loginTime.toDate().getMonth()){
+            //新しい月になった場合も
+            db.collection("users").doc(context.params.userID).collection("limits").doc("month").update({
+                text_num: 0,
+            });
+        }
     });
     return 0;
 });
 
 //login date を作成した時の挙動 limitを作成するために設置します2020/02/07
+//month limit の作成も追記します → 追記したと思ったけど、これ、日ごとに更新する動きではｗ2020/03/28 いやそもそも、初期値を生成する処理っぽい
 exports.createLimit = functions.firestore.document('users/{userID}/logindate/{loginID}').onCreate((change, context) => {
     //limitsに関して
     db.collection("users").doc(context.params.userID).collection("limits").doc("day").set({
         hello: 0,
         work: 0,
         wadai: 0,
-    });        
+    });
+    //month limits に関して
+    db.collection("users").doc(context.params.userID).collection("limits").doc("month").set({
+        text_num: 0
+    });
     return 0;
 });
 

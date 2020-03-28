@@ -207,3 +207,18 @@ function send_cancel_form(){
     });
 }
     
+
+
+//もじすうをカウントして月別のリミットに対しての実装を行う場所
+//結局cloud functionで書き換えるから、意味ない記述かもしれん（小並感）;
+//使うとしたら、表示側の調整をするための処理に利用すると考えられる
+function moji_limit(count){
+    console.log("moji_count => ", count);
+    //カウントの制限を上回らせるための
+    //裏利用への対処
+    if(count < 0){
+        //カウントが負の値である（不正利用）時、何もしないで返す
+        return
+    }
+}
+
