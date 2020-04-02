@@ -595,7 +595,7 @@
             <div class="mdc-top-app-bar__row">
                 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                     <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="drawer_open()">menu</button>
-                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.7.4</span>
+                    <span class="mdc-top-app-bar__title" style="color: #000000">経験値.com  ver.0.6.7.5</span>
                 </section>
                 <section id="user_login" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
                     <button id="user_login_button" class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" onclick="how_to_login_open()">account_circle</button>
@@ -674,6 +674,10 @@
                         <p class="card_subtitle">お知らせ</p>
                         <p id="user_message_display_renew" class="card_contents">開発・運営より</p>
                     </div>
+                    <div id="dash_display_limit" class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;"  onclick="display_card_limit()">
+                        <p class="card_subtitle">活動限界</p>
+                        <p id="user_limit_display_renew" class="card_contents">残り<span id="dash_display_limit_count">100</span>文字</p>
+                    </div>
                     <!--
                     <div class="mdc-card mdc-card--outlined mdc-ripple-surface dash-card_renew" style="margin: 2vw 1vw 0px 2vw;">
                         <p class="card_subtitle">ユーザランク</p>
@@ -725,6 +729,15 @@
                         <div class="place_dummy_box" style="top: calc(6vw + 15px); left: 0px; height: 50px; width: 3vw;"></div>
                         <div class="place_dummy_box" style="top: calc(6vw + 15px); right:0px ;height: 50px; width: calc(44vw - 80%);"></div>
                         <div class="place_dummy_box" style="top: calc(6vw + 65px); left: 0px; height: 50px; width: 100%;"></div>
+                    </div>
+                    <div class="place_dash_card" style="margin: 2vw 1vw 0px 2vw; height: 90px;">
+                        <div class="place_dummy_box" style="top: 0px; left: 0px; height: 3vw; width: 100%;"></div>
+                        <div class="place_dummy_box" style="top: 3vw; left: 0px; height: 15px; width: 3vw;"></div>
+                        <div class="place_dummy_box" style="top: 3vw; right: 0px; height: 15px; width: calc(44vw - 50px);"></div>
+                        <div class="place_dummy_box" style="top: calc(3vw + 15px); left: 0px; height: 3vw; width: 100%;"></div>
+                        <div class="place_dummy_box" style="top: calc(6vw + 15px); left: 0px; height: 20px; width: 3vw;"></div>
+                        <div class="place_dummy_box" style="top: calc(6vw + 15px); right:0px ;height: 20px; width: calc(44vw - 80%);"></div>
+                        <div class="place_dummy_box" style="top: calc(6vw + 35px); left: 0px; height: 50px; width: 100%;"></div>
                     </div>
                     <div class="place_dash_card" style="margin: 2vw 1vw 0px 2vw; height: 90px;">
                         <div class="place_dummy_box" style="top: 0px; left: 0px; height: 3vw; width: 100%;"></div>
@@ -986,6 +999,20 @@
                     <br>
                     ※スペルミスにご注意ください
                 </p>
+            </div>
+        </div>
+
+        <div id="dash_limit" class="mdc-card dash-card" style="display: none;">
+            <button class="mdc-icon-button material-icons back" onclick="display_card_limit_back()">keyboard_arrow_down</button>
+            <p class="card_subtitle" style="margin-left: 20px">活動限界</p>
+            <p class="card_contents" style="margin-left: 20px">残り<span id="dash_limit_count">100</span>文字</p>
+            <div id="dash_limit_hidden" hidden style="margin-left: 20px">
+                <h2>ハロー</h2>
+                <p>残り<span id="hello_remain">1</span>回</p>
+                <h2>ワーク</h2>
+                <p>残り<span id="work_remain">1</span>回</p>
+                <h2>ワダイ</h2>
+                <p>残り<span id="wadai_remain">1</span>回</p>
             </div>
         </div>
 

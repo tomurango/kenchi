@@ -99,6 +99,8 @@ function reflect_limits(navigation_number){
         //nvigation_number == 3 に対して以来を適用していく形になるのが理想なんだけどね
         console.log("イライに対する制限ものちに追加すると思うよ");
     }
+    //表示に反映する
+    reflect_limits_todisplay();
 }
 
 //なんかこれやたらとうざいから、ボタン押したときのメッセージに切り替えるかも
@@ -222,3 +224,43 @@ function moji_limit(count){
     }
 }
 
+//グローバル変数と、waiwaiuserであるか否かを確認したのちに実行する関数
+function reflect_limits_todisplay(){
+    //もじすう以外を反映する
+    if(waiwai){
+        //ワイワイユーザの場合
+        document.getElementById("hello_remain").textContent = String(1 - global_limits.hello);
+        document.getElementById("work_remain").textContent = String(5 - global_limits.work);
+        document.getElementById("wadai_remain").textContent = String(5 - global_limits.wadai);
+    }else{
+        //ノーマルユーザの場合
+        document.getElementById("hello_remain").textContent = String(1 - global_limits.hello);
+        document.getElementById("work_remain").textContent = String(1 - global_limits.work);
+        document.getElementById("wadai_remain").textContent = String(1 - global_limits.wadai);
+    }
+}
+
+//とりあえず、monthのlimitを取得するものだけど、、、、、
+function get_mojisuu(){
+    db.collection("users").doc(user_info_global.uid).collection("limits").doc("month").get().then(function(doc) {
+        //不変定義と、グローバル定義する
+        console.log("document is this ", doc.data());
+        reflect_mojisuu(doc.data());
+    }).catch(function(error){
+        console.log("error", error);
+    });
+}
+
+function reflect_mojisuu(doc_data){
+    if(waiwai){
+        //waiwaiユーザー
+        var remain_count = 1000 - doc_data.text_num;
+    }else{
+        //normalユーザー
+        var remain_count = 100 - doc_data.text_num;
+    }
+    //詳細のほう
+    document.getElementById("dash_limit_count").textContent = remain_count;
+    //homeに表示されてるほう
+    document.getElementById("dash_display_limit_count").textContent = remain_count;
+}

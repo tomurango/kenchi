@@ -419,10 +419,12 @@ function user_job_data_get(user_info, job_name){
                 });
                 //日付が変わるのであれば、リミットはグローバル側を手動で入力
                 get_limits(user_info.uid, true);
+                get_mojisuu();
             }else{
                 insert_level_info(job_name, 0);
                 //日付が変わらないのであれば、リミットは取得してきて反映する感じでいいですかね。
                 get_limits(user_info.uid, false);
+                get_mojisuu();
             }
             //get カウント
             firestore_get_count += 1;

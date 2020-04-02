@@ -382,6 +382,7 @@ exports.logedNewdate = functions.firestore.document('users/{userID}/logindate/{l
                 text_num: 0,
             });
         }
+        //それ以外は特に何もしない
     });
     return 0;
 });

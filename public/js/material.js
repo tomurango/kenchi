@@ -69,6 +69,7 @@ tabBar.listen('MDCTabBar:activated',function(event){
         document.getElementById("dash_display_message").onclick = function(){display_card_message()};
         document.getElementById("dash_display_ranking").onclick = function(){display_card_ranking()};
         document.getElementById("dash_display_plan").onclick = function(){display_card_plan()};
+        document.getElementById("dash_display_limit").onclick = function(){display_card_limit()};
         //hederの非表示
         header.style.display = "none";
         nagare.classList.remove("active_page");
