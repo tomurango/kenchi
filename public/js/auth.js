@@ -443,6 +443,8 @@ function change_user_name_dialog(){
     //change_job_dialog.open();
     change_username_dialog.open();
 }
+
+//ここに書き換えたもじすうの反映を行う処理を追加する20200410
 function change_user_name_send(){
     //firebase auth 書き換える
     var new_user_name = document.getElementById("change_user_name_input").value;

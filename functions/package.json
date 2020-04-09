@@ -12,8 +12,8 @@
     "node": "8"
   },
   "dependencies": {
-    "firebase-admin": "^8.0.0",
-    "firebase-functions": "^3.1.0",
+    "firebase-admin": "^8.10.0",
+    "firebase-functions": "^3.6.0",
     "payjp": "^2.0.2",
     "request": "^2.88.0"
   },

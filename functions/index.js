@@ -188,7 +188,13 @@ exports.createAuther = functions.firestore.document('communities/{communityID}/a
     //コミュニティを作った人かそれ以外かを分岐をする 理由は、コミュニティ作る時にも書き換えが発生するのだが、そっちの処理と分けたいから
     if(snap.data().creater){
         //コミュニティを作った人の処理
-        //何もしない
+        db.collection("communities").doc(context.params.communityID).get().then(function(doc){
+            var community_name = doc.data().name;
+            //文字のカウントを行う
+            count_moji_limit(context.params.authID, community_name);
+        }).catch(function(e){
+            console.log("error => ", e);
+        });
         return 0;
     }else{
         //それ以外の処理
@@ -260,6 +266,9 @@ exports.updateJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
         db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).update(
             result
         );
+        //moji_limitのcount
+        count_moji_limit(context.params.userID, newValue.name.length);
+
     }
     //メインジョブを切り替える時に余計なデータべース記録をしないようにする
     //それでもcloudfunctionは呼び出されてしまうから、それに関する料金的な対策を講じることはできないだろうか？
@@ -606,3 +615,39 @@ exports.helloLimit = functions.firestore.document('sirasu/6WrFkQ2L0tuoatHbw4Qj')
     }
     return 0;
 });
+
+
+function count_moji_limit(uid, count_number){
+    //カウントナンバーが適正なものか判定する いずれはuidが適正なものかどうかも判定できるようになるとなお良いと思われる
+    if(typeof count_number == "number"){
+        //ナンバーオブジェクトかどうか
+        if(count_number >= 0){
+            //数値が0以上であるかどうか
+            //データベースに書き込む
+            db.collection("users").doc(uid).collection("limits").doc("month").update({
+                text_num: admin.firestore.FieldValue.increment(count_number)
+            }).then(function(a){
+                console.log("moji limit", a);
+            }).catch(function(error){
+                console.log("error => ", error);
+            });
+        }
+    }
+    //一つだけ、注釈しておくと、エラーをつかんでからの処理でもまあ、何とかはなりそうなので（勝手な妄想）そっちで対応してもいいか
+}
+
+
+//ユーザーの名前をアップデートしたときに、文字のlimitを与えるためのCloudFunctionを描く 20200407
+//クラウドファンクションはdoc単位で発動するので、Fieldに適応する
+exports.updateUser = functions.firestore.document('users/{userID}').onUpdate((change, context) => {
+    var newValue = change.after.data();
+    //名前が変更されたとき？（job update CFのコピペだから自信がない）
+    if(newValue.name){
+        //名前変更の時
+        count_moji_limit(context.params.userID, newValue.name.length);
+    }
+    return 0;
+});
+
+//jobの名前を変えたときにmoji_limitする 20200408
+//communityを作成した時にmoji_limitする 20200409
