@@ -149,6 +149,8 @@ function change_job_name(){
     //変えたい名前を入力する
     job_name_dialog.open();
 }
+
+//ここでもじすうのカウントの処理を書き足す 20200411
 function change_job_name_send(){
     //ここで名前を変更して、送信する処理を行う
     var new_job_name = document.getElementById("job_name_input").value;
@@ -156,15 +158,18 @@ function change_job_name_send(){
     //ジョブドックとれべいんふぉの書き換えをするため、onupdateを設置する
     db.collection("users").doc(user_info_global.uid).collection("jobs").doc(user_doc_global.job).update({
         name: new_job_name
-    }).then(function(doc) {
+    }).then(function() {
         //writeカウント
         firestore_write_count +=2;
         console.log("write", firestore_write_count);
         //user_job_globalに代入
         user_job_global["name"] = new_job_name;
         //user_alljob_globalの変更したジョブの名前を変更する
-        user_alljob_global[doc.id]["name"] = new_job_name;
+        user_alljob_global[user_doc_global.job]["name"] = new_job_name;
         update_job_display(user_job_global);
+        //もじすう制限の処理を行う
+        console.log(new_job_name, new_job_name.length);
+        moji_limit(new_job_name.length);
     });
 }
 function update_job_display(job_doc){

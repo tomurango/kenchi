@@ -461,6 +461,9 @@ function change_user_name_send(){
         //表示を変える
         document.getElementById("user_name_display").textContent = new_user_name;
         document.getElementById("user_name_display_renew").textContent = new_user_name;
+        //もじすう制限の処理を行う
+        console.log(new_user_name, new_user_name.length);
+        moji_limit(new_user_name.length);
     });
 }
 

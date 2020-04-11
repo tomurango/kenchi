@@ -210,7 +210,7 @@ function send_cancel_form(){
 }
     
 
-
+var global_mojisuu;
 //もじすうをカウントして月別のリミットに対しての実装を行う場所
 //結局cloud functionで書き換えるから、意味ない記述かもしれん（小並感）;
 //使うとしたら、表示側の調整をするための処理に利用すると考えられる
@@ -221,6 +221,13 @@ function moji_limit(count){
     if(count < 0){
         //カウントが負の値である（不正利用）時、何もしないで返す
         return
+    }else{
+        //新しくカウントしたのちに表示を切り替える
+        global_mojisuu = global_mojisuu - count;
+        //詳細のほう
+        document.getElementById("dash_limit_count").textContent = global_mojisuu;
+        //homeに表示されてるほう
+        document.getElementById("dash_display_limit_count").textContent = global_mojisuu;
     }
 }
 
@@ -259,6 +266,8 @@ function reflect_mojisuu(doc_data){
         //normalユーザー
         var remain_count = 100 - doc_data.text_num;
     }
+    //globalもじすうに代入
+    global_mojisuu = remain_count;
     //詳細のほう
     document.getElementById("dash_limit_count").textContent = remain_count;
     //homeに表示されてるほう

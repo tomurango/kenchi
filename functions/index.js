@@ -651,3 +651,4 @@ exports.updateUser = functions.firestore.document('users/{userID}').onUpdate((ch
 
 //jobの名前を変えたときにmoji_limitする 20200408
 //communityを作成した時にmoji_limitする 20200409
+//
