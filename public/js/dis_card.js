@@ -135,6 +135,10 @@ function community_create_send_database(url){
             number: 1,
             member: [user_info_global.uid]
         }
+        //moji_limitもじすう制限の処理を行う
+        console.log(document.getElementById("community_name_create").value, document.getElementById("community_name_create").value.length);
+        moji_limit(document.getElementById("community_name_create").value.length);
+
         //userのデータベースにコミュニティの管理者である情報の記載の処理 auth に docref.id を追加する
         //user_doc_globalの書き換え
         user_doc_global.auth.push(docref.id);
