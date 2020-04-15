@@ -251,6 +251,28 @@ exports.createJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
         today_time: 0,
         month_time: 0,
         timestamp: now_time
+    }).then(function(){
+        //二回目以降の作成の時にmoji_limitをカウントする
+        db.collection("users").doc(context.params.userID).collection("jobs").get()
+        .then(snapshot => {
+            if (snapshot.empty) {
+                //こっちの挙動は起こるはずがない前提なぜなら、作成をイベントとして動きが実装されるから
+                console.log('No matching documents.');
+                return;
+            } else if(snapshot.size >= 2){
+                //二回目以降のジョブ作成なのでlimit発動    
+                //moji_limitのcount
+                count_moji_limit(context.params.userID, snap.data().name.length);
+            }
+            /*
+            snapshot.forEach(doc => {
+                console.log(doc.id, '=>', doc.data());
+            });
+            */
+        })
+    })
+    .catch(err => {
+        console.log('Error getting documents', err);
     });
     return 0;
 });
@@ -282,6 +304,8 @@ exports.createWork = functions.firestore.document('users/{userID}/jobs/{jobID}/w
     db.collection("users").doc(context.params.userID).collection("limits").doc("day").update({
         work: admin.firestore.FieldValue.increment(1),
     });
+    //moji_limitも設置する 
+    count_moji_limit( context.params.userID, snap.data().text.length);
     //基本の時間
     var time = snap.data().time;
     //ユーザのレベルの情報を取得して判断する

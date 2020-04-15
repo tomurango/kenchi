@@ -263,6 +263,8 @@ function create_new_job_send(){
     db.collection("users").doc(user_info_global.uid).collection("jobs").add(
         new_job_result
     ).then(function(docref_job) {
+        //moji_limit作動（2回目以降のジョブ作成）
+        moji_limit(create_job_name.length);
         //server側のoncreateでlevel info を作る
         firestore_write_count += 2;
         console.log("write", firestore_write_count);
