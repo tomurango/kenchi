@@ -224,7 +224,9 @@ function send_nagare_to_com(){
                     //グローバル変数に代入して制限をかける
                     global_limits.wadai += 1;
                     reflect_limits(2); 
-                    console.log("画像含めてアップロード完了");            
+                    console.log("画像含めてアップロード完了"); 
+                    //文字数を反映する
+                    moji_limit(new_text.length);
                     //textareaの中身を空にする
                     document.getElementById("comment_div_while_textarea").value = "";
                     document.getElementById("comment_div_while_image").value = "";
@@ -628,6 +630,10 @@ function send_reply(){
     //データベースに送信する ps 匿名かどうかで処理を分ける
     var user = firebase.auth().currentUser;
     if(user.isAnonymous){
+        //匿名での送信はできないはずなので、処理を書き換えるのがよさそう
+
+
+
         //匿名ユーザ（ゲスト）のログイン
         db.collection("communities").doc(com_nag[0]).collection("nagare").doc(com_nag[1]).collection("comments").add({
             createdAt: new Date(),
@@ -654,6 +660,8 @@ function send_reply(){
             iconUrl: user_info_global.photoURL,
             uid: user_info_global.uid
         }).then(function(){
+            //ここにlimit_count20200421
+            moji_limit(talk_text.length);
             document.getElementById("hidden_wadai_fixed_text").value = "";//送信後にする
             //書き込みカウント
             firestore_write_count ++;

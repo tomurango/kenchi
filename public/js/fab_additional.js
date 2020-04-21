@@ -517,6 +517,9 @@ function work_comment_send(){
     console.log("user id => ", ids[1]);
     console.log("job id => ", ids[2]);
     console.log("work id => ", ids[3]);*/
+    //未入力でも実行できるバグがあるから、おそらくここで修正
+
+
     //firestoreに記録する
     var created_doc = {
         comment: comment_for_work,
@@ -525,6 +528,8 @@ function work_comment_send(){
     db.collection("users").doc(ids[1]).collection("jobs").doc(ids[2]).collection("works").doc(ids[3]).collection("wcomments").add(
         created_doc
     ).then( function(doc){
+        //moji_limit
+        moji_limit(comment_for_work.length);
         //自分で入力したコメントはここで反映させておく
         console.log(doc.id);
         insert_work_comment(created_doc);

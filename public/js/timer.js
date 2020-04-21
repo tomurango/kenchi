@@ -166,6 +166,8 @@ function send_work(){
         workType: work_type
     })
     .then(function() {
+        //moji_limitします
+        moji_limit(work_text.length);
         //グローバル変数に代入して制限をかける
         global_limits.work += 1;
         reflect_limits(1); 

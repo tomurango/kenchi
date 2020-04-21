@@ -191,7 +191,7 @@ exports.createAuther = functions.firestore.document('communities/{communityID}/a
         db.collection("communities").doc(context.params.communityID).get().then(function(doc){
             var community_name = doc.data().name;
             //文字のカウントを行う
-            count_moji_limit(context.params.authID, community_name);
+            count_moji_limit(context.params.authID, community_name.length);
         }).catch(function(e){
             console.log("error => ", e);
         });
@@ -620,8 +620,19 @@ exports.wadaiLimit = functions.firestore.document('communities/{communityID}/nag
     db.collection("users").doc(snap.data().userId).collection("limits").doc("day").update({
         wadai: admin.firestore.FieldValue.increment(1),
     });
+    //mojiのリミットも加える
+    count_moji_limit(snap.data().userId, snap.data().text.length);
     return 0;
 });
+
+//wadaiのコメントに対するCloudFunction 20200421
+exports.wadaicommentLimit = functions.firestore.document('communities/{communityID}/nagare/{wadaiID}/comments/{commentID}').onCreate((snap ,context) => {   
+    //mojiのリミットも加える
+    count_moji_limit(snap.data().uid, snap.data().comment.length);
+    return 0;
+});
+
+
 
 //hello oncreate で制限に書き込んでいく
 exports.helloLimit = functions.firestore.document('sirasu/6WrFkQ2L0tuoatHbw4Qj').onUpdate((change ,context) => {
@@ -673,6 +684,10 @@ exports.updateUser = functions.firestore.document('users/{userID}').onUpdate((ch
     return 0;
 });
 
-//jobの名前を変えたときにmoji_limitする 20200408
-//communityを作成した時にmoji_limitする 20200409
-//
+
+//workに対する応援がなされた時のmoji_limitのためのCF
+exports.createWorkCheer = functions.firestore.document('users/{userID}/jobs/{jobID}/works/{workID}/wcomments/{wcommentID}').onCreate((snap, context) => {
+    //名前変更の時
+    count_moji_limit(snap.data().userid, snap.data().comment.length);
+    return 0;
+});
