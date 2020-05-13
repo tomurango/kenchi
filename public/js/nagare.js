@@ -23,7 +23,7 @@ function insert_communities_navi(){
         //navigationの中身を最新だけにする
         document.getElementById("nagares_navi").innerHTML = '<button id="community_navi_trend" class="mdc-tab" role="tab" aria-selected="true" tabindex="0"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">最新</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>';
         //最新のナガレはここで作る
-        document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page mdc-layout-grid__inner index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><h1>最新（未実装）</h1><div>';
+        document.getElementById("page_contain_com").innerHTML = '<div id="nagare_trend" class="nagare_page mdc-layout-grid__inner index_0" style="top: 106px; left:'+ String(all_user_communities.length*102) +'vw"><div>';
         for(var i= 0; i<all_user_communities.length; i++ ){
             //コミュニティをTopAppBarにぶち込んでく
             var one_c = all_user_communities[i];
@@ -31,7 +31,7 @@ function insert_communities_navi(){
             wadai_nagare_glbal[one_c] = {};
             document.getElementById("community_navi_trend").insertAdjacentHTML("beforebegin", '<button id="community_navi_'+ one_c +'" class="mdc-tab" role="tab" aria-selected="false" tabindex="-1"><span class="mdc-tab__content"><span class="mdc-tab__text-label nagare_part">'+ community_list_global[one_c].name +'</span></span><span class="mdc-tab__ripple nagare_part"></span><span class="mdc-tab-indicator"><span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline nagare_part"></span></span></button>')
             //コミュニティごとにナガレを生成する
-            document.getElementById("nagare_trend").insertAdjacentHTML("beforebegin", '<div id="nagare_'+ one_c +'" class="nagare_page mdc-layout-grid__inner index_0" style="top: 106px; left:'+ String(i*102) +'vw; min-height: 100vh; "></div>');
+            document.getElementById("nagare_trend").insertAdjacentHTML("beforebegin", '<div id="nagare_'+ one_c +'" class="nagare_page mdc-layout-grid__inner index_0" style="top: 106px; left:'+ String(i*102) +'vw; "></div>');
             //empty state を挿入
             insert_no_wadai(document.getElementById( 'nagare_' + nagare_global[i]));
             //timestampに１週間まえの日付をぶち込む コミュニティが変更等されない限りは一度の実行 ここのifは書き換え
@@ -214,12 +214,12 @@ function send_nagare_to_com(){
                     date: new Date(),
                     name: user_doc_global.name,
                     uimg: user_info_global.photoURL,
+                    userId: user_info_global.uid,
                     text: new_text,
                     contentImage: url,
                     communityId: community_doc_id,
                     replyCount: 0,
-                    replyText: "",
-                    userId: user_info_global.uid
+                    replyText: ""
                 }).then(function(){
                     //グローバル変数に代入して制限をかける
                     global_limits.wadai += 1;
@@ -246,9 +246,16 @@ function send_nagare_to_com(){
             contentImage: true,
             communityId: community_doc_id,
             replyCount: 0,
-            replyText: ""
+            replyText: "",
+            userId: user_info_global.uid
         }).then(function(){
-            console.log("画像なしでアップロード完了");            
+            console.log("画像なしでアップロード完了"); 
+            //グローバル変数に代入して制限をかける
+            global_limits.wadai += 1;
+            reflect_limits(2); 
+            console.log("画像含めてアップロード完了"); 
+            //文字数を反映する
+            moji_limit(new_text.length);           
             //textareaの中身を空にする
             document.getElementById("comment_div_while_textarea").value = "";
             document.getElementById("comment_div_while_image").value = "";

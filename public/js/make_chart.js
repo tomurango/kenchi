@@ -172,6 +172,7 @@ function change_job_name_send(){
         moji_limit(new_job_name.length);
     });
 }
+
 function update_job_display(job_doc){
     console.log("ジョブの名前変更を見た目に反映する");
     document.getElementById("user_job_display_renew").textContent = job_doc.name;
@@ -255,7 +256,7 @@ function create_new_job_send(){
     console.log(create_job_name);
     var new_job_result = {
         name: create_job_name,
-        date: new Date(),
+        date: new firebase.firestore.Timestamp.now(),
         img: user_info_global.photoURL,
         uid: user_info_global.uid,
         main: false
@@ -278,7 +279,7 @@ function create_new_job_send(){
             level_time: 0,
             today_time: 0,
             month_time: 0,
-            timestamp: new Date(),
+            timestamp: new firebase.firestore.Timestamp.now(),
             user_id: user_info_global.uid,
             user_image: user_info_global.photoURL,
             job_name: create_job_name

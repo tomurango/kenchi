@@ -240,7 +240,7 @@ function modifyAdmin (uid , isAdmin ) {
 
 //ジョブ作成で、レベルの情報をその下の階層で作成する
 exports.createJob = functions.firestore.document('users/{userID}/jobs/{jobID}').onCreate((snap, context) => {
-    var now_time = new Date();
+    //var now_time = new Date(); timestampの記述に変更
     db.collection("users").doc(context.params.userID).collection("jobs").doc(context.params.jobID).collection("levinfo").doc(context.params.jobID).set({
         level: 1,
         user_id: snap.data().uid,
@@ -250,7 +250,7 @@ exports.createJob = functions.firestore.document('users/{userID}/jobs/{jobID}').
         level_time: 0,
         today_time: 0,
         month_time: 0,
-        timestamp: now_time
+        timestamp: admin.firestore.FieldValue.serverTimestamp()
     }).then(function(){
         //二回目以降の作成の時にmoji_limitをカウントする
         db.collection("users").doc(context.params.userID).collection("jobs").get()
@@ -615,7 +615,7 @@ exports.purchasePlan = functions.https.onRequest(app);
 exports.stopwaiwaiPlan = functions.https.onRequest(appapp);
 
 //wadai oncreate で 制限に書き込んでいく
-exports.wadaiLimit = functions.firestore.document('communities/{communityID}/nagare/{wadaiID}').onCreate((snap ,context) => {   
+exports.wadaiLimit = functions.firestore.document('communities/{communityID}/nagare/{wadaiID}').onCreate((snap ,context) => {
     //limitに書き加える
     db.collection("users").doc(snap.data().userId).collection("limits").doc("day").update({
         wadai: admin.firestore.FieldValue.increment(1),

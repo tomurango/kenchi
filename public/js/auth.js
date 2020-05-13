@@ -209,6 +209,8 @@ function handleTouchMove(event) {
 }
 */
 function fullscreen_dialog_open(){
+    //確定でwaiwai userではない動きをとる
+    if_waiwaiuser();
     document.getElementById("dialog_div").hidden = false;
     document.getElementById("user_login_button").style.display = "none";
     //スクロール禁止 機能しなかった
@@ -318,14 +320,17 @@ function job_update(name, job){
         //user_doc_globalに代入
         user_doc_global = new_user;
         console.log("Document successfully written!");
-        //ついでjobの階層にもデータを登録するようにする
-        db.collection("users").doc(user_info_global.uid).collection("jobs").add({
+        var created_job = {
             name: job,
-            date: new Date(),
+            date: new firebase.firestore.Timestamp.now(),
             img: user_info_global.photoURL,
             uid: user_info_global.uid,
             main: true
-        }).then(function(docref_job) {
+        };
+        //ついでjobの階層にもデータを登録するようにする
+        db.collection("users").doc(user_info_global.uid).collection("jobs").add(created_job).then(function(docref_job) {
+            //userjobglobalに代入
+            user_job_global = created_job;
             //server側のoncreateでlevel info を作る
             firestore_write_count += 2;
             console.log("write", firestore_write_count);
@@ -352,12 +357,17 @@ function job_update(name, job){
                 level_time: 0,
                 today_time: 0,
                 month_time: 0,
-                timestamp: new Date(),
+                timestamp: new firebase.firestore.Timestamp.now(),
                 user_id: user_info_global.uid,
                 user_image: user_info_global.photoURL,
                 job_name: job
             }
             insert_level_info(docref_job.id, 0);
+            //日付が変わらないのであれば、リミットは取得してきて反映する感じでいいですかね。
+            get_limits(user_info_global.uid, true);
+            get_mojisuu();
+            //homeのチュートリアルはここでやるべきかも
+            tutorial_home();
         });
     })
     .catch(function(error) {
@@ -398,16 +408,16 @@ function user_job_data_get(user_info, job_name){
         //alljob_globalでも引用可能にする
         user_alljob_global[doc.id] = doc.data();
         //levelの情報を取得
-        db.collection("users").doc(user_info.uid).collection("jobs").doc(job_name).collection("levinfo").doc(job_name).get().then(function(doc){
-            level_info_global[job_name] = doc.data();
+        db.collection("users").doc(user_info.uid).collection("jobs").doc(job_name).collection("levinfo").doc(job_name).get().then(function(doc_sec){
+            level_info_global[job_name] = doc_sec.data();
             //タイムスタンプを見て、日付が異なる時に上書きする
-            if(doc.data().timestamp.toDate().getDate() != new Date().getDate()){
+            if(doc_sec.data().timestamp.toDate().getDate() != new Date().getDate()){
                 var now_time = new Date();
                 db.collection("users").doc(user_info.uid).collection("logindate").doc(user_info.uid).update({
                     loginTime: now_time
                 }).then(function(){
                     //日付を変えたデータに書き換えてから
-                    level_info_global[job_name].timestamp = firebase.firestore.Timestamp.now();
+                    level_info_global[job_name].timestamp = new firebase.firestore.Timestamp.now();
                     level_info_global[job_name].today_time = 0;
                     //writeカウント
                     firestore_write_count += 2;

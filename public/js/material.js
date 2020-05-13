@@ -18,10 +18,16 @@ $(document).ready(function(){
     header_tabBar.listen('MDCTabBar:activated',function(event){
         var index = event["detail"]["index"];
         console.log(index);
-        get_nagare(index);
-        //window.scrollTo(0,0);
-        //リスナー設定
-        re_register_tab_event();
+        if(nagare_global.length==0){
+            //参加コミュニティがない場合の処理
+            //下の処理をそのまま実行するとエラーになるので、、、
+            get_trend();
+        }else{
+            get_nagare(index);
+            //window.scrollTo(0,0);
+            //リスナー設定
+            re_register_tab_event();
+        }
     },{ once: true});
 });
 
@@ -376,6 +382,11 @@ function fab_change(page_num){
             the_fab.onclick = function(){sirasu()};
         },100);
     }else if(page_num == 2){
+        //参加コミュニティがない場合、ボタンは非表示
+        if(nagare_global.length == 0){
+            the_fab.style.display = "none";
+            return
+        }
         //ナガレのボタン
         the_fab.classList.remove("home");
         the_fab.classList.remove("sirase");
