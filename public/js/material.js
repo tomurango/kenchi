@@ -39,13 +39,16 @@ tabBar.listen('MDCTabBar:activated',function(event){
     bottom_icon_change(index);
     //user info 取得！！
     var user = firebase.auth().currentUser;
-    if(user.isAnonymous){
+    /*if(user.isAnonymous){
         //fabは匿名なら常に非表示
         document.getElementById("start_fab").style.display = "none";
-    }else{
+    }else if(can_control){
         //fabの表示はまとめてonにする
         document.getElementById("start_fab").style.display = "flex";
-    }
+    }else{
+        //fabは読み込み待ちなら操作できなくさせる
+        document.getElementById("start_fab").style.display = "none";
+    }*/
     //pageの要素を取得
     var dash = document.getElementById("page_contain_dash");
     var nagare = document.getElementById("page_contain_com");
@@ -240,6 +243,16 @@ tabBar.listen('MDCTabBar:activated',function(event){
         //historyAPIを利用したライブラリに対応しているときにこの挙動を許可する
         var state = {type: "BottomAppBar", index: index};
         window.history.pushState(state, title, url);
+    }
+    if(user.isAnonymous){
+        //fabは匿名なら常に非表示
+        document.getElementById("start_fab").style.display = "none";
+    }else if(can_control){
+        //fabの表示はまとめてonにする
+        document.getElementById("start_fab").style.display = "flex";
+    }else{
+        //fabは読み込み待ちなら操作できなくさせる
+        document.getElementById("start_fab").style.display = "none";
     }
 },false);
 

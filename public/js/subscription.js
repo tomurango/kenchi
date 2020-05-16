@@ -268,6 +268,8 @@ function get_mojisuu(){
             },10000);
         }else{
             reflect_mojisuu(doc.data());
+            //操作を可能にする
+            enable_control();
         }
     }).catch(function(error){
         console.log("error", error);
@@ -292,4 +294,10 @@ function reflect_mojisuu(doc_data){
     document.getElementById("dash_display_limit_count").textContent = remain_count;
     //耐久中に消費した分の要素を反映できていないので対策とりたいなら、それに対する処理を行う
 
+}
+
+var can_control = false;
+function enable_control(){
+    document.getElementById("start_fab").style.display = "flex";
+    can_control = true;
 }
